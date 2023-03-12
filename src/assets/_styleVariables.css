@@ -1,0 +1,12 @@
+html {
+  --color-bg: rgb(87, 87, 87);
+  --color-bg-darker: rgb(77, 77, 77);
+  --color-top: rgb(194, 194, 194);
+  --color-bottom: rgb(63, 63, 63);
+  --color-shadow: rgb(37, 37, 37);
+
+  --color-f-primary: white;
+  --color-f-primary-dark: rgb(41, 41, 41);
+  --color-f-primary-light: rgb(145, 145, 145);
+  --color-f-secondary: rgb(202, 202, 202);
+}

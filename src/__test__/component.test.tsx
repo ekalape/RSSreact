@@ -1,10 +1,10 @@
 import { render, screen } from '@testing-library/react';
-import Header from '../components/Header';
+import Header from '../UnrelatedComponents/Header';
 import '@testing-library/jest-dom';
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
-import Main from 'components/Main';
-import Search from '../components/Search';
+
+import Search from '../MainPage/Search';
 
 describe('Header', () => {
   test('Should render the Header page', () => {
@@ -22,9 +22,10 @@ describe('Header', () => {
 
 describe('Search', () => {
   test('Should render the Search block', () => {
+    const searchWord = '';
     render(
       <BrowserRouter>
-        <Search />
+        <Search actualSearchWord='' callback={(searchWord) => console.log(searchWord)} />
       </BrowserRouter>,
     );
     const comp = screen.getByRole('searchbox');

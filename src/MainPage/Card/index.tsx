@@ -1,27 +1,18 @@
 import React from 'react';
+import UserData from 'utils/UserData';
 import { UserInterface } from '../../types/interfaces';
 import './style.css';
 
-export default class Card extends React.Component<UserInterface> {
+export default class Card extends React.Component<UserData> {
   birthday: string;
 
   eyeStyle: { backgroundColor: string; color: string };
   hairStyle: { backgroundColor: string; color: string };
-  constructor(props: UserInterface) {
+  constructor(props: UserData) {
     super(props);
-    const bd = this.props.birthDate.split('-');
 
-    console.log(this.props.hair);
+    this.birthday = this.props.birthday;
 
-    /* 
-    black
-    blond
-    chestnut
-    brown
-    auburn
-    */
-
-    this.birthday = bd[2] + ' / ' + bd[1];
     this.eyeStyle = {
       backgroundColor:
         this.props.eyeColor.toLowerCase() === 'amber'
@@ -37,19 +28,21 @@ export default class Card extends React.Component<UserInterface> {
     };
     this.hairStyle = {
       backgroundColor:
-        this.props.hair.color.toLowerCase() === 'blond'
+        this.props.hairColor.toLowerCase() === 'blond'
           ? '#e2cba8'
-          : this.props.hair.color.toLowerCase() === 'brown'
+          : this.props.hairColor.toLowerCase() === 'brown'
           ? '#461907'
-          : this.props.hair.color.toLowerCase() === 'chestnut'
+          : this.props.hairColor.toLowerCase() === 'chestnut'
           ? '#862c11'
-          : this.props.hair.color.toLowerCase() === 'auburn'
+          : this.props.hairColor.toLowerCase() === 'auburn'
           ? '#ff6600'
-          : this.props.hair.color.toLowerCase(),
-      color: this.props.hair.color.toLowerCase() === 'blond' ? 'black' : 'white',
+          : this.props.hairColor.toLowerCase(),
+      color: this.props.hairColor.toLowerCase() === 'blond' ? 'black' : 'white',
     };
   }
   render(): React.ReactNode {
+    console.log();
+
     return (
       <div className='card__wrapper'>
         <img src={this.props.image} alt='user image' />
@@ -68,7 +61,7 @@ export default class Card extends React.Component<UserInterface> {
             <span className='card-data__property'>Birthday:</span> {this.birthday}
           </p>
           <p>
-            <span className='card-data__property'>City:</span> {this.props.address.city}
+            <span className='card-data__property'>City:</span> {this.props.city}
           </p>
         </div>
         <div className='appearance__wrapper'>
@@ -77,7 +70,7 @@ export default class Card extends React.Component<UserInterface> {
           </div>
           <div className='appearance__hair' style={this.hairStyle}>
             {' '}
-            <span className='hair__property'>{this.props.hair.color}</span>
+            <span className='hair__property'>{this.props.hairColor}</span>
           </div>
         </div>
       </div>

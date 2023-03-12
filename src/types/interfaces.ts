@@ -1,9 +1,6 @@
-export interface InputSearch {
-    searchText: string,
-    sum: number
-
+export interface SearchWordInterface {
+    searchWord: string
 }
-
 export interface UserHairProp {
     color: string, type: string
 }
@@ -26,5 +23,11 @@ export interface UserInterface {
     image: string,
     hair: UserHairProp,
     birthDate: string,
-    address: UserAddressProp
+    address: Pick<UserAddressProp, "city">
+}
+
+
+export interface SearchProps {
+    callback: (searchWord: string) => void,
+    actualSearchWord: string
 }

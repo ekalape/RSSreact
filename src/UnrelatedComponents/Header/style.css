@@ -1,0 +1,31 @@
+@import '../../assets/_styleVariables.css';
+
+.header__wrapper {
+  width: 100%;
+  padding: 1rem;
+  display: flex;
+  justify-content: center;
+  gap: 1em;
+  font-size: 1.1rem;
+  color: var(--color-f-primary-light);
+}
+a {
+  display: block;
+  padding: 3px;
+  color: var(--color-f-primary-light);
+  transition: 0.3s;
+}
+a:visited {
+  color: var(--color-f-primary-light);
+}
+a:hover {
+  color: var(--color-f-primary-dark);
+}
+a.active {
+  color: var(--color-f-primary-dark);
+  font-weight: bold;
+  pointer-events: none;
+}
+a.notActive {
+  color: var(--color-f-primary-light);
+}

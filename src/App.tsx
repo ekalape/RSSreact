@@ -3,10 +3,10 @@ import React from 'react';
 import { Routes } from 'react-router-dom';
 import { Route } from 'react-router';
 
-import Main from './components/Main';
-import About from './components/About';
-import Header from './components/Header';
-import NotFound from './components/NotFound';
+import Main from './MainPage/Main';
+import About from './AboutPage/About';
+import Header from './UnrelatedComponents/Header';
+import NotFound from './UnrelatedComponents/NotFound';
 
 function App() {
   return (
