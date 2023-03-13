@@ -24,13 +24,13 @@ export default class Search extends React.Component<SearchProps, SearchWordInter
 
   render(): React.ReactNode {
     return (
-      <div className='search__wrapper'>
-        <label htmlFor='search__input'>
+      <div className="search__wrapper">
+        <label htmlFor="search__input">
           <input
-            type='text'
-            role='searchbox'
-            id='search__input'
-            placeholder='Start search...'
+            type="text"
+            role="searchbox"
+            id="search__input"
+            placeholder="Start search..."
             value={this.state.searchWord}
             onChange={this.onChangeHandle}
             onKeyDown={(e) => {
@@ -39,7 +39,7 @@ export default class Search extends React.Component<SearchProps, SearchWordInter
           />
           <button className={'search-btn'} onClick={this.handleSearch}></button>
         </label>
-        <button className='reset-btn' onClick={this.resetSearch}>
+        <button className="reset-btn" onClick={this.resetSearch}>
           RESET
         </button>
       </div>

@@ -16,7 +16,9 @@
     "resolveJsonModule": true,
     "paths":{
       "tests":["src/__test__"]
-    }
+    },
+    "outDir":"dist",
+    "types":["vitest/globals"]
   },
-  "include": ["./src/**/*", "styled.d.ts"]
+  "include": ["./src/**/*"]
 }

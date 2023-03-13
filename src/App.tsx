@@ -10,13 +10,13 @@ import NotFound from './UnrelatedComponents/NotFound';
 
 function App() {
   return (
-    <div className='App'>
+    <div className="App">
       <Header />
       <Routes>
         <Route path={'/'} element={<Main />}></Route>
         <Route path={'/main'} element={<Main />} />
         <Route path={'/about'} element={<About />} />
-        <Route path='*' element={<NotFound />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </div>
   );

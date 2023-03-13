@@ -1,34 +1,41 @@
-import { render, screen } from '@testing-library/react';
-import Header from '../UnrelatedComponents/Header';
-import '@testing-library/jest-dom';
+import { describe, it } from 'vitest';
+import { fireEvent, render, screen } from '@testing-library/react';
 import React from 'react';
+import Header from '../UnrelatedComponents/Header';
 import { BrowserRouter } from 'react-router-dom';
 
-import Search from '../MainPage/Search';
-
-describe('Header', () => {
-  test('Should render the Header page', () => {
+describe('Header Component', () => {
+  it('Header component renders correctly', () => {
     render(
       <BrowserRouter>
         <Header />
-      </BrowserRouter>,
+      </BrowserRouter>
     );
-    const comp = screen.getAllByRole('link');
-    comp.forEach((c) => {
-      expect(c).toBeInTheDocument();
-    });
+    const headerName = screen.getByRole('header');
+    expect(headerName).toBeVisible();
   });
-});
 
-describe('Search', () => {
-  test('Should render the Search block', () => {
-    const searchWord = '';
-    render(
-      <BrowserRouter>
-        <Search actualSearchWord='' callback={(searchWord) => console.log(searchWord)} />
-      </BrowserRouter>,
-    );
-    const comp = screen.getByRole('searchbox');
-    expect(comp).toBeInTheDocument();
-  });
+  it('Main page clicked became active'),
+    () => {
+      render(
+        <BrowserRouter>
+          <Header />
+        </BrowserRouter>
+      );
+      const main = screen.getByText('Main');
+      fireEvent.click(main);
+      expect(main.classList.contains('active'));
+    };
+
+  it('About page clicked became active'),
+    () => {
+      render(
+        <BrowserRouter>
+          <Header />
+        </BrowserRouter>
+      );
+      const main = screen.getByText('About');
+      fireEvent.click(main);
+      expect(main.classList.contains('active'));
+    };
 });

@@ -1,6 +1,5 @@
 import React from 'react';
 import UserData from 'utils/UserData';
-import { UserInterface } from '../../types/interfaces';
 import './style.css';
 
 export default class Card extends React.Component<UserData> {
@@ -42,40 +41,40 @@ export default class Card extends React.Component<UserData> {
   }
   render(): React.ReactNode {
     return (
-      <div className='card__wrapper'>
-        <img src={this.props.image} alt='user image' />
-        <div className='card__names'>
+      <div className="card__wrapper">
+        <img src={this.props.image} alt="user image" />
+        <div className="card__names">
           <p>{this.props.firstName}</p>
           <p>{this.props.lastName}</p>
         </div>
-        <div className='card-data__wrapper'>
+        <div className="card-data__wrapper">
           <p>
-            <span className='card-data__property'>Gender:</span> {this.props.gender}
+            <span className="card-data__property">Gender:</span> {this.props.gender}
           </p>
           <p>
-            <span className='card-data__property'>Age:</span> {this.props.age}
+            <span className="card-data__property">Age:</span> {this.props.age}
           </p>
           <p>
-            <span className='card-data__property'>Birthday:</span> {this.birthday}
+            <span className="card-data__property">Birthday:</span> {this.birthday}
           </p>
 
           <p>
-            <span className='card-data__property'>Height:</span> {this.props.height} cm
+            <span className="card-data__property">Height:</span> {this.props.height} cm
           </p>
           <p>
-            <span className='card-data__property'>Hair type:</span> {this.props.hairType}
+            <span className="card-data__property">Hair type:</span> {this.props.hairType}
           </p>
           <p>
-            <span className='card-data__property'>City:</span> {this.props.city}
+            <span className="card-data__property">City:</span> {this.props.city}
           </p>
         </div>
-        <div className='appearance__wrapper'>
-          <div className='appearance__eyes' style={this.eyeStyle}>
-            <span className='eyes__property'>{this.props.eyeColor}</span>
+        <div className="appearance__wrapper">
+          <div className="appearance__eyes" style={this.eyeStyle}>
+            <span className="eyes__property">{this.props.eyeColor}</span>
           </div>
-          <div className='appearance__hair' style={this.hairStyle}>
+          <div className="appearance__hair" style={this.hairStyle}>
             {' '}
-            <span className='hair__property'>{this.props.hairColor}</span>
+            <span className="hair__property">{this.props.hairColor}</span>
           </div>
         </div>
       </div>

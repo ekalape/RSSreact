@@ -7,7 +7,10 @@ import UserData from '../../utils/UserData';
 
 type CardsContainerStateType = { users: UserData[] };
 
-export default class CardsContainer extends React.Component<SearchWordInterface, CardsContainerStateType> {
+export default class CardsContainer extends React.Component<
+  SearchWordInterface,
+  CardsContainerStateType
+> {
   usersData: UserData[];
 
   constructor(props: { searchWord: string }) {
@@ -21,10 +24,7 @@ export default class CardsContainer extends React.Component<SearchWordInterface,
     await this.updateUsers.call(this);
   }
 
-  async componentDidUpdate(
-    prevProps: Readonly<SearchWordInterface>,
-    prevState: Readonly<CardsContainerStateType>,
-  ) {
+  async componentDidUpdate(prevProps: Readonly<SearchWordInterface>) {
     if (prevProps.searchWord != this.props.searchWord) {
       await this.updateUsers.call(this);
     }
@@ -39,15 +39,17 @@ export default class CardsContainer extends React.Component<SearchWordInterface,
       const userSearchFields = Object.entries(u)
         .filter((key) => key[0] !== 'image')
         .map((key) => String(key[1]));
-      return userSearchFields.some((key) => key.toLowerCase().includes(this.props.searchWord.toLowerCase()));
+      return userSearchFields.some((key) =>
+        key.toLowerCase().includes(this.props.searchWord.toLowerCase())
+      );
     });
     this.setState({ users: newUsers });
   }
 
   render(): React.ReactNode {
     return (
-      <div className='main__cards-container cards__container'>
-        {this.state.users.length > 0 ? this.state.users.map((u, i) => <Card {...u} key={u.id} />) : ''}
+      <div className="main__cards-container cards__container" role="cards-container">
+        {this.state.users.length > 0 ? this.state.users.map((u) => <Card {...u} key={u.id} />) : ''}
       </div>
     );
   }
