@@ -14,18 +14,16 @@ export default class CardsContainer extends React.Component<SearchWordInterface,
     super(props);
     this.state = { users: [] };
     this.usersData = [];
-    console.log('cardContainre constructor', this.props.searchWord);
   }
 
   async componentDidMount() {
     await this.loadUsers.call(this);
-    this.setState({ users: this.usersData });
+    await this.updateUsers.call(this);
   }
 
   async componentDidUpdate(
     prevProps: Readonly<SearchWordInterface>,
     prevState: Readonly<CardsContainerStateType>,
-    snapshot?: any,
   ) {
     if (prevProps.searchWord != this.props.searchWord) {
       await this.updateUsers.call(this);
@@ -47,11 +45,6 @@ export default class CardsContainer extends React.Component<SearchWordInterface,
   }
 
   render(): React.ReactNode {
-    console.log('rerender cards', this.state.users.length, this.props.searchWord);
-    console.log(
-      `this.usersData.length = ${this.usersData.length} and this.state.users.length = ${this.state.users.length}`,
-    );
-
     return (
       <div className='main__cards-container cards__container'>
         {this.state.users.length > 0 ? this.state.users.map((u, i) => <Card {...u} key={u.id} />) : ''}

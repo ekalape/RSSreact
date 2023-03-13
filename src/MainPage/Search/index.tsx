@@ -5,7 +5,10 @@ import './style.css';
 export default class Search extends React.Component<SearchProps, SearchWordInterface> {
   constructor(props: SearchProps) {
     super(props);
-    this.state = { searchWord: '' };
+    this.state = { searchWord: this.props.actualSearchWord };
+  }
+  componentDidMount(): void {
+    this.setState({ searchWord: this.props.actualSearchWord });
   }
 
   onChangeHandle = (event: ChangeEvent<HTMLInputElement>) => {
@@ -13,6 +16,10 @@ export default class Search extends React.Component<SearchProps, SearchWordInter
   };
   handleSearch = () => {
     this.props.callback(this.state.searchWord);
+  };
+  resetSearch = () => {
+    this.setState({ searchWord: '' });
+    this.props.callback('');
   };
 
   render(): React.ReactNode {
@@ -32,6 +39,9 @@ export default class Search extends React.Component<SearchProps, SearchWordInter
           />
           <button className={'search-btn'} onClick={this.handleSearch}></button>
         </label>
+        <button className='reset-btn' onClick={this.resetSearch}>
+          RESET
+        </button>
       </div>
     );
   }

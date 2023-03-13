@@ -41,8 +41,6 @@ export default class Card extends React.Component<UserData> {
     };
   }
   render(): React.ReactNode {
-    console.log();
-
     return (
       <div className='card__wrapper'>
         <img src={this.props.image} alt='user image' />
@@ -59,6 +57,13 @@ export default class Card extends React.Component<UserData> {
           </p>
           <p>
             <span className='card-data__property'>Birthday:</span> {this.birthday}
+          </p>
+
+          <p>
+            <span className='card-data__property'>Height:</span> {this.props.height} cm
+          </p>
+          <p>
+            <span className='card-data__property'>Hair type:</span> {this.props.hairType}
           </p>
           <p>
             <span className='card-data__property'>City:</span> {this.props.city}
