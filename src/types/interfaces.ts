@@ -28,7 +28,7 @@ export interface UserInterface {
   image: string;
   hair: UserHairProp;
   birthDate: string;
-  address: Pick<UserAddressProp, 'city'>;
+  address: UserAddressProp;
 }
 
 export interface SearchProps {

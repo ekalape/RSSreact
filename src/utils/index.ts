@@ -1,9 +1,9 @@
+import { UserInterface } from 'types/interfaces';
+import usersJson from '../../public/users.json';
+
 async function getUsers() {
-  /*   const res = await fetch(
-      'https://dummyjson.com/users?limit=50&select=firstName,lastName,age,gender,height,eyeColor,image,hair,birthDate,address',
-    ); */
-  const res = await fetch('../../public/users.json');
-  const users = await res.json();
+  const users: UserInterface[] = usersJson as UserInterface[];
+
   return users;
 }
 export default getUsers;

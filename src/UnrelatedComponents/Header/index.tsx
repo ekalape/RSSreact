@@ -10,7 +10,7 @@ export default class Header extends React.Component<EmptyProps, { pageName: stri
   }
 
   componentDidMount(): void {
-    this.setState({ pageName: 'Main page' });
+    this.setState({ pageName: '' });
   }
 
   render(): React.ReactNode {

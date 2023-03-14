@@ -24,7 +24,7 @@ export default class Main extends React.Component<EmptyProps, SearchWordInterfac
   render(): React.ReactNode {
     const searchWord = this.state.searchWord;
     return (
-      <div className="main__wrapper">
+      <div className="main__wrapper" role={'main-page'}>
         <Search actualSearchWord={searchWord} callback={this.handleSearchWord.bind(this)} />
         <CardsContainer searchWord={this.state.searchWord} />
       </div>
