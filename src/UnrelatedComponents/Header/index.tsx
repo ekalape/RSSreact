@@ -6,11 +6,15 @@ import './style.css';
 export default class Header extends React.Component<EmptyProps, { pageName: string }> {
   constructor(props: EmptyProps) {
     super(props);
-    this.state = { pageName: '' };
+    this.state = { pageName: 'Main Page' };
   }
-
   componentDidMount(): void {
-    this.setState({ pageName: '' });
+    this.setNameTo404();
+  }
+  setNameTo404() {
+    let loc = location.href;
+    loc = loc.slice(loc.lastIndexOf('/'));
+    if (loc !== '/' && loc !== '/about') this.setState({ pageName: '404 page' });
   }
 
   render(): React.ReactNode {

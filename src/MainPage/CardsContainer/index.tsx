@@ -49,7 +49,11 @@ export default class CardsContainer extends React.Component<
   render(): React.ReactNode {
     return (
       <div className="main__cards-container cards__container" role="cards-container">
-        {this.state.users.length > 0 ? this.state.users.map((u) => <Card {...u} key={u.id} />) : ''}
+        {this.state.users.length > 0 ? (
+          this.state.users.map((u) => <Card {...u} key={u.id} />)
+        ) : (
+          <p>No items found</p>
+        )}
       </div>
     );
   }

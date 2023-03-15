@@ -8,8 +8,8 @@
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
     "lint": "eslint --fix --ext .ts,.tsx .",
-    "test": "vitest",
-    "coverage": "vitest run --coverage"
+    "test": "vitest run",
+    "coverage": "vitest run --coverage.cleanOnRerun"
   },
   "dependencies": {
     "react": "^18.2.0",

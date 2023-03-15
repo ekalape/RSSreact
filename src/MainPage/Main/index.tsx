@@ -8,13 +8,7 @@ import { EmptyProps, SearchWordInterface } from 'types/interfaces';
 export default class Main extends React.Component<EmptyProps, SearchWordInterface> {
   constructor(props: EmptyProps) {
     super(props);
-    const storagedInput = localStorage.getItem('eklp-storagedInput');
-    this.state = { searchWord: storagedInput || '' };
-  }
-
-  componentWillUnmount(): void {
-    const { searchWord } = this.state;
-    localStorage.setItem('eklp-storagedInput', searchWord);
+    this.state = { searchWord: '' };
   }
 
   handleSearchWord(word: string) {
@@ -22,10 +16,9 @@ export default class Main extends React.Component<EmptyProps, SearchWordInterfac
   }
 
   render(): React.ReactNode {
-    const searchWord = this.state.searchWord;
     return (
       <div className="main__wrapper" role={'main-page'}>
-        <Search actualSearchWord={searchWord} callback={this.handleSearchWord.bind(this)} />
+        <Search callback={this.handleSearchWord.bind(this)} />
         <CardsContainer searchWord={this.state.searchWord} />
       </div>
     );

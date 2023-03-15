@@ -5,10 +5,11 @@ import './style.css';
 export default class Search extends React.Component<SearchProps, SearchWordInterface> {
   constructor(props: SearchProps) {
     super(props);
-    this.state = { searchWord: this.props.actualSearchWord };
+    this.state = { searchWord: '' };
   }
   componentDidMount(): void {
-    this.setState({ searchWord: this.props.actualSearchWord });
+    const storagedInput = localStorage.getItem('eklp-storagedInput');
+    this.setState({ searchWord: storagedInput || '' });
   }
 
   onChangeHandle = (event: ChangeEvent<HTMLInputElement>) => {
@@ -21,6 +22,10 @@ export default class Search extends React.Component<SearchProps, SearchWordInter
     this.setState({ searchWord: '' });
     this.props.callback('');
   };
+  componentWillUnmount(): void {
+    const { searchWord } = this.state;
+    localStorage.setItem('eklp-storagedInput', searchWord);
+  }
 
   render(): React.ReactNode {
     return (
@@ -37,7 +42,11 @@ export default class Search extends React.Component<SearchProps, SearchWordInter
               if (e.key === 'Enter') this.handleSearch();
             }}
           />
-          <button className={'search-btn'} onClick={this.handleSearch}></button>
+          <button
+            className={'search-btn'}
+            aria-label={'searchBtn'}
+            onClick={this.handleSearch}
+          ></button>
         </label>
         <button className="reset-btn" onClick={this.resetSearch}>
           RESET

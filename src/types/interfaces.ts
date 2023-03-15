@@ -33,5 +33,4 @@ export interface UserInterface {
 
 export interface SearchProps {
   callback: (searchWord: string) => void;
-  actualSearchWord: string;
 }

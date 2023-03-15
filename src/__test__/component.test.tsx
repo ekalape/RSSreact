@@ -1,5 +1,5 @@
 import { describe, it } from 'vitest';
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { findAllByAltText, fireEvent, render, screen } from '@testing-library/react';
 import React from 'react';
 import Header from '../UnrelatedComponents/Header';
 import { BrowserRouter } from 'react-router-dom';
@@ -8,6 +8,8 @@ import '../../public/users.json';
 import UserData from '../utils/UserData';
 import { UserInterface } from '../types/interfaces';
 import Card from '../MainPage/Card';
+import Main from '../MainPage/Main';
+import App from '../App';
 
 const fakeUsers: UserInterface[] = [
   {
@@ -49,25 +51,37 @@ const fakeUsers: UserInterface[] = [
     },
   },
 ];
+describe('App', () => {
+  it('App renders correctly', async () => {
+    render(
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    );
+    const header = screen.getByRole('header');
+    const searchBar = screen.getByRole('searchbox');
+    const mainPage = await screen.findByRole('main-page');
+    expect(header).toBeVisible();
+    expect(searchBar).toBeVisible();
+    expect(mainPage).toBeVisible();
+  });
+});
 
 describe('Header Component', () => {
-  it('Header component renders correctly', () => {
+  beforeEach(() =>
     render(
       <BrowserRouter>
         <Header />
       </BrowserRouter>
-    );
+    )
+  );
+  it('Header component renders correctly', () => {
     const headerName = screen.getByRole('header');
     expect(headerName).toBeVisible();
   });
 
   it('Main page clicked become active'),
     () => {
-      render(
-        <BrowserRouter>
-          <Header />
-        </BrowserRouter>
-      );
       const main = screen.getByText('Main');
       fireEvent.click(main);
       expect(main.classList.contains('active'));
@@ -75,11 +89,6 @@ describe('Header Component', () => {
 
   it('About page clicked become active'),
     () => {
-      render(
-        <BrowserRouter>
-          <Header />
-        </BrowserRouter>
-      );
       const main = screen.getByText('About');
       fireEvent.click(main);
       expect(main.classList.contains('active'));
@@ -101,10 +110,55 @@ describe('Card component', () => {
   });
 });
 
+describe('Main Page', () => {
+  beforeEach(() =>
+    render(
+      <BrowserRouter>
+        <Main />
+      </BrowserRouter>
+    )
+  );
+  it('Main page renders correctly', () => {
+    const mainPage = screen.getByRole('main-page');
+    expect(mainPage).toBeVisible();
+  });
+  it('Main page contains search bar', () => {
+    const searchBar = screen.getByPlaceholderText('Start search...');
+    expect(searchBar).toBeInTheDocument();
+  });
+  it('Main page contains cards container', () => {
+    const cc = screen.getByRole('cards-container');
+    expect(cc).toBeInTheDocument();
+  });
+});
+
+describe('Main Page', () => {
+  it('There are no cards if the Search bar has wrong input value', async () => {
+    vi.mock('../utils', async () => ({
+      default: () => Promise.resolve(fakeUsers),
+    }));
+    render(<Main />);
+    const searchBar = screen.getByRole('searchbox');
+    fireEvent.change(searchBar, { target: { value: 'afafafaf' } });
+    fireEvent.click(screen.getByRole('button', { name: 'searchBtn' }));
+    const cc = await screen.findByRole('cards-container');
+    expect(cc).toContainHTML('<p>No items found</p>');
+  });
+});
+
 describe('Card Container', () => {
   it('Card Container renders correctly', async () => {
     render(<CardsContainer searchWord={''} />);
-    const container = await waitFor(() => screen.getByRole('cards-container'));
+    const container = await screen.findByRole('cards-container');
     expect(container).toBeVisible();
+  });
+
+  it('Card Container filters correctly', async () => {
+    vi.mock('../utils', async () => ({
+      default: () => Promise.resolve(fakeUsers),
+    }));
+    const cont = render(<CardsContainer searchWord={'Terry'} />).container;
+    const cardItems = await findAllByAltText(cont, /image/i);
+    expect(cardItems.length).toBe(1);
   });
 });
