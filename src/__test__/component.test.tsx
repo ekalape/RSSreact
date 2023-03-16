@@ -1,5 +1,5 @@
 import { describe, it } from 'vitest';
-import { findAllByAltText, fireEvent, render, screen } from '@testing-library/react';
+import { act, findAllByAltText, fireEvent, render, screen } from '@testing-library/react';
 import React from 'react';
 import Header from '../UnrelatedComponents/Header';
 import { BrowserRouter } from 'react-router-dom';
@@ -52,18 +52,31 @@ const fakeUsers: UserInterface[] = [
   },
 ];
 describe('App', () => {
+  beforeEach(() => {
+    act(() => {
+      render(
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      );
+    });
+  });
   it('App renders correctly', async () => {
-    render(
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    );
-    const header = screen.getByRole('header');
-    const searchBar = screen.getByRole('searchbox');
+    const header = await screen.findByRole('header');
+    const searchBar = await screen.findByRole('searchbox');
     const mainPage = await screen.findByRole('main-page');
     expect(header).toBeVisible();
     expect(searchBar).toBeVisible();
     expect(mainPage).toBeVisible();
+  });
+  it('About page renders correctly after the click on About in the nav panel ', async () => {
+    const aboutLink = screen.getByText(/about/i);
+    act(() => {
+      fireEvent.click(aboutLink);
+    });
+
+    const result = await screen.findByText(/this is about page/i);
+    expect(result).toBeVisible();
   });
 });
 
@@ -112,11 +125,13 @@ describe('Card component', () => {
 
 describe('Main Page', () => {
   beforeEach(() =>
-    render(
-      <BrowserRouter>
-        <Main />
-      </BrowserRouter>
-    )
+    act(() => {
+      render(
+        <BrowserRouter>
+          <Main />
+        </BrowserRouter>
+      );
+    })
   );
   it('Main page renders correctly', () => {
     const mainPage = screen.getByRole('main-page');
@@ -126,8 +141,8 @@ describe('Main Page', () => {
     const searchBar = screen.getByPlaceholderText('Start search...');
     expect(searchBar).toBeInTheDocument();
   });
-  it('Main page contains cards container', () => {
-    const cc = screen.getByRole('cards-container');
+  it('Main page contains cards container', async () => {
+    const cc = await screen.findByRole('cards-container');
     expect(cc).toBeInTheDocument();
   });
 });
