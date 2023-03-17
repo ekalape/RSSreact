@@ -1,0 +1,21 @@
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 1rem;
+}
+h2 {
+  margin: 0.2em;
+  display: block;
+  font-size: 3rem;
+  color: rgb(160, 160, 160);
+  -webkit-text-stroke: 2px;
+  -webkit-text-stroke-color: black;
+}
+h3 {
+  margin: 0.2em;
+  display: block;
+  font-size: 1.7rem;
+  color: rgb(107, 107, 107);
+}
