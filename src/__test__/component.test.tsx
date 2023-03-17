@@ -1,5 +1,5 @@
 import { describe, it } from 'vitest';
-import { act, findAllByAltText, fireEvent, render, screen } from '@testing-library/react';
+import { act, cleanup, findAllByAltText, fireEvent, render, screen } from '@testing-library/react';
 import React from 'react';
 import Header from '../UnrelatedComponents/Header';
 import { BrowserRouter } from 'react-router-dom';
@@ -52,8 +52,8 @@ const fakeUsers: UserInterface[] = [
   },
 ];
 describe('App', () => {
-  beforeEach(() => {
-    act(() => {
+  beforeEach(async () => {
+    await act(async () => {
       render(
         <BrowserRouter>
           <App />
@@ -61,22 +61,24 @@ describe('App', () => {
       );
     });
   });
-  it('App renders correctly', async () => {
-    const header = await screen.findByRole('header');
-    const searchBar = await screen.findByRole('searchbox');
-    const mainPage = await screen.findByRole('main-page');
-    expect(header).toBeVisible();
-    expect(searchBar).toBeVisible();
-    expect(mainPage).toBeVisible();
+  afterEach(cleanup);
+  it('App renders correctly', () => {
+    act(() => {
+      expect(screen.getByRole('header')).toBeVisible();
+      expect(screen.getByRole('searchbox')).toBeVisible();
+      expect(screen.getByRole('main-page')).toBeVisible();
+    });
   });
   it('About page renders correctly after the click on About in the nav panel ', async () => {
-    const aboutLink = screen.getByText(/about/i);
     act(() => {
+      const aboutLink = screen.getByText(/about/i);
       fireEvent.click(aboutLink);
     });
 
-    const result = await screen.findByText(/this is about page/i);
-    expect(result).toBeVisible();
+    await act(async () => {
+      const result = await screen.findByText(/this is about page/i);
+      expect(result).toBeVisible();
+    });
   });
 });
 
@@ -116,10 +118,11 @@ describe('Card component', () => {
         <Card {...fakeCard} />
       </BrowserRouter>
     );
-    const c = screen.getByText('Terry');
-    const cImg = screen.getByAltText('user image');
-    expect(c).toBeInTheDocument();
-    expect(cImg).toBeVisible();
+
+    expect(screen.getByText(/terry/i)).toBeInTheDocument();
+    expect(screen.queryByText(/lastName/i)).toBeNull();
+    expect(screen.getByText(/Washington/i)).toBeInTheDocument();
+    expect(screen.getByAltText('user image')).toBeVisible();
   });
 });
 
@@ -154,8 +157,11 @@ describe('Main Page', () => {
     }));
     render(<Main />);
     const searchBar = screen.getByRole('searchbox');
-    fireEvent.change(searchBar, { target: { value: 'afafafaf' } });
-    fireEvent.click(screen.getByRole('button', { name: 'searchBtn' }));
+    act(() => {
+      fireEvent.change(searchBar, { target: { value: 'afafafaf' } });
+      fireEvent.click(screen.getByRole('button', { name: 'searchBtn' }));
+    });
+
     const cc = await screen.findByRole('cards-container');
     expect(cc).toContainHTML('<p>No items found</p>');
   });
