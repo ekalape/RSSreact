@@ -57,10 +57,6 @@ export default class Card extends React.Component<UserData> {
           <p>
             <span className="card-data__property">Birthday:</span> {this.birthday}
           </p>
-
-          <p>
-            <span className="card-data__property">Height:</span> {this.props.height} cm
-          </p>
           <p>
             <span className="card-data__property">Hair type:</span> {this.props.hairType}
           </p>

@@ -7,7 +7,6 @@ export default class UserData {
   age: number;
   gender: string;
   eyeColor: string;
-  height: number;
   birthday: string;
   hairColor: string;
   hairType: string;
@@ -21,7 +20,6 @@ export default class UserData {
     this.age = rawData.age;
     this.gender = rawData.gender;
     this.eyeColor = rawData.eyeColor;
-    this.height = rawData.height;
     const bd = rawData.birthDate.split('-');
     this.birthday = bd[2] + ' / ' + bd[1];
     this.hairColor = rawData.hair.color;

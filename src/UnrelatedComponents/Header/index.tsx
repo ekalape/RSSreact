@@ -14,7 +14,8 @@ export default class Header extends React.Component<EmptyProps, { pageName: stri
   setNameTo404() {
     let loc = location.href;
     loc = loc.slice(loc.lastIndexOf('/'));
-    if (loc !== '/' && loc !== '/about') this.setState({ pageName: '404 page' });
+    if (loc !== '/' && loc !== '/about' && loc !== '/forms')
+      this.setState({ pageName: '404 page' });
   }
 
   render(): React.ReactNode {
@@ -28,6 +29,13 @@ export default class Header extends React.Component<EmptyProps, { pageName: stri
             onClick={() => this.setState({ pageName: 'Main page' })}
           >
             Main page
+          </NavLink>
+          <NavLink
+            to="/forms"
+            className={({ isActive }) => (isActive ? 'active' : 'notActive')}
+            onClick={() => this.setState({ pageName: 'Forms page' })}
+          >
+            Forms page
           </NavLink>
           <NavLink
             to="/about"
