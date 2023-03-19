@@ -1,0 +1,17 @@
+@import '../../assets/_styleVariables.css';
+
+.form__wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  place-items: center;
+  padding: 10px;
+  column-gap: 1.5rem;
+  row-gap: 0.5rem;
+}
+.form__wrapper h3 {
+  grid-column: 1/4;
+}
+.form__label:nth-of-type(3),
+.form__label:nth-of-type(4) {
+  grid-column: 1/4;
+}
