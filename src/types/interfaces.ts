@@ -23,14 +23,13 @@ export interface UserInterface {
   lastName: string;
   age: number;
   gender: 'male' | 'female';
-  height: number;
   eyeColor: string;
   image: string;
   hair: UserHairProp;
   birthDate: string;
   address: UserAddressProp;
 }
-
+export type UserCustomInterface = Omit<UserInterface, 'address'> & { city: string };
 export interface SearchProps {
   callback: (searchWord: string) => void;
 }

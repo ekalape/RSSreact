@@ -1,4 +1,4 @@
-import { UserInterface } from '../types/interfaces';
+import { UserCustomInterface, UserInterface } from '../types/interfaces';
 
 export default class UserData {
   id: number;
@@ -13,7 +13,7 @@ export default class UserData {
   city: string;
   image: string;
 
-  constructor(rawData: UserInterface) {
+  constructor(rawData: UserCustomInterface | UserInterface) {
     this.id = rawData.id;
     this.firstName = rawData.firstName;
     this.lastName = rawData.lastName;
@@ -21,10 +21,11 @@ export default class UserData {
     this.gender = rawData.gender;
     this.eyeColor = rawData.eyeColor;
     const bd = rawData.birthDate.split('-');
-    this.birthday = bd[2] + ' / ' + bd[1];
+    this.birthday = bd[2] + '/' + bd[1];
     this.hairColor = rawData.hair.color;
     this.hairType = rawData.hair.type;
-    this.city = rawData.address.city;
+    if ('city' in rawData) this.city = rawData.city;
+    else this.city = rawData.address.city;
     this.image = rawData.image;
   }
 }
