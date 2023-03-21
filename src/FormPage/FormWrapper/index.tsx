@@ -25,7 +25,7 @@ export default class FormPage extends React.Component<EmptyProps, FormWrapperSta
     return (
       <div className="formsPage__wrapper" role={'forms-page'}>
         <Form cardNumber={this.cardNumber} callback={this.handleFormWrapperState.bind(this)} />
-        <div className="formsResult-container">
+        <div className="main__cards-container">
           {this.state.cards.map((card) => (
             <Card {...card} key={card.id} />
           ))}

@@ -85,14 +85,6 @@ export default class Form extends React.Component<FormProps, FormState> {
     if (allFilled) this.createCard();
   }
 
-  handleFileSelect = async (file: File) => {
-    const reader = new FileReader(); // create a FileReader object
-    /* reader.onloadend = () => {
-      setDataUrl(reader.result as string); // update state with data URL when reading is done
-    }; */
-    reader.readAsDataURL(file); // read file content as data URL
-    return await createImageBitmap(file);
-  };
   async createCard() {
     let userAge = 0;
     if (!this.state.dateError) {
@@ -200,12 +192,13 @@ export default class Form extends React.Component<FormProps, FormState> {
   render(): React.ReactNode {
     return (
       <form className="form__wrapper" role={'form'} onSubmit={this.handleSubmit.bind(this)}>
-        <h3>Compile the form</h3>
+        <h3>Compile the form:</h3>
         <label>
           Enter the firstname
           <input
             type="text"
             name="firstname"
+            placeholder="firstname"
             ref={this.firstnameInput}
             style={{ borderColor: this.state.firstNameError ? 'red' : undefined }}
           />
@@ -216,17 +209,18 @@ export default class Form extends React.Component<FormProps, FormState> {
           <input
             type="text"
             name="lastname"
+            placeholder="lastname"
             ref={this.lastnameInput}
             style={{ borderColor: this.state.lastNameError ? 'red' : undefined }}
           />
           {this.state.lastNameError && <p>{this.state.lastNameError}</p>}
         </label>
         <div className="gender-switcher">
-          Choose the gender:
-          <br />
-          <label>
-            Male
+          <span> Choose the gender:</span>
+
+          <div>
             <input
+              className={'gender-radio__input'}
               defaultChecked
               type="radio"
               name="genderInput"
@@ -234,17 +228,23 @@ export default class Form extends React.Component<FormProps, FormState> {
               value="male"
               ref={this.genderMaleInput}
             />
-          </label>
-          <label>
-            Female
+            <label className={'gender-radio__label'} htmlFor="genderInput-male">
+              Male
+            </label>
+          </div>
+          <div>
             <input
+              className={'gender-radio__input'}
               type="radio"
               name="genderInput"
               id="genderInput-female"
               value="female"
               ref={this.genderFemaleInput}
             />
-          </label>
+            <label className={'gender-radio__label'} htmlFor="genderInput-female">
+              Female
+            </label>
+          </div>
         </div>
         <label>
           Enter the city
@@ -252,6 +252,7 @@ export default class Form extends React.Component<FormProps, FormState> {
             type="text"
             name="citi"
             ref={this.cityInput}
+            placeholder="city"
             style={{ borderColor: this.state.cityError ? 'red' : undefined }}
           />
           {this.state.cityError && <p>{this.state.cityError}</p>}
@@ -287,15 +288,27 @@ export default class Form extends React.Component<FormProps, FormState> {
         />
 
         <label>
-          <input type="checkbox" name="agreeCheck" id="agreeCheck" ref={this.agreeCheckInput} />I
-          give my permission to create a card
-          {this.state.agreeCheckError && <p>{this.state.agreeCheckError}</p>}
+          Add the foto
+          <input
+            type="file"
+            name="fileInput"
+            id="fileInput"
+            ref={this.fileInput}
+            style={{ borderColor: this.state.fileInputError ? 'red' : undefined }}
+          />
+          {this.state.fileInputError && <p>{this.state.fileInputError}</p>}
         </label>
         <label>
-          Add the foto
-          <input type="file" name="fileInput" id="fileInput" ref={this.fileInput} />
+          {this.state.agreeCheckError && <p>{this.state.agreeCheckError}</p>}
+          <input
+            type="checkbox"
+            name="agreeCheck"
+            id="agreeCheck"
+            ref={this.agreeCheckInput}
+            style={{ borderColor: this.state.agreeCheckError ? 'red' : undefined }}
+          />
+          I give my permission to create a card
         </label>
-
         <input type="submit" className="submit-btn" value="Submit" />
       </form>
     );

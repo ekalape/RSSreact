@@ -6,12 +6,110 @@
   place-items: center;
   padding: 10px;
   column-gap: 1.5rem;
-  row-gap: 0.5rem;
+  row-gap: 1rem;
 }
 .form__wrapper h3 {
   grid-column: 1/4;
+  font-size: 1.5rem;
+  text-decoration: underline;
 }
-.form__label:nth-of-type(3),
-.form__label:nth-of-type(4) {
+.gender-switcher {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  place-items: center;
+}
+.gender-switcher span {
+  grid-column: 1/3;
+
+  font-weight: bold;
+}
+.form__wrapper label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 5px;
+  font-weight: bold;
+  gap: 5px;
+  position: relative;
+}
+
+.form__wrapper label:nth-of-type(3),
+.form__wrapper label:nth-of-type(4),
+.form__wrapper label:nth-of-type(8),
+.form__wrapper label:nth-of-type(9) {
   grid-column: 1/4;
+}
+.form__wrapper input {
+  height: 24px;
+  border-radius: 5px;
+  padding: 2px 5px;
+}
+.form__wrapper input::placeholder {
+  color: var(--color-bg);
+  font-style: italic;
+}
+.form__wrapper label:nth-of-type(9) {
+  flex-direction: row;
+  gap: 10px;
+}
+.gender-switcher div {
+  grid-row: 2/3;
+}
+.form__wrapper p {
+  color: red;
+  font-size: 0.8rem;
+  font-weight: normal;
+  font-style: italic;
+  position: absolute;
+  bottom: -14px;
+}
+
+.form__wrapper .submit-btn {
+  width: 80%;
+  height: 34px;
+  font-weight: bold;
+  grid-column: 1/4;
+  padding: 5px;
+  border: none;
+  background-color: var(--color-bg);
+  color: white;
+  cursor: pointer;
+  transition: 0.3s;
+  margin: 10px;
+}
+.form__wrapper .submit-btn:hover {
+  background-color: var(--color-bg-darker);
+}
+.form__wrapper .submit-btn:active {
+  color: var(--color-f-secondary);
+  transform: scaleY(0.95) scaleX(0.99);
+}
+
+.form__wrapper .gender-radio__input {
+  appearance: none;
+  display: none;
+}
+.form__wrapper .gender-radio__label {
+  height: 28px;
+  width: 60px;
+  font-size: 0.85rem;
+  border-top: 2px solid var(--color-top);
+  border-left: 2px solid var(--color-top);
+  border-bottom: 2px solid var(--color-bottom);
+  border-right: 2px solid var(--color-bottom);
+  box-shadow: 1px 1px 2px var(--color-shadow);
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 3px;
+}
+
+.form__wrapper input:checked ~ label {
+  background-color: var(--color-bg);
+  cursor: default;
+  color: white;
+  border-top: 2px solid var(--color-bottom);
+  border-left: 2px solid var(--color-bottom);
+  border-bottom: 2px solid var(--color-top);
+  border-right: 2px solid var(--color-top);
+  box-shadow: inset 1px 1px 2px var(--color-shadow);
 }
