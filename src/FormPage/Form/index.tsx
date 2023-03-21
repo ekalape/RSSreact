@@ -82,16 +82,29 @@ export default class Form extends React.Component<FormProps, FormState> {
     this.validityCheck();
     console.log('this.state', this.state);
     const allFilled = Object.entries(this.readyToCreate).every((field) => field[1] === true);
-    console.log('allFilled', allFilled);
-
     if (allFilled) this.createCard();
   }
-  createCard() {
+
+  handleFileSelect = async (file: File) => {
+    const reader = new FileReader(); // create a FileReader object
+    /* reader.onloadend = () => {
+      setDataUrl(reader.result as string); // update state with data URL when reading is done
+    }; */
+    reader.readAsDataURL(file); // read file content as data URL
+    return await createImageBitmap(file);
+  };
+  async createCard() {
     let userAge = 0;
     if (!this.state.dateError) {
       const date = this.dateInput.current?.value as string;
       userAge = new Date().getFullYear() - +date.slice(0, 4);
     }
+    const files = this.fileInput.current?.files;
+    let file;
+    if (files && files.length > 0) {
+      file = files[0];
+    }
+
     const filledFields: UserCustomInterface = {
       id: this.props.cardNumber,
       firstName: this.firstnameInput.current?.value as string,
@@ -105,12 +118,17 @@ export default class Form extends React.Component<FormProps, FormState> {
         color: this.hairColorSelectInput.current?.value as string,
         type: this.hairColorSelectInput.current?.value as string,
       },
-
-      image: this.fileInput.current?.value as string,
+      imageFile: file,
     };
     console.log(filledFields);
     const card = new UserData(filledFields);
     this.props.callback(card);
+    if (this.firstnameInput.current) this.firstnameInput.current.value = '';
+    if (this.lastnameInput.current) this.lastnameInput.current.value = '';
+    if (this.cityInput.current) this.cityInput.current.value = '';
+    if (this.dateInput.current) this.dateInput.current.value = '';
+    if (this.agreeCheckInput.current) this.agreeCheckInput.current.checked = false;
+    if (this.fileInput.current) this.fileInput.current.value = '';
   }
 
   validityCheck() {

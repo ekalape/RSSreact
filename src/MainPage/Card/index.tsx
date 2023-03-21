@@ -4,7 +4,6 @@ import './style.css';
 
 export default class Card extends React.Component<UserData> {
   birthday: string;
-
   eyeStyle: { backgroundColor: string; color: string };
   hairStyle: { backgroundColor: string; color: string };
   constructor(props: UserData) {
@@ -40,9 +39,13 @@ export default class Card extends React.Component<UserData> {
     };
   }
   render(): React.ReactNode {
+    const image = this.props.image;
+    let src = '';
+    if (typeof image === 'string') src = image;
+    else if (image instanceof File) src = URL.createObjectURL(image);
     return (
       <div className="card__wrapper">
-        <img src={this.props.image} alt="user image" />
+        <img src={src} alt="user image" />
         <div className="card__names">
           <p>{this.props.firstName}</p>
           <p>{this.props.lastName}</p>

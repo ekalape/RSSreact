@@ -29,7 +29,10 @@ export interface UserInterface {
   birthDate: string;
   address: UserAddressProp;
 }
-export type UserCustomInterface = Omit<UserInterface, 'address'> & { city: string };
+export type UserCustomInterface = Omit<UserInterface, 'address' | 'image'> & {
+  city: string;
+  imageFile: File | undefined;
+};
 export interface SearchProps {
   callback: (searchWord: string) => void;
 }

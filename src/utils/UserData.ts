@@ -11,7 +11,7 @@ export default class UserData {
   hairColor: string;
   hairType: string;
   city: string;
-  image: string;
+  image: string | File | undefined;
 
   constructor(rawData: UserCustomInterface | UserInterface) {
     this.id = rawData.id;
@@ -26,6 +26,7 @@ export default class UserData {
     this.hairType = rawData.hair.type;
     if ('city' in rawData) this.city = rawData.city;
     else this.city = rawData.address.city;
-    this.image = rawData.image;
+    if ('image' in rawData) this.image = rawData.image;
+    else this.image = rawData.imageFile;
   }
 }

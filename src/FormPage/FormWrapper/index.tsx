@@ -3,6 +3,7 @@ import React from 'react';
 import './style.css';
 import { EmptyProps } from '../../types/interfaces';
 import UserData from '../../utils/UserData';
+import Card from '../../MainPage/Card';
 
 export interface FormWrapperState {
   cards: UserData[];
@@ -24,7 +25,11 @@ export default class FormPage extends React.Component<EmptyProps, FormWrapperSta
     return (
       <div className="formsPage__wrapper" role={'forms-page'}>
         <Form cardNumber={this.cardNumber} callback={this.handleFormWrapperState.bind(this)} />
-        <div className="formsResult-container">{/* map */}</div>
+        <div className="formsResult-container">
+          {this.state.cards.map((card) => (
+            <Card {...card} key={card.id} />
+          ))}
+        </div>
       </div>
     );
   }
