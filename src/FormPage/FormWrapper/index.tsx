@@ -4,9 +4,11 @@ import './style.css';
 import { EmptyProps } from '../../types/interfaces';
 import UserData from '../../utils/UserData';
 import Card from '../../MainPage/Card';
+import ModalInfoComponent from '../../UnrelatedComponents/ModalInfoComponent';
 
 export interface FormWrapperState {
   cards: UserData[];
+  showMessage: boolean;
 }
 export default class FormPage extends React.Component<EmptyProps, FormWrapperState> {
   cardNumber: number;
@@ -15,22 +17,30 @@ export default class FormPage extends React.Component<EmptyProps, FormWrapperSta
     this.cardNumber = 0;
     this.state = {
       cards: [],
+      showMessage: false,
     };
   }
   handleFormWrapperState(card: UserData) {
-    this.setState({ cards: [...this.state.cards, card] }, () => console.log(this.state));
-    this.cardNumber++;
+    this.setState({ showMessage: true });
+    setTimeout(() => {
+      this.setState({ cards: [...this.state.cards, card] }, () => console.log(this.state));
+      this.cardNumber++;
+      this.setState({ showMessage: false });
+    }, 800);
   }
   render(): React.ReactNode {
     return (
-      <div className="formsPage__wrapper" role={'forms-page'}>
-        <Form cardNumber={this.cardNumber} callback={this.handleFormWrapperState.bind(this)} />
-        <div className="main__cards-container">
-          {this.state.cards.map((card) => (
-            <Card {...card} key={card.id} />
-          ))}
+      <>
+        {this.state.showMessage && <ModalInfoComponent />}
+        <div className="formsPage__wrapper" role={'forms-page'}>
+          <Form cardNumber={this.cardNumber} callback={this.handleFormWrapperState.bind(this)} />
+          <div className="main__cards-container">
+            {this.state.cards.map((card) => (
+              <Card {...card} key={card.id} />
+            ))}
+          </div>
         </div>
-      </div>
+      </>
     );
   }
 }
