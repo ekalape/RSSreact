@@ -3,21 +3,13 @@ import { Component, ReactNode } from 'react';
 
 export interface SelectProps {
   selectName: string;
+  reference: React.RefObject<HTMLSelectElement>;
   selectOptions: string[];
 }
 
 export default class SelectComponent extends Component<SelectProps> {
-  value: string;
-  constructor(props: SelectProps) {
-    super(props);
-    this.value = this.props.selectOptions[0];
-  }
-  handleSelectedOption(e: ChangeEvent<HTMLSelectElement>) {
-    const opt = e.target as HTMLSelectElement;
-    this.value = opt.value;
-  }
   render(): ReactNode {
-    const { selectName, selectOptions } = this.props;
+    const { selectName, reference, selectOptions } = this.props;
     const labelName = `${selectName.match('eye') || selectName.match('hair')} ${
       selectName.match(/type/i) || selectName.match(/color/i)
     }`;
@@ -27,7 +19,8 @@ export default class SelectComponent extends Component<SelectProps> {
         <select
           name={selectName}
           id={`${selectName}-select`}
-          onChange={this.handleSelectedOption.bind(this)}
+          ref={reference}
+          defaultValue={selectOptions[0]}
         >
           {selectOptions.map((option) => (
             <option key={option} value={option}>

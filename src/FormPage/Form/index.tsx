@@ -4,14 +4,18 @@ import './style.css';
 import { UserCustomInterface } from '../../types/interfaces';
 import SelectComponent from '../SelectComponent';
 import UserData from '../../utils/UserData';
+import InputComponent from '../InputComponent';
+
+import validationCheck from '../../utils/validationCheck';
 
 export interface FormState {
-  firstNameError: string;
+  /*   firstNameError: string;
   lastNameError: string;
   cityError: string;
   dateError: string;
   agreeCheckError: string;
-  fileInputError: string;
+  fileInputError: string; */
+  [key: string]: string;
 }
 export interface FormFields {
   [property: string]: string | number | undefined;
@@ -37,9 +41,9 @@ export default class Form extends React.Component<FormProps, FormState> {
   genderMaleInput: React.RefObject<HTMLInputElement>;
   genderFemaleInput: React.RefObject<HTMLInputElement>;
   dateInput: React.RefObject<HTMLInputElement>;
-  eyeColorSelectInput: React.RefObject<SelectComponent>;
-  hairColorSelectInput: React.RefObject<SelectComponent>;
-  hairTypeSelectInput: React.RefObject<SelectComponent>;
+  eyeColorSelectInput: React.RefObject<HTMLSelectElement>;
+  hairColorSelectInput: React.RefObject<HTMLSelectElement>;
+  hairTypeSelectInput: React.RefObject<HTMLSelectElement>;
   agreeCheckInput: React.RefObject<HTMLInputElement>;
   fileInput: React.RefObject<HTMLInputElement>;
 
@@ -85,7 +89,7 @@ export default class Form extends React.Component<FormProps, FormState> {
     if (allFilled) this.createCard();
   }
 
-  async createCard() {
+  createCard() {
     let userAge = 0;
     if (!this.state.dateError) {
       const date = this.dateInput.current?.value as string;
@@ -108,13 +112,17 @@ export default class Form extends React.Component<FormProps, FormState> {
       eyeColor: this.eyeColorSelectInput.current?.value as string,
       hair: {
         color: this.hairColorSelectInput.current?.value as string,
-        type: this.hairColorSelectInput.current?.value as string,
+        type: this.hairTypeSelectInput.current?.value as string,
       },
       imageFile: file,
     };
     console.log(filledFields);
     const card = new UserData(filledFields);
     this.props.callback(card);
+    this.resetForm();
+  }
+
+  resetForm() {
     if (this.firstnameInput.current) this.firstnameInput.current.value = '';
     if (this.lastnameInput.current) this.lastnameInput.current.value = '';
     if (this.cityInput.current) this.cityInput.current.value = '';
@@ -123,48 +131,28 @@ export default class Form extends React.Component<FormProps, FormState> {
     if (this.fileInput.current) this.fileInput.current.value = '';
   }
 
+  setError(errorName: string, errorValue: string) {
+    this.setState({ [errorName]: errorValue });
+  }
+
   validityCheck() {
-    if (!this.firstnameInput.current?.value) {
-      this.setState({ firstNameError: 'The firstname is required' });
-      this.readyToCreate.firstName = false;
-    } else if (this.firstnameInput.current?.value.length < 3) {
-      this.setState({ firstNameError: 'The firstname should be 3+ letters length' });
-      this.readyToCreate.firstName = false;
-    } else if (!this.firstnameInput.current?.value.at(0)?.match(/[A-Z]/)) {
-      this.setState({ firstNameError: 'The firstname should be capitalized' });
-      this.readyToCreate.firstName = false;
-    } else {
-      this.setState({ firstNameError: '' });
-      this.readyToCreate.firstName = true;
-    }
+    this.readyToCreate.firstName = validationCheck(
+      'firstNameError',
+      this.firstnameInput.current?.value,
+      this.setError.bind(this)
+    );
 
-    if (!this.lastnameInput.current?.value) {
-      this.setState({ lastNameError: 'The lastname is required' });
-      this.readyToCreate.lastName = false;
-    } else if (this.lastnameInput.current?.value.length < 3) {
-      this.setState({ lastNameError: 'The lastname should be 3+ letters length' });
-      this.readyToCreate.lastName = false;
-    } else if (!this.lastnameInput.current?.value.at(0)?.match(/[A-Z]/)) {
-      this.setState({ lastNameError: 'The lastname should be capitalized' });
-      this.readyToCreate.lastName = false;
-    } else {
-      this.setState({ lastNameError: '' });
-      this.readyToCreate.lastName = true;
-    }
+    this.readyToCreate.lastName = validationCheck(
+      'lastNameError',
+      this.lastnameInput.current?.value,
+      this.setError.bind(this)
+    );
 
-    if (!this.cityInput.current?.value) {
-      this.setState({ cityError: 'The city name is required' });
-      this.readyToCreate.city = false;
-    } else if (this.cityInput.current?.value.length < 3) {
-      this.setState({ cityError: 'The city name should be 3+ letters length' });
-      this.readyToCreate.city = false;
-    } else if (!this.cityInput.current?.value.at(0)?.match(/[A-Z]/)) {
-      this.setState({ cityError: 'The city name should be capitalized' });
-      this.readyToCreate.city = false;
-    } else {
-      this.setState({ cityError: '' });
-      this.readyToCreate.city = true;
-    }
+    this.readyToCreate.city = validationCheck(
+      'cityError',
+      this.cityInput.current?.value,
+      this.setError.bind(this)
+    );
 
     if (!this.dateInput.current?.value) {
       this.setState({ dateError: 'The date is required' });
@@ -193,31 +181,21 @@ export default class Form extends React.Component<FormProps, FormState> {
     return (
       <form className="form__wrapper" role={'form'} onSubmit={this.handleSubmit.bind(this)}>
         <h3>Compile the form:</h3>
-        <label>
-          Enter the firstname
-          <input
-            type="text"
-            name="firstname"
-            placeholder="firstname"
-            ref={this.firstnameInput}
-            style={{ borderColor: this.state.firstNameError ? 'red' : undefined }}
-          />
-          {this.state.firstNameError && <p>{this.state.firstNameError}</p>}
-        </label>
-        <label>
-          Enter the lastname
-          <input
-            type="text"
-            name="lastname"
-            placeholder="lastname"
-            ref={this.lastnameInput}
-            style={{ borderColor: this.state.lastNameError ? 'red' : undefined }}
-          />
-          {this.state.lastNameError && <p>{this.state.lastNameError}</p>}
-        </label>
+        <InputComponent
+          name={'firstname'}
+          type={'text'}
+          error={this.state.firstNameError}
+          reference={this.firstnameInput}
+        />
+        <InputComponent
+          name={'lastname'}
+          type={'text'}
+          error={this.state.lastNameError}
+          reference={this.lastnameInput}
+        />
+
         <div className="gender-switcher">
           <span> Choose the gender:</span>
-
           <div>
             <input
               className={'gender-radio__input'}
@@ -246,58 +224,42 @@ export default class Form extends React.Component<FormProps, FormState> {
             </label>
           </div>
         </div>
-        <label>
-          Enter the city
-          <input
-            type="text"
-            name="citi"
-            ref={this.cityInput}
-            placeholder="city"
-            style={{ borderColor: this.state.cityError ? 'red' : undefined }}
-          />
-          {this.state.cityError && <p>{this.state.cityError}</p>}
-        </label>
-
-        <label>
-          Enter your birth date
-          <input
-            type="date"
-            name="dateInput"
-            id="dateInput"
-            ref={this.dateInput}
-            max="2010-12-31"
-            style={{ borderColor: this.state.dateError ? 'red' : undefined }}
-          />
-          {this.state.dateError && <p>{this.state.dateError}</p>}
-        </label>
+        <InputComponent
+          name={'city'}
+          type={'text'}
+          error={this.state.cityError}
+          reference={this.cityInput}
+        />
+        <InputComponent
+          name={'dateInput'}
+          type={'date'}
+          error={this.state.dateError}
+          reference={this.dateInput}
+          options={{ max: '2010-12-31' }}
+        />
 
         <SelectComponent
           selectName="eyeColor"
           selectOptions={['green', 'brown', 'grey', 'black', 'amber', 'blue']}
-          ref={this.eyeColorSelectInput}
+          reference={this.eyeColorSelectInput}
         />
         <SelectComponent
           selectName="hairColor"
           selectOptions={['blond', 'brown', 'chestnut', 'black', 'auburn']}
-          ref={this.hairColorSelectInput}
+          reference={this.hairColorSelectInput}
         />
         <SelectComponent
           selectName="hairType"
           selectOptions={['weavy', 'straight', 'curly', 'very curly', 'strands']}
-          ref={this.hairTypeSelectInput}
+          reference={this.hairTypeSelectInput}
+        />
+        <InputComponent
+          name={'fileInput'}
+          type={'file'}
+          error={this.state.fileInputError}
+          reference={this.fileInput}
         />
 
-        <label>
-          Add the foto
-          <input
-            type="file"
-            name="fileInput"
-            id="fileInput"
-            ref={this.fileInput}
-            style={{ borderColor: this.state.fileInputError ? 'red' : undefined }}
-          />
-          {this.state.fileInputError && <p>{this.state.fileInputError}</p>}
-        </label>
         <label>
           {this.state.agreeCheckError && <p>{this.state.agreeCheckError}</p>}
           <input
