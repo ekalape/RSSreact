@@ -84,7 +84,7 @@ export default class Form extends React.Component<FormProps, FormState> {
   handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     this.validityCheck();
-    console.log('this.state', this.state);
+
     const allFilled = Object.entries(this.readyToCreate).every((field) => field[1] === true);
     if (allFilled) this.createCard();
   }
@@ -116,7 +116,7 @@ export default class Form extends React.Component<FormProps, FormState> {
       },
       imageFile: file,
     };
-    console.log(filledFields);
+
     const card = new UserData(filledFields);
     this.props.callback(card);
     this.resetForm();
@@ -258,6 +258,7 @@ export default class Form extends React.Component<FormProps, FormState> {
           type={'file'}
           error={this.state.fileInputError}
           reference={this.fileInput}
+          options={{ accept: 'image/*' }}
         />
 
         <label>

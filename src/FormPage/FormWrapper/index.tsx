@@ -23,7 +23,7 @@ export default class FormPage extends React.Component<EmptyProps, FormWrapperSta
   handleFormWrapperState(card: UserData) {
     this.setState({ showMessage: true });
     setTimeout(() => {
-      this.setState({ cards: [...this.state.cards, card] }, () => console.log(this.state));
+      this.setState({ cards: [...this.state.cards, card] });
       this.cardNumber++;
       this.setState({ showMessage: false });
     }, 800);
