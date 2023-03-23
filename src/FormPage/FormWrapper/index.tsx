@@ -34,7 +34,7 @@ export default class FormPage extends React.Component<EmptyProps, FormWrapperSta
         {this.state.showMessage && <ModalInfoComponent />}
         <div className="formsPage__wrapper" role={'forms-page'}>
           <Form cardNumber={this.cardNumber} callback={this.handleFormWrapperState.bind(this)} />
-          <div className="main__cards-container">
+          <div className="main__cards-container" role="form-cards-container">
             {this.state.cards.map((card) => (
               <Card {...card} key={card.id} />
             ))}

@@ -9,12 +9,6 @@ import InputComponent from '../InputComponent';
 import validationCheck from '../../utils/validationCheck';
 
 export interface FormState {
-  /*   firstNameError: string;
-  lastNameError: string;
-  cityError: string;
-  dateError: string;
-  agreeCheckError: string;
-  fileInputError: string; */
   [key: string]: string;
 }
 export interface FormFields {

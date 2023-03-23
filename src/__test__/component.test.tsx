@@ -10,6 +10,7 @@ import { UserInterface } from '../types/interfaces';
 import Card from '../MainPage/Card';
 import Main from '../MainPage/Main';
 import App from '../App';
+import FormPage from '../FormPage/FormWrapper';
 
 const fakeUsers: UserInterface[] = [
   {
@@ -179,5 +180,90 @@ describe('Card Container', () => {
     const cont = render(<CardsContainer searchWord={'Terry'} />).container;
     const cardItems = await findAllByAltText(cont, /image/i);
     expect(cardItems.length).toBe(1);
+  });
+});
+
+describe('Form Page', () => {
+  window.URL.createObjectURL = vi.fn();
+  beforeEach(() => {
+    render(<FormPage />);
+  });
+  afterEach(() => {
+    cleanup();
+    vi.restoreAllMocks();
+  });
+  /*   afterEach(() => {
+    vi.restoreAllMocks();
+  }); */
+  it('Form Page renders correctly', async () => {
+    expect(screen.getByText(/compile/i));
+    expect(screen.getByPlaceholderText(/firstname/i));
+    expect(screen.getByPlaceholderText(/lastname/i));
+    expect(screen.getByPlaceholderText(/city/i));
+  });
+  it('Correctly shows error messages when all the inputs remain empty', async () => {
+    const submitBtn = screen.getByText(/submit/i);
+    act(() => {
+      fireEvent.click(submitBtn);
+    });
+
+    expect(screen.findByText(/have to upload/i));
+    const errorMessages = await screen.findAllByText(/required/i);
+    expect(errorMessages.length).toBe(5);
+  });
+  it('Creates a card when all fields are compiled', async () => {
+    const firstnameInput = screen.getByPlaceholderText(/firstname/i);
+    const lastnameInput = screen.getByPlaceholderText(/lastname/i);
+    const cityInput = screen.getByPlaceholderText(/city/i);
+    const dateInput = screen.getByLabelText(/date/i);
+
+    const checkbox = screen.getByRole('checkbox');
+    const submitBtn = screen.getByText(/submit/i);
+
+    act(() => {
+      fireEvent.change(firstnameInput, { target: { value: 'Terry' } });
+      fireEvent.change(lastnameInput, { target: { value: 'Bren' } });
+      fireEvent.change(cityInput, { target: { value: 'Paris' } });
+      fireEvent.change(dateInput, { target: { value: '2000-02-02' } });
+      fireEvent.click(checkbox);
+      fireEvent.click(submitBtn);
+    });
+    expect(await screen.findByText(/have to upload/i));
+    const requireMessage = screen.queryByText(/required/i);
+    expect(requireMessage).toBeNull();
+  });
+  it('nnn', async () => {
+    const file = new File(['hello'], 'hello.png', { type: 'image/png' });
+    const firstnameInput = screen.getByPlaceholderText(/firstname/i);
+    const lastnameInput = screen.getByPlaceholderText(/lastname/i);
+    const cityInput = screen.getByPlaceholderText(/city/i);
+    const dateInput = screen.getByLabelText(/date/i);
+    const fileInput: HTMLInputElement = screen.getByLabelText(/file/i);
+
+    const checkbox = screen.getByRole('checkbox');
+    const submitBtn = screen.getByText(/submit/i);
+
+    act(() => {
+      fireEvent.change(firstnameInput, { target: { value: 'Terry' } });
+      fireEvent.change(lastnameInput, { target: { value: 'Bren' } });
+      fireEvent.change(cityInput, { target: { value: 'Paris' } });
+      fireEvent.change(dateInput, { target: { value: '2000-02-02' } });
+      fireEvent.change(fileInput, { target: { files: [file] } });
+
+      fireEvent.click(checkbox);
+      fireEvent.click(submitBtn);
+    });
+    expect(fileInput?.files?.[0]).toStrictEqual(file);
+    expect(fileInput?.files?.[0].name).toBe('hello.png');
+    const fileError = screen.queryByText(/have to upload/i);
+    expect(fileError).toBeNull();
+
+    /*   const fileError = await screen.findByText(/thank you/i);
+    expect(fileError).toBeVisible(); */
+
+    /*     const cards = (await screen.findByRole('form-cards-container')).children;
+    expect(cards.length).toBe(1); */
+    const requireMessage = screen.queryByText(/required/i);
+    expect(requireMessage).toBeNull();
   });
 });
