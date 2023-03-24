@@ -10,6 +10,7 @@ import RadioComponent from '../RadioComponent';
 import validationCheck from '../../utils/validationCheck';
 
 export default class Form extends React.Component<FormProps, FormState> {
+  form: React.RefObject<HTMLFormElement>;
   firstnameInput: React.RefObject<HTMLInputElement>;
   lastnameInput: React.RefObject<HTMLInputElement>;
   cityInput: React.RefObject<HTMLInputElement>;
@@ -23,9 +24,10 @@ export default class Form extends React.Component<FormProps, FormState> {
   fileInput: React.RefObject<HTMLInputElement>;
 
   readyToCreate: FormReadyCheck;
+
   constructor(props: FormProps) {
     super(props);
-
+    this.form = createRef();
     this.firstnameInput = createRef();
     this.lastnameInput = createRef();
     this.cityInput = createRef();
@@ -94,16 +96,7 @@ export default class Form extends React.Component<FormProps, FormState> {
 
     const card = new UserData(filledFields);
     this.props.callback(card);
-    this.resetForm();
-  }
-
-  resetForm() {
-    if (this.firstnameInput.current) this.firstnameInput.current.value = '';
-    if (this.lastnameInput.current) this.lastnameInput.current.value = '';
-    if (this.cityInput.current) this.cityInput.current.value = '';
-    if (this.dateInput.current) this.dateInput.current.value = '';
-    if (this.agreeCheckInput.current) this.agreeCheckInput.current.checked = false;
-    if (this.fileInput.current) this.fileInput.current.value = '';
+    this.form.current?.reset();
   }
 
   setError(errorName: string, errorValue: string) {
@@ -162,7 +155,12 @@ export default class Form extends React.Component<FormProps, FormState> {
 
   render(): React.ReactNode {
     return (
-      <form className="form__wrapper" role={'form'} onSubmit={this.handleSubmit.bind(this)}>
+      <form
+        className="form__wrapper"
+        role={'form'}
+        onSubmit={this.handleSubmit.bind(this)}
+        ref={this.form}
+      >
         <h3>Compile the form:</h3>
         <InputComponent
           name={'firstname'}
