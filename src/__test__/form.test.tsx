@@ -29,7 +29,7 @@ describe('Form Page', () => {
     });
     expect(screen.findByText(/have to upload/i));
     const errorMessages = await screen.findAllByText(/required/i);
-    expect(errorMessages.length).toBe(5);
+    expect(errorMessages.length).toBe(6);
   });
 });
 
@@ -50,6 +50,7 @@ describe('Compiling Form Test', () => {
     fireEvent.change(screen.getByLabelText(/lastname/i), { target: { value: 'Breown' } });
     fireEvent.change(screen.getByLabelText(/city/i), { target: { value: 'City' } });
     fireEvent.change(screen.getByLabelText(/date/i), { target: { value: '2000-02-02' } });
+    user.click(screen.getByLabelText(/female/i));
     user.click(screen.getByLabelText(/permission/i));
     user.upload(fileInput, file);
 
