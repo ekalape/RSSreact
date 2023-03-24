@@ -66,10 +66,10 @@ export default class Form extends React.Component<FormProps, FormState> {
 
   createCard() {
     let userAge = 0;
-    if (!this.state.dateError) {
-      const date = this.dateInput.current?.value as string;
-      userAge = new Date().getFullYear() - +date.slice(0, 4);
-    }
+
+    const date = this.dateInput.current?.value as string;
+    userAge = new Date().getFullYear() - +date.slice(0, 4);
+
     const files = this.fileInput.current?.files;
     let file;
     if (files && files.length > 0) {
