@@ -1,32 +1,13 @@
 import React, { createRef } from 'react';
 import './style.css';
 
-import { UserCustomInterface } from '../../types/interfaces';
+import { FormProps, FormReadyCheck, FormState, UserCustomInterface } from '../../types/interfaces';
 import SelectComponent from '../SelectComponent';
 import UserData from '../../utils/UserData';
 import InputComponent from '../InputComponent';
+import RadioComponent from '../RadioComponent';
 
 import validationCheck from '../../utils/validationCheck';
-
-export interface FormState {
-  [key: string]: string;
-}
-export interface FormFields {
-  [property: string]: string | number | undefined;
-}
-
-export interface FormProps {
-  cardNumber: number;
-  callback: (user: UserData) => void;
-}
-export interface FormReadyCheck {
-  firstName: boolean;
-  lastName: boolean;
-  city: boolean;
-  date: boolean;
-  agree: boolean;
-  file: boolean;
-}
 
 export default class Form extends React.Component<FormProps, FormState> {
   firstnameInput: React.RefObject<HTMLInputElement>;
@@ -169,6 +150,14 @@ export default class Form extends React.Component<FormProps, FormState> {
       this.setState({ agreeCheckError: '' });
       this.readyToCreate.agree = true;
     }
+
+    if (!(this.genderMaleInput.current?.checked || this.genderFemaleInput.current?.checked)) {
+      this.setState({ genderError: 'This check is required' });
+      this.readyToCreate.agree = false;
+    } else {
+      this.setState({ genderError: '' });
+      this.readyToCreate.agree = true;
+    }
   }
 
   render(): React.ReactNode {
@@ -187,37 +176,13 @@ export default class Form extends React.Component<FormProps, FormState> {
           error={this.state.lastNameError}
           reference={this.lastnameInput}
         />
+        <RadioComponent
+          name={'inputRadio'}
+          referenceMale={this.genderMaleInput}
+          referenceFemale={this.genderFemaleInput}
+          genderError={this.state.genderError}
+        />
 
-        <div className="gender-switcher">
-          <span> Choose the gender:</span>
-          <div>
-            <input
-              className={'gender-radio__input'}
-              defaultChecked
-              type="radio"
-              name="genderInput"
-              id="genderInput-male"
-              value="male"
-              ref={this.genderMaleInput}
-            />
-            <label className={'gender-radio__label'} htmlFor="genderInput-male">
-              Male
-            </label>
-          </div>
-          <div>
-            <input
-              className={'gender-radio__input'}
-              type="radio"
-              name="genderInput"
-              id="genderInput-female"
-              value="female"
-              ref={this.genderFemaleInput}
-            />
-            <label className={'gender-radio__label'} htmlFor="genderInput-female">
-              Female
-            </label>
-          </div>
-        </div>
         <InputComponent
           name={'city'}
           type={'text'}

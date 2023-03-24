@@ -1,15 +1,6 @@
 import React from 'react';
 import { Component, ReactNode } from 'react';
-
-export interface InputComponentProps {
-  name: string;
-  type: string;
-  error: string;
-  reference: React.RefObject<HTMLInputElement>;
-  options?: {
-    [key: string]: string;
-  };
-}
+import { InputComponentProps } from '../../types/interfaces';
 
 export default class InputComponent extends Component<InputComponentProps> {
   render(): ReactNode {
@@ -18,7 +9,10 @@ export default class InputComponent extends Component<InputComponentProps> {
     const acceptRes = this.props.options?.accept;
     return (
       <label>
-        {`Enter the ${name.includes('Input') ? name.replace('Input', '') : name}`}
+        {name.includes('file')
+          ? `Choose the file`
+          : `Enter the ${name.includes('Input') ? name.replace('Input', '') : name}`}
+
         <input
           type={type}
           name={name}

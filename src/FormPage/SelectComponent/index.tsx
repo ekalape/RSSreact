@@ -16,12 +16,7 @@ export default class SelectComponent extends Component<SelectProps> {
     return (
       <label>
         {`Choose the ${labelName.toLowerCase()}`}
-        <select
-          name={selectName}
-          id={`${selectName}-select`}
-          ref={reference}
-          defaultValue={selectOptions[0]}
-        >
+        <select name={selectName} id={`${selectName}-select`} ref={reference}>
           {selectOptions.map((option) => (
             <option key={option} value={option}>
               {option}

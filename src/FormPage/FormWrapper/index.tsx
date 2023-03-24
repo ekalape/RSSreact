@@ -1,15 +1,11 @@
 import Form from '../Form';
 import React from 'react';
 import './style.css';
-import { EmptyProps } from '../../types/interfaces';
+import { EmptyProps, FormWrapperState } from '../../types/interfaces';
 import UserData from '../../utils/UserData';
 import Card from '../../MainPage/Card';
 import ModalInfoComponent from '../../UnrelatedComponents/ModalInfoComponent';
 
-export interface FormWrapperState {
-  cards: UserData[];
-  showMessage: boolean;
-}
 export default class FormPage extends React.Component<EmptyProps, FormWrapperState> {
   cardNumber: number;
   constructor(props: EmptyProps) {

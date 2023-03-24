@@ -19,6 +19,7 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   place-items: center;
+  position: relative;
 }
 .gender-switcher span {
   grid-column: 1/3;
@@ -45,6 +46,7 @@
   height: 24px;
   border-radius: 5px;
   padding: 2px 5px;
+  background-color: rgb(235, 235, 235);
 }
 .form__wrapper input::placeholder {
   color: var(--color-bg);
@@ -64,6 +66,9 @@
   font-style: italic;
   position: absolute;
   bottom: -16px;
+}
+.form__wrapper .gender-error {
+  bottom: -20px;
 }
 
 .form__wrapper .submit-btn {
