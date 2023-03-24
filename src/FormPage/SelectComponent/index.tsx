@@ -1,4 +1,4 @@
-import React, { ChangeEvent } from 'react';
+import React from 'react';
 import { Component, ReactNode } from 'react';
 
 export interface SelectProps {
