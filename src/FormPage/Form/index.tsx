@@ -1,7 +1,12 @@
 import React, { createRef } from 'react';
 import './style.css';
 
-import { FormProps, FormReadyCheck, FormState, UserCustomInterface } from '../../types/interfaces';
+import {
+  FormProps,
+  FormReadyCheck,
+  GeneralOptions,
+  UserCustomInterface,
+} from '../../types/interfaces';
 import SelectComponent from '../SelectComponent';
 import UserData from '../../utils/UserData';
 import InputComponent from '../InputComponent';
@@ -9,7 +14,7 @@ import RadioComponent from '../RadioComponent';
 
 import validationCheck from '../../utils/validationCheck';
 
-export default class Form extends React.Component<FormProps, FormState> {
+export default class Form extends React.Component<FormProps, GeneralOptions> {
   form: React.RefObject<HTMLFormElement>;
   firstnameInput: React.RefObject<HTMLInputElement>;
   lastnameInput: React.RefObject<HTMLInputElement>;
@@ -47,6 +52,10 @@ export default class Form extends React.Component<FormProps, FormState> {
       dateError: '',
       agreeCheckError: '',
       fileInputError: '',
+      genderError: '',
+      hairColorError: '',
+      eyeColorError: '',
+      hairTypeError: '',
     };
     this.readyToCreate = {
       firstName: false,
@@ -55,6 +64,10 @@ export default class Form extends React.Component<FormProps, FormState> {
       date: false,
       agree: false,
       file: false,
+      gender: false,
+      hairColor: false,
+      eyeColor: false,
+      hairType: false,
     };
   }
 
@@ -104,6 +117,11 @@ export default class Form extends React.Component<FormProps, FormState> {
   }
 
   validityCheck() {
+    this.readyToCreate.city = validationCheck(
+      'cityError',
+      this.cityInput.current?.value,
+      this.setError.bind(this)
+    );
     this.readyToCreate.firstName = validationCheck(
       'firstNameError',
       this.firstnameInput.current?.value,
@@ -116,41 +134,45 @@ export default class Form extends React.Component<FormProps, FormState> {
       this.setError.bind(this)
     );
 
-    this.readyToCreate.city = validationCheck(
-      'cityError',
-      this.cityInput.current?.value,
+    this.readyToCreate.date = validationCheck(
+      'dateError',
+      this.dateInput.current?.value,
       this.setError.bind(this)
     );
 
-    if (!this.dateInput.current?.value) {
-      this.setState({ dateError: 'The date is required' });
-      this.readyToCreate.date = false;
-    } else {
-      this.setState({ dateError: '' });
-      this.readyToCreate.date = true;
-    }
-    if (!this.fileInput.current?.value) {
-      this.setState({ fileInputError: 'You have to upload a file' });
-      this.readyToCreate.file = false;
-    } else {
-      this.setState({ fileInputError: '' });
-      this.readyToCreate.file = true;
-    }
-    if (!this.agreeCheckInput.current?.checked) {
-      this.setState({ agreeCheckError: 'This check is required' });
-      this.readyToCreate.agree = false;
-    } else {
-      this.setState({ agreeCheckError: '' });
-      this.readyToCreate.agree = true;
-    }
+    this.readyToCreate.file = validationCheck(
+      'fileInputError',
+      this.fileInput.current?.value,
+      this.setError.bind(this)
+    );
+    this.readyToCreate.agree = validationCheck(
+      'agreeCheckError',
+      this.agreeCheckInput.current?.value,
+      this.setError.bind(this),
+      this.agreeCheckInput.current?.checked
+    );
 
-    if (!(this.genderMaleInput.current?.checked || this.genderFemaleInput.current?.checked)) {
-      this.setState({ genderError: 'This check is required' });
-      this.readyToCreate.agree = false;
-    } else {
-      this.setState({ genderError: '' });
-      this.readyToCreate.agree = true;
-    }
+    this.readyToCreate.gender = validationCheck(
+      'genderError',
+      undefined,
+      this.setError.bind(this),
+      this.genderMaleInput.current?.checked || this.genderFemaleInput.current?.checked
+    );
+    this.readyToCreate.hairType = validationCheck(
+      'hairTypeError',
+      this.hairTypeSelectInput.current?.value,
+      this.setError.bind(this)
+    );
+    this.readyToCreate.hairColor = validationCheck(
+      'hairColorError',
+      this.hairColorSelectInput.current?.value,
+      this.setError.bind(this)
+    );
+    this.readyToCreate.eyeColor = validationCheck(
+      'eyeColorError',
+      this.eyeColorSelectInput.current?.value,
+      this.setError.bind(this)
+    );
   }
 
   render(): React.ReactNode {
@@ -197,18 +219,21 @@ export default class Form extends React.Component<FormProps, FormState> {
 
         <SelectComponent
           selectName="eyeColor"
-          selectOptions={['green', 'brown', 'grey', 'black', 'amber', 'blue']}
+          selectOptions={['-', 'green', 'brown', 'grey', 'black', 'amber', 'blue']}
           reference={this.eyeColorSelectInput}
+          selectError={this.state.eyeColorError}
         />
         <SelectComponent
           selectName="hairColor"
-          selectOptions={['blond', 'brown', 'chestnut', 'black', 'auburn']}
+          selectOptions={['-', 'blond', 'brown', 'chestnut', 'black', 'auburn']}
           reference={this.hairColorSelectInput}
+          selectError={this.state.hairColorError}
         />
         <SelectComponent
           selectName="hairType"
-          selectOptions={['weavy', 'straight', 'curly', 'very curly', 'strands']}
+          selectOptions={['-', 'weavy', 'straight', 'curly', 'very curly', 'strands']}
           reference={this.hairTypeSelectInput}
+          selectError={this.state.hairTypeError}
         />
         <InputComponent
           name={'fileInput'}

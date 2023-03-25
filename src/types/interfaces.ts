@@ -38,9 +38,9 @@ export type UserCustomInterface = Omit<UserInterface, 'address' | 'image'> & {
 export interface SearchProps {
   callback: (searchWord: string) => void;
 }
-export interface FormState {
+export type GeneralOptions = {
   [key: string]: string;
-}
+};
 export interface FormFields {
   [property: string]: string | number | undefined;
 }
@@ -50,21 +50,14 @@ export interface FormProps {
   callback: (user: UserData) => void;
 }
 export interface FormReadyCheck {
-  firstName: boolean;
-  lastName: boolean;
-  city: boolean;
-  date: boolean;
-  agree: boolean;
-  file: boolean;
+  [key: string]: boolean;
 }
 export interface InputComponentProps {
   name: string;
   type: string;
   error: string;
   reference: React.RefObject<HTMLInputElement>;
-  options?: {
-    [key: string]: string;
-  };
+  options?: GeneralOptions;
 }
 export interface FormWrapperState {
   cards: UserData[];

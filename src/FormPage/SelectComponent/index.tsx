@@ -5,11 +5,12 @@ export interface SelectProps {
   selectName: string;
   reference: React.RefObject<HTMLSelectElement>;
   selectOptions: string[];
+  selectError: string;
 }
 
 export default class SelectComponent extends Component<SelectProps> {
   render(): ReactNode {
-    const { selectName, reference, selectOptions } = this.props;
+    const { selectName, reference, selectOptions, selectError } = this.props;
     const labelName = `${selectName.match('eye') || selectName.match('hair')} ${
       selectName.match(/type/i) || selectName.match(/color/i)
     }`;
@@ -23,6 +24,7 @@ export default class SelectComponent extends Component<SelectProps> {
             </option>
           ))}
         </select>
+        {selectError && <p className="gender-error">{selectError}</p>}
       </label>
     );
   }

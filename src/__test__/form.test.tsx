@@ -28,8 +28,10 @@ describe('Form Page', () => {
       fireEvent.click(submitBtn);
     });
     expect(screen.findByText(/have to upload/i));
-    const errorMessages = await screen.findAllByText(/required/i);
-    expect(errorMessages.length).toBe(6);
+    const requiredMessages = await screen.findAllByText(/required/i);
+    expect(requiredMessages.length).toBe(6);
+    const errorMessages = await screen.findAllByText(/have to choose an option/i);
+    expect(errorMessages.length).toBe(3);
   });
 });
 
@@ -50,6 +52,10 @@ describe('Compiling Form Test', () => {
     fireEvent.change(screen.getByLabelText(/lastname/i), { target: { value: 'Breown' } });
     fireEvent.change(screen.getByLabelText(/city/i), { target: { value: 'City' } });
     fireEvent.change(screen.getByLabelText(/date/i), { target: { value: '2000-02-02' } });
+
+    fireEvent.change(screen.getByLabelText(/eye color/i), { target: { value: 'green' } });
+    fireEvent.change(screen.getByLabelText(/hair color/i), { target: { value: 'brown' } });
+    fireEvent.change(screen.getByLabelText(/hair type/i), { target: { value: 'weavy' } });
     user.click(screen.getByLabelText(/female/i));
     user.click(screen.getByLabelText(/permission/i));
     user.upload(fileInput, file);
