@@ -22,7 +22,7 @@ export default class Form extends React.Component<FormProps, GeneralOptions> {
   genderMaleInput: React.RefObject<HTMLInputElement>;
   genderFemaleInput: React.RefObject<HTMLInputElement>;
   dateInput: React.RefObject<HTMLInputElement>;
-  eyeColorSelectInput: React.RefObject<HTMLSelectElement>;
+  eyesColorSelectInput: React.RefObject<HTMLSelectElement>;
   hairColorSelectInput: React.RefObject<HTMLSelectElement>;
   hairTypeSelectInput: React.RefObject<HTMLSelectElement>;
   agreeCheckInput: React.RefObject<HTMLInputElement>;
@@ -39,7 +39,7 @@ export default class Form extends React.Component<FormProps, GeneralOptions> {
     this.genderMaleInput = createRef();
     this.genderFemaleInput = createRef();
     this.dateInput = createRef();
-    this.eyeColorSelectInput = createRef();
+    this.eyesColorSelectInput = createRef();
     this.hairColorSelectInput = createRef();
     this.hairTypeSelectInput = createRef();
     this.agreeCheckInput = createRef();
@@ -54,7 +54,7 @@ export default class Form extends React.Component<FormProps, GeneralOptions> {
       fileInputError: '',
       genderError: '',
       hairColorError: '',
-      eyeColorError: '',
+      eyesColorError: '',
       hairTypeError: '',
     };
     this.readyToCreate = {
@@ -66,7 +66,7 @@ export default class Form extends React.Component<FormProps, GeneralOptions> {
       file: false,
       gender: false,
       hairColor: false,
-      eyeColor: false,
+      eyesColor: false,
       hairType: false,
     };
   }
@@ -99,7 +99,7 @@ export default class Form extends React.Component<FormProps, GeneralOptions> {
       gender: this.genderMaleInput.current?.checked ? 'male' : 'female',
       birthDate: this.dateInput.current?.value as string,
       age: userAge,
-      eyeColor: this.eyeColorSelectInput.current?.value as string,
+      eyesColor: this.eyesColorSelectInput.current?.value as string,
       hair: {
         color: this.hairColorSelectInput.current?.value as string,
         type: this.hairTypeSelectInput.current?.value as string,
@@ -168,9 +168,9 @@ export default class Form extends React.Component<FormProps, GeneralOptions> {
       this.hairColorSelectInput.current?.value,
       this.setError.bind(this)
     );
-    this.readyToCreate.eyeColor = validationCheck(
-      'eyeColorError',
-      this.eyeColorSelectInput.current?.value,
+    this.readyToCreate.eyesColor = validationCheck(
+      'eyesColorError',
+      this.eyesColorSelectInput.current?.value,
       this.setError.bind(this)
     );
   }
@@ -218,10 +218,10 @@ export default class Form extends React.Component<FormProps, GeneralOptions> {
         />
 
         <SelectComponent
-          selectName="eyeColor"
+          selectName="eyesColor"
           selectOptions={['-', 'green', 'brown', 'grey', 'black', 'amber', 'blue']}
-          reference={this.eyeColorSelectInput}
-          selectError={this.state.eyeColorError}
+          reference={this.eyesColorSelectInput}
+          selectError={this.state.eyesColorError}
         />
         <SelectComponent
           selectName="hairColor"

@@ -11,9 +11,10 @@ export interface SelectProps {
 export default class SelectComponent extends Component<SelectProps> {
   render(): ReactNode {
     const { selectName, reference, selectOptions, selectError } = this.props;
-    const labelName = `${selectName.match('eye') || selectName.match('hair')} ${
+    const labelName = `${selectName.match('eyes') || selectName.match('hair')} ${
       selectName.match(/type/i) || selectName.match(/color/i)
     }`;
+
     return (
       <label>
         {`Choose the ${labelName.toLowerCase()}`}
@@ -24,7 +25,7 @@ export default class SelectComponent extends Component<SelectProps> {
             </option>
           ))}
         </select>
-        {selectError && <p className="gender-error">{selectError}</p>}
+        {selectError && <p>{selectError}</p>}
       </label>
     );
   }
