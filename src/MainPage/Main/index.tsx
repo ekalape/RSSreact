@@ -1,26 +1,21 @@
 import Search from '../Search';
-import React from 'react';
+import React, { useState } from 'react';
 import './style.css';
 
 import CardsContainer from '../CardsContainer';
-import { EmptyProps, SearchWordInterface } from 'types/interfaces';
 
-export default class Main extends React.Component<EmptyProps, SearchWordInterface> {
-  constructor(props: EmptyProps) {
-    super(props);
-    this.state = { searchWord: '' };
-  }
+const Main = () => {
+  const [searchWord, setSearchWord] = useState('');
 
-  handleSearchWord(word: string) {
-    this.setState({ searchWord: word });
-  }
+  const handleSearchWord = (word: string) => {
+    setSearchWord(word);
+  };
 
-  render(): React.ReactNode {
-    return (
-      <div className="main__wrapper" role={'main-page'}>
-        <Search callback={this.handleSearchWord.bind(this)} />
-        <CardsContainer searchWord={this.state.searchWord} />
-      </div>
-    );
-  }
-}
+  return (
+    <div className="main__wrapper" role={'main-page'}>
+      <Search callback={handleSearchWord} />
+      <CardsContainer searchWord={searchWord} />
+    </div>
+  );
+};
+export default Main;

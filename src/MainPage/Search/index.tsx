@@ -1,57 +1,43 @@
-import React, { ChangeEvent } from 'react';
-import { SearchProps, SearchWordInterface } from 'types/interfaces';
+import React, { ChangeEvent, FC, useEffect, useState } from 'react';
+import { SearchProps } from 'types/interfaces';
 import './style.css';
 
-export default class Search extends React.Component<SearchProps, SearchWordInterface> {
-  constructor(props: SearchProps) {
-    super(props);
-    this.state = { searchWord: '' };
-  }
-  componentDidMount(): void {
-    const storagedInput = localStorage.getItem('eklp-storagedInput');
-    this.setState({ searchWord: storagedInput || '' });
-  }
+const Search: FC<SearchProps> = ({ callback }: SearchProps) => {
+  const [searchWord, setSearchWord] = useState(localStorage.getItem('eklp-storagedInput') || '');
+  const onChangeHandle = (event: ChangeEvent<HTMLInputElement>) => {
+    setSearchWord(event.target.value);
+  };
+  const handleSearch = () => {
+    callback(searchWord);
+  };
+  const resetSearch = () => {
+    setSearchWord('');
+    callback('');
+  };
 
-  onChangeHandle = (event: ChangeEvent<HTMLInputElement>) => {
-    this.setState({ searchWord: event.target.value });
-  };
-  handleSearch = () => {
-    this.props.callback(this.state.searchWord);
-  };
-  resetSearch = () => {
-    this.setState({ searchWord: '' });
-    this.props.callback('');
-  };
-  componentWillUnmount(): void {
-    const { searchWord } = this.state;
+  useEffect(() => {
     localStorage.setItem('eklp-storagedInput', searchWord);
-  }
-
-  render(): React.ReactNode {
-    return (
-      <div className="search__wrapper">
-        <label htmlFor="search__input">
-          <input
-            type="text"
-            role="searchbox"
-            id="search__input"
-            placeholder="Start search..."
-            value={this.state.searchWord}
-            onChange={this.onChangeHandle}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter') this.handleSearch();
-            }}
-          />
-          <button
-            className={'search-btn'}
-            aria-label={'searchBtn'}
-            onClick={this.handleSearch}
-          ></button>
-        </label>
-        <button className="reset-btn" onClick={this.resetSearch}>
-          RESET
-        </button>
-      </div>
-    );
-  }
-}
+  }, [searchWord]);
+  return (
+    <div className="search__wrapper">
+      <label htmlFor="search__input">
+        <input
+          type="text"
+          role="searchbox"
+          id="search__input"
+          placeholder="Start search..."
+          value={searchWord}
+          onChange={onChangeHandle}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') handleSearch();
+          }}
+        />
+        <button className={'search-btn'} aria-label={'searchBtn'} onClick={handleSearch}></button>
+      </label>
+      <button className="reset-btn" onClick={resetSearch}>
+        RESET
+      </button>
+    </div>
+  );
+};
+export default Search;
