@@ -74,7 +74,7 @@ function validationCheck(errorName: string,
         case "agreeCheckError":
         case "genderError": return validationCheckboxCheck(errorName, checkedValue, setError);
         case "hairColorError":
-        case "eyesColorError":
+        case "eyeColorError":
         case "hairTypeError":
             return validationSelectCheck(errorName, value, setError);
     }

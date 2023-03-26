@@ -11,9 +11,10 @@ export interface SelectProps {
 export default class SelectComponent extends Component<SelectProps> {
   render(): ReactNode {
     const { selectName, reference, selectOptions, selectError } = this.props;
-    const labelName = `${selectName.match('eyes') || selectName.match('hair')} ${
+    let labelName = `${selectName.match('eye') || selectName.match('hair')} ${
       selectName.match(/type/i) || selectName.match(/color/i)
     }`;
+    if (labelName.includes('eye')) labelName = 'eyes color';
 
     return (
       <label>

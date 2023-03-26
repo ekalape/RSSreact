@@ -25,7 +25,7 @@ export interface UserInterface {
   lastName: string;
   age: number;
   gender: 'male' | 'female';
-  eyesColor: string;
+  eyeColor: string;
   image: string;
   hair: UserHairProp;
   birthDate: string;
