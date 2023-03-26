@@ -1,5 +1,5 @@
 import { describe, it } from 'vitest';
-import { act, findAllByAltText, fireEvent, render, screen } from '@testing-library/react';
+import { act, findAllByAltText, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import React from 'react';
 
 import { BrowserRouter } from 'react-router-dom';
@@ -9,6 +9,7 @@ import UserData from '../utils/UserData';
 import { UserInterface } from '../types/interfaces';
 import Card from '../MainPage/Card';
 import Main from '../MainPage/Main';
+import userEvent from '@testing-library/user-event';
 
 const fakeUsers: UserInterface[] = [
   {
@@ -48,6 +49,8 @@ const fakeUsers: UserInterface[] = [
     },
   },
 ];
+const fakeUsersData = fakeUsers.map((x) => new UserData(x));
+
 describe('Card component', () => {
   it('Card renders correctly', async () => {
     const fakeCard = new UserData(fakeUsers[0]);
@@ -89,6 +92,7 @@ describe('Main Page', () => {
 });
 
 describe('Main Page', () => {
+  const user = userEvent.setup();
   it('There are no cards if the Search bar has wrong input value', async () => {
     vi.mock('../utils', async () => ({
       default: () => Promise.resolve(fakeUsers),
@@ -97,27 +101,41 @@ describe('Main Page', () => {
     const searchBar = screen.getByRole('searchbox');
     act(() => {
       fireEvent.change(searchBar, { target: { value: 'afafafaf' } });
-      fireEvent.click(screen.getByRole('button', { name: 'searchBtn' }));
+      user.click(screen.getByRole('button', { name: 'searchBtn' }));
     });
-
-    const cc = await screen.findByRole('cards-container');
-    expect(cc).toContainHTML('<p>No items found</p>');
+    await waitFor(
+      async () => {
+        const cc = await screen.findByRole('cards-container');
+        expect(cc).toContainHTML('<p>No items found</p>');
+      },
+      { timeout: 500 }
+    );
+  });
+  it('Card Container filters correctly', async () => {
+    vi.mock('../utils', async () => ({
+      default: () => Promise.resolve(fakeUsers),
+    }));
+    render(<Main />);
+    const searchBar = screen.getByRole('searchbox');
+    act(() => {
+      fireEvent.change(searchBar, { target: { value: 'Terry' } });
+      user.click(screen.getByRole('button', { name: 'searchBtn' }));
+    });
+    await waitFor(
+      async () => {
+        const cc = await screen.findByRole('cards-container');
+        const cardItems = await findAllByAltText(cc, /image/i);
+        expect(cardItems.length).toBe(1);
+      },
+      { timeout: 500 }
+    );
   });
 });
 
 describe('Card Container', () => {
   it('Card Container renders correctly', async () => {
-    render(<CardsContainer searchWord={''} />);
+    render(<CardsContainer users={fakeUsersData} />);
     const container = await screen.findByRole('cards-container');
     expect(container).toBeVisible();
-  });
-
-  it('Card Container filters correctly', async () => {
-    vi.mock('../utils', async () => ({
-      default: () => Promise.resolve(fakeUsers),
-    }));
-    const cont = render(<CardsContainer searchWord={'Terry'} />).container;
-    const cardItems = await findAllByAltText(cont, /image/i);
-    expect(cardItems.length).toBe(1);
   });
 });
