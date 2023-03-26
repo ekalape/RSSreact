@@ -53,7 +53,7 @@ describe('Compiling Form Test', () => {
     fireEvent.change(screen.getByLabelText(/city/i), { target: { value: 'City' } });
     fireEvent.change(screen.getByLabelText(/date/i), { target: { value: '2000-02-02' } });
 
-    fireEvent.change(screen.getByLabelText(/eye color/i), { target: { value: 'green' } });
+    fireEvent.change(screen.getByLabelText(/eyes color/i), { target: { value: 'green' } });
     fireEvent.change(screen.getByLabelText(/hair color/i), { target: { value: 'brown' } });
     fireEvent.change(screen.getByLabelText(/hair type/i), { target: { value: 'weavy' } });
     user.click(screen.getByLabelText(/female/i));
