@@ -24,11 +24,14 @@ const Main = () => {
     loadUsers();
   }, []);
   useEffect(() => {
+    const words = searchWord.split(' ');
     const newUsers = usersData.current.filter((u: UserData) => {
       const userSearchFields = Object.entries(u)
         .filter((key) => key[0] !== 'image')
         .map((key) => String(key[1]));
-      return userSearchFields.some((key) => key.toLowerCase().includes(searchWord.toLowerCase()));
+      return words.every((s) =>
+        userSearchFields.some((key) => key.toLowerCase().includes(s.toLowerCase()))
+      );
     });
     setUsers(newUsers);
   }, [searchWord]);

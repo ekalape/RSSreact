@@ -16,7 +16,7 @@ const Search: FC<SearchProps> = ({ callback }: SearchProps) => {
   };
 
   useEffect(() => {
-    localStorage.setItem('eklp-storagedInput', searchWord);
+    return () => localStorage.setItem('eklp-storagedInput', searchWord);
   }, [searchWord]);
   return (
     <div className="search__wrapper">
