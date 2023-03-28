@@ -1,29 +1,47 @@
-import React from 'react';
-import { Component, ReactNode } from 'react';
-import { InputComponentProps } from '../../types/interfaces';
+import React, { FC } from 'react';
 
-export default class InputComponent extends Component<InputComponentProps> {
-  render(): ReactNode {
-    const { name, type, error, reference } = this.props;
-    const dateMax = this.props.options?.max;
-    const acceptRes = this.props.options?.accept;
-    return (
-      <label>
-        {name.includes('file')
-          ? `Choose the file`
-          : `Enter the ${name.includes('Input') ? name.replace('Input', '') : name}`}
+import { InputCompProps } from '../../types/interfaces';
 
-        <input
-          type={type}
-          name={name}
-          ref={reference}
-          placeholder={name}
-          max={dateMax && dateMax}
-          accept={acceptRes && acceptRes}
-          style={{ borderColor: error ? 'red' : undefined }}
-        />
-        {error && <p>{error}</p>}
-      </label>
-    );
-  }
-}
+const InputStringComponent: FC<InputCompProps> = (props) => {
+  const { inputName, type, register, errors } = props;
+  return (
+    <label>
+      {`Enter the ${inputName.toLowerCase()}`}
+
+      <input
+        type={type}
+        {...register(inputName, {
+          required: 'This field is required',
+          minLength: { value: 3, message: 'At least 3 letters' },
+          pattern: {
+            value: /[A-Z][a-z]{2,}/,
+            message: 'Should start with capital letter',
+          },
+        })}
+      />
+      {errors && <p>{errors.message}</p>}
+    </label>
+  );
+};
+/* const InputComponent: FC<InputComponentProps> = (props) => {
+  const { inputName, type, error, reference } = props;
+  return (
+    <label>
+      {inputName.includes('file')
+        ? `Choose the file`
+        : `Enter the ${inputName.includes('Input') ? inputName.replace('Input', '') : name}`}
+
+      <input
+        type={type}
+        name={inputName}
+        placeholder={inputName}
+        max={props.options?.dateMax && props.options?.dateMax}
+        accept={props.options?.acceptRes && props.options?.acceptRes}
+        style={{ borderColor: error ? 'red' : undefined }}
+      />
+      {error && <p>{error}</p>}
+    </label>
+  );
+}; */
+
+export default InputStringComponent;

@@ -1,3 +1,4 @@
+import { FieldError, FieldErrors, UseFormRegister } from 'react-hook-form';
 import UserData from '../utils/UserData';
 
 export type EmptyProps = {
@@ -32,9 +33,23 @@ export interface UserInterface {
   address: UserAddressProp;
 }
 export type UserCustomInterface = Omit<UserInterface, 'address' | 'image'> & {
+  id: number;
+  firstName: string;
+  lastName: string;
+  age: number;
+  gender: 'male' | 'female';
+  eyeColor: string;
+
+  hairColor: string;
+  hairType: string;
+  birthDate: string;
   city: string;
   imageFile: File | undefined;
 };
+/* export type UserCustomInterface = Omit<UserInterface, 'address' | 'image'> & {
+  city: string;
+  imageFile: File | undefined;
+}; */
 export interface SearchProps {
   callback: (searchWord: string) => void;
 }
@@ -53,12 +68,13 @@ export interface FormReadyCheck {
   [key: string]: boolean;
 }
 export interface InputComponentProps {
-  name: string;
+  inputName: string;
   type: string;
   error: string;
   reference: React.RefObject<HTMLInputElement>;
   options?: GeneralOptions;
 }
+
 export interface FormWrapperState {
   cards: UserData[];
   showMessage: boolean;
@@ -69,4 +85,15 @@ export interface RadioComponentProps {
   referenceMale: React.RefObject<HTMLInputElement>;
   referenceFemale: React.RefObject<HTMLInputElement>;
   genderError: string;
+}
+export interface InputCompProps {
+  inputName: keyof UserCustomInterface;
+  type: string;
+  errors: FieldError | undefined;
+  register: UseFormRegister<UserCustomInterface>;
+}
+export interface InputRadioProps {
+  inputName: keyof UserCustomInterface;
+  errors: FieldError | undefined;
+  register: UseFormRegister<UserCustomInterface>;
 }

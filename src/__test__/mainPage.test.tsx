@@ -78,12 +78,16 @@ describe('Main Page', () => {
     })
   );
   it('Main page renders correctly', () => {
-    const mainPage = screen.getByRole('main-page');
-    expect(mainPage).toBeVisible();
+    act(() => {
+      const mainPage = screen.getByRole('main-page');
+      expect(mainPage).toBeVisible();
+    });
   });
   it('Main page contains search bar', () => {
-    const searchBar = screen.getByPlaceholderText('Start search...');
-    expect(searchBar).toBeInTheDocument();
+    act(() => {
+      const searchBar = screen.getByPlaceholderText('Start search...');
+      expect(searchBar).toBeInTheDocument();
+    });
   });
   it('Main page contains cards container', async () => {
     const cc = await screen.findByRole('cards-container');
