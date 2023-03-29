@@ -1,7 +1,5 @@
 import React, { FC } from 'react';
-
 import { InputCompProps } from '../../types/interfaces';
-
 const InputStringComponent: FC<InputCompProps> = (props) => {
   const { inputName, type, register, errors } = props;
   return (
@@ -23,25 +21,5 @@ const InputStringComponent: FC<InputCompProps> = (props) => {
     </label>
   );
 };
-/* const InputComponent: FC<InputComponentProps> = (props) => {
-  const { inputName, type, error, reference } = props;
-  return (
-    <label>
-      {inputName.includes('file')
-        ? `Choose the file`
-        : `Enter the ${inputName.includes('Input') ? inputName.replace('Input', '') : name}`}
-
-      <input
-        type={type}
-        name={inputName}
-        placeholder={inputName}
-        max={props.options?.dateMax && props.options?.dateMax}
-        accept={props.options?.acceptRes && props.options?.acceptRes}
-        style={{ borderColor: error ? 'red' : undefined }}
-      />
-      {error && <p>{error}</p>}
-    </label>
-  );
-}; */
 
 export default InputStringComponent;

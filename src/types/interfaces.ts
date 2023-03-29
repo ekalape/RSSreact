@@ -46,10 +46,10 @@ export type UserCustomInterface = Omit<UserInterface, 'address' | 'image'> & {
   city: string;
   imageFile: File | undefined;
 };
-/* export type UserCustomInterface = Omit<UserInterface, 'address' | 'image'> & {
-  city: string;
-  imageFile: File | undefined;
-}; */
+export type UserCustomFormInterface = Omit<UserCustomInterface, 'imageFile'> & {
+  imageFile: FileList | undefined;
+  agreeCheck?: boolean;
+};
 export interface SearchProps {
   callback: (searchWord: string) => void;
 }
@@ -87,13 +87,13 @@ export interface RadioComponentProps {
   genderError: string;
 }
 export interface InputCompProps {
-  inputName: keyof UserCustomInterface;
+  inputName: keyof UserCustomFormInterface;
   type: string;
   errors: FieldError | undefined;
-  register: UseFormRegister<UserCustomInterface>;
+  register: UseFormRegister<UserCustomFormInterface>;
 }
 export interface InputRadioProps {
-  inputName: keyof UserCustomInterface;
+  inputName: keyof UserCustomFormInterface;
   errors: FieldError | undefined;
-  register: UseFormRegister<UserCustomInterface>;
+  register: UseFormRegister<UserCustomFormInterface>;
 }

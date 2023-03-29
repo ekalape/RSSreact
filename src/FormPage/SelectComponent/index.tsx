@@ -1,10 +1,10 @@
 import React, { FC } from 'react';
 import { FieldError, UseFormRegister } from 'react-hook-form';
-import { UserCustomInterface } from '../../types/interfaces';
+import { UserCustomFormInterface } from '../../types/interfaces';
 
 export interface SelectProps {
-  selectName: keyof UserCustomInterface;
-  register: UseFormRegister<UserCustomInterface>;
+  selectName: keyof UserCustomFormInterface;
+  register: UseFormRegister<UserCustomFormInterface>;
   selectOptions: string[];
   selectError: FieldError | undefined;
 }
