@@ -27,11 +27,11 @@ describe('Form Page', () => {
     act(() => {
       fireEvent.click(submitBtn);
     });
-    expect(screen.findByText(/have to upload/i));
+    expect(screen.findByText(/load an image/i));
     const requiredMessages = await screen.findAllByText(/required/i);
-    expect(requiredMessages.length).toBe(6);
-    const errorMessages = await screen.findAllByText(/have to choose an option/i);
-    expect(errorMessages.length).toBe(3);
+    expect(requiredMessages.length).toBe(8);
+    const errorMessages = await screen.findAllByText(/input the birth date/i);
+    expect(errorMessages.length).toBe(1);
   });
 });
 
@@ -45,7 +45,7 @@ describe('Compiling Form Test', () => {
 
   it('No error messages are shown when all mandatory fields are compiled', async () => {
     const submitBtn = screen.getByRole('button', { name: 'Submit' });
-    const fileInput = screen.getByLabelText(/file/i);
+    const fileInput = screen.getByLabelText(/image/i);
     const firstnameInput = await screen.findByLabelText(/firstname/i);
 
     fireEvent.change(firstnameInput, { target: { value: 'Terry' } });
@@ -62,7 +62,7 @@ describe('Compiling Form Test', () => {
 
     user.click(submitBtn);
 
-    const fileErrorMessage = screen.queryByText(/have to upload/i);
+    const fileErrorMessage = screen.queryByText(/load an image/i);
     expect(fileErrorMessage).toBeNull();
 
     const requiredMessage = screen.queryByText(/required/i);

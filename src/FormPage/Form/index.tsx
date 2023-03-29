@@ -18,11 +18,8 @@ const Form: FC<FormProps> = ({ cardNumber, callback }) => {
   } = useForm<UserCustomFormInterface>({ reValidateMode: 'onSubmit' });
 
   const onSubmit: SubmitHandler<UserCustomFormInterface> = (data) => {
-    console.log(data);
     const file = data.imageFile?.[0];
-
     const age = new Date().getFullYear() - +data.birthDate.slice(0, 4);
-    console.log(age);
 
     const user: UserData = new UserData({
       ...data,

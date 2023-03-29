@@ -8,6 +8,7 @@ const InputStringComponent: FC<InputCompProps> = (props) => {
 
       <input
         type={type}
+        placeholder={inputName}
         {...register(inputName, {
           required: 'This field is required',
           minLength: { value: 3, message: 'At least 3 letters' },

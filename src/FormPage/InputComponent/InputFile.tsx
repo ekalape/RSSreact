@@ -9,7 +9,7 @@ const InputDate: FC<InputCompProps> = (props) => {
         type={type}
         accept="image/*"
         {...register(inputName, {
-          required: 'Load an image',
+          required: 'Please load an image',
         })}
       />
       {errors && <p>{errors.message}</p>}
