@@ -1,13 +1,6 @@
 import React, { FC } from 'react';
-import { FieldError, UseFormRegister } from 'react-hook-form';
-import { UserCustomFormInterface } from '../../types/interfaces';
+import { SelectProps } from '../../types/interfaces';
 
-export interface SelectProps {
-  selectName: keyof UserCustomFormInterface;
-  register: UseFormRegister<UserCustomFormInterface>;
-  selectOptions: string[];
-  selectError: FieldError | undefined;
-}
 const SelectComponent: FC<SelectProps> = (props) => {
   const { selectName, register, selectOptions, selectError } = props;
   let labelName = `${selectName.match('eye') || selectName.match('hair')} ${
@@ -26,6 +19,10 @@ const SelectComponent: FC<SelectProps> = (props) => {
             } is required`,
           },
         })}
+        style={{
+          backgroundColor: selectError ? 'mistyrose' : undefined,
+          borderColor: selectError ? 'darkred' : undefined,
+        }}
       >
         {selectOptions.map((option) => (
           <option key={option} value={option}>

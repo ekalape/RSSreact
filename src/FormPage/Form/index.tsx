@@ -20,7 +20,6 @@ const Form: FC<FormProps> = ({ cardNumber, callback }) => {
   const onSubmit: SubmitHandler<UserCustomFormInterface> = (data) => {
     const file = data.imageFile?.[0];
     const age = new Date().getFullYear() - +data.birthDate.slice(0, 4);
-
     const user: UserData = new UserData({
       ...data,
       id: cardNumber,
@@ -74,16 +73,19 @@ const Form: FC<FormProps> = ({ cardNumber, callback }) => {
         selectError={errors.hairType}
       />
       <InputFile type="file" inputName="imageFile" register={register} errors={errors.imageFile} />
-      <label>
+      <label
+        style={{
+          backgroundColor: errors.agreeCheck ? 'mistyrose' : undefined,
+        }}
+      >
         {errors.agreeCheck && <p>{errors.agreeCheck.message}</p>}
         <input
           type="checkbox"
           {...register('agreeCheck', { required: 'This check is required' })}
-          style={{ borderColor: errors.agreeCheck ? 'red' : undefined }}
         />
         I give my permission to create a card
       </label>
-      <input type="submit" className="submit-btn" value="Submit" /* onClick={testSubmit}  */ />
+      <input type="submit" className="submit-btn" value="Submit" />
     </form>
   );
 };

@@ -5,7 +5,6 @@ const InputStringComponent: FC<InputCompProps> = (props) => {
   return (
     <label>
       {`Enter the ${inputName.toLowerCase()}`}
-
       <input
         type={type}
         placeholder={inputName}
@@ -17,6 +16,10 @@ const InputStringComponent: FC<InputCompProps> = (props) => {
             message: 'Should start with capital letter',
           },
         })}
+        style={{
+          backgroundColor: errors ? 'mistyrose' : undefined,
+          borderColor: errors ? 'darkred' : undefined,
+        }}
       />
       {errors && <p>{errors.message}</p>}
     </label>

@@ -11,6 +11,10 @@ const InputDate: FC<InputCompProps & { max: string }> = (props) => {
         {...register(inputName, {
           required: 'Input the birth date',
         })}
+        style={{
+          backgroundColor: errors ? 'mistyrose' : undefined,
+          borderColor: errors ? 'darkred' : undefined,
+        }}
       />
       {errors && <p>{errors.message}</p>}
     </label>

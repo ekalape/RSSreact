@@ -1,11 +1,13 @@
-import React, { ChangeEvent, FC, useEffect, useState } from 'react';
+import React, { ChangeEvent, FC, useEffect, useRef, useState } from 'react';
 import { SearchProps } from 'types/interfaces';
 import './style.css';
 
 const Search: FC<SearchProps> = ({ callback }: SearchProps) => {
   const [searchWord, setSearchWord] = useState(localStorage.getItem('eklp-storagedInput') || '');
+  const wordRef = useRef<string>(searchWord || '');
   const onChangeHandle = (event: ChangeEvent<HTMLInputElement>) => {
     setSearchWord(event.target.value);
+    wordRef.current = event.target.value;
   };
   const handleSearch = () => {
     callback(searchWord);
@@ -16,8 +18,8 @@ const Search: FC<SearchProps> = ({ callback }: SearchProps) => {
   };
 
   useEffect(() => {
-    return () => localStorage.setItem('eklp-storagedInput', searchWord);
-  }, [searchWord]);
+    return () => localStorage.setItem('eklp-storagedInput', wordRef.current);
+  }, []);
   return (
     <div className="search__wrapper">
       <label htmlFor="search__input">

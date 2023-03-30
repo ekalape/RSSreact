@@ -11,6 +11,9 @@ const InputDate: FC<InputCompProps> = (props) => {
         {...register(inputName, {
           required: 'Please load an image',
         })}
+        style={{
+          backgroundColor: errors ? 'mistyrose' : undefined,
+        }}
       />
       {errors && <p>{errors.message}</p>}
     </label>
