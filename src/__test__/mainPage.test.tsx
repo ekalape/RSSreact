@@ -68,14 +68,15 @@ describe('Card component', () => {
 });
 
 describe('Main Page', () => {
-  beforeEach(() =>
-    act(() => {
-      render(
-        <BrowserRouter>
-          <Main />
-        </BrowserRouter>
-      );
-    })
+  beforeEach(
+    async () =>
+      await act(async () => {
+        render(
+          <BrowserRouter>
+            <Main />
+          </BrowserRouter>
+        );
+      })
   );
   it('Main page renders correctly', () => {
     act(() => {
