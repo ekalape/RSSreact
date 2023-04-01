@@ -20,5 +20,5 @@
     "outDir":"dist",
     "types":["vitest/globals"]
   },
-  "include": ["./src/**/*", "../../../ProjectD/backend2/validationCheck.ts"]
+  "include": ["./src/**/*"]
 }
