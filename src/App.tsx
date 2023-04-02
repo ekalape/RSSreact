@@ -7,6 +7,7 @@ import Main from './MainPage/Main';
 import About from './AboutPage/About';
 import Header from './UnrelatedComponents/Header';
 import NotFound from './UnrelatedComponents/NotFound';
+import FormPage from './FormPage/FormWrapper';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
       <Routes>
         <Route path={'/'} element={<Main />} />
         <Route path={'/main'} element={<Main />} />
+        <Route path={'/form'} element={<FormPage />} />
         <Route path={'/about'} element={<About />} />
         <Route path="*" element={<NotFound />} />
       </Routes>

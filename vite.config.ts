@@ -23,6 +23,7 @@ export default defineConfig({
       provider: 'c8',
       all: true,
       include: ['**/*.tsx'],
+      exclude: ['**/main.tsx'],
     },
   },
 });

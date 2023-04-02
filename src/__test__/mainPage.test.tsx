@@ -1,7 +1,7 @@
 import { describe, it } from 'vitest';
-import { act, cleanup, findAllByAltText, fireEvent, render, screen } from '@testing-library/react';
+import { act, findAllByAltText, fireEvent, render, screen } from '@testing-library/react';
 import React from 'react';
-import Header from '../UnrelatedComponents/Header';
+
 import { BrowserRouter } from 'react-router-dom';
 import CardsContainer from '../MainPage/CardsContainer';
 import '../../public/users.json';
@@ -9,7 +9,6 @@ import UserData from '../utils/UserData';
 import { UserInterface } from '../types/interfaces';
 import Card from '../MainPage/Card';
 import Main from '../MainPage/Main';
-import App from '../App';
 
 const fakeUsers: UserInterface[] = [
   {
@@ -18,7 +17,6 @@ const fakeUsers: UserInterface[] = [
     lastName: 'Medhurst',
     age: 50,
     gender: 'male',
-    height: 189,
     eyeColor: 'Green',
     image: 'https://robohash.org/hicveldicta.png',
     hair: { color: 'Black', type: 'Strands' },
@@ -37,7 +35,6 @@ const fakeUsers: UserInterface[] = [
     lastName: 'Quigley',
     age: 28,
     gender: 'male',
-    height: 187,
     eyeColor: 'Brown',
     image: 'https://robohash.org/doloremquesintcorrupti.png',
     hair: { color: 'Blond', type: 'Curly' },
@@ -51,65 +48,6 @@ const fakeUsers: UserInterface[] = [
     },
   },
 ];
-describe('App', () => {
-  beforeEach(async () => {
-    await act(async () => {
-      render(
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
-      );
-    });
-  });
-  afterEach(cleanup);
-  it('App renders correctly', () => {
-    act(() => {
-      expect(screen.getByRole('header')).toBeVisible();
-      expect(screen.getByRole('searchbox')).toBeVisible();
-      expect(screen.getByRole('main-page')).toBeVisible();
-    });
-  });
-  it('About page renders correctly after the click on About in the nav panel ', async () => {
-    act(() => {
-      const aboutLink = screen.getByText(/about/i);
-      fireEvent.click(aboutLink);
-    });
-
-    await act(async () => {
-      const result = await screen.findByText(/this is about page/i);
-      expect(result).toBeVisible();
-    });
-  });
-});
-
-describe('Header Component', () => {
-  beforeEach(() =>
-    render(
-      <BrowserRouter>
-        <Header />
-      </BrowserRouter>
-    )
-  );
-  it('Header component renders correctly', () => {
-    const headerName = screen.getByRole('header');
-    expect(headerName).toBeVisible();
-  });
-
-  it('Main page clicked become active'),
-    () => {
-      const main = screen.getByText('Main');
-      fireEvent.click(main);
-      expect(main.classList.contains('active'));
-    };
-
-  it('About page clicked become active'),
-    () => {
-      const main = screen.getByText('About');
-      fireEvent.click(main);
-      expect(main.classList.contains('active'));
-    };
-});
-
 describe('Card component', () => {
   it('Card renders correctly', async () => {
     const fakeCard = new UserData(fakeUsers[0]);

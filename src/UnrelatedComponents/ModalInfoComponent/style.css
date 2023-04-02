@@ -1,0 +1,29 @@
+@import '../../assets/_styleVariables.css';
+
+.modalInfo__bg {
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  z-index: 10;
+}
+.modalInfo__frame {
+  width: 40%;
+  border-radius: 5px;
+  padding: 20px;
+  background-color: white;
+  box-shadow: 2px 2px 5px var(--color-shadow);
+  border-top: 2px solid var(--color-top);
+  border-left: 2px solid var(--color-top);
+  border-bottom: 2px solid var(--color-bottom);
+  border-right: 2px solid var(--color-bottom);
+  color: black;
+  font-size: 1.2rem;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
