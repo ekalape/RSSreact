@@ -22,8 +22,10 @@ export default class UserData {
     this.eyeColor = rawData.eyeColor;
     const bd = rawData.birthDate.split('-');
     this.birthday = bd[2] + '/' + bd[1];
-    this.hairColor = rawData.hair.color;
-    this.hairType = rawData.hair.type;
+    if ('hairColor' in rawData) this.hairColor = rawData.hairColor;
+    else this.hairColor = rawData.hair.color;
+    if ('hairType' in rawData) this.hairType = rawData.hairType;
+    else this.hairType = rawData.hair.type;
     if ('city' in rawData) this.city = rawData.city;
     else this.city = rawData.address.city;
     if ('image' in rawData) this.image = rawData.image;

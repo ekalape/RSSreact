@@ -14,9 +14,11 @@
   "dependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-hook-form": "^7.43.8",
     "react-router-dom": "^6.8.2",
     "source-map": "^0.7.4",
-    "source-map-support": "^0.5.21"
+    "source-map-support": "^0.5.21",
+    "typescript": "^5.0.2"
   },
   "devDependencies": {
     "@testing-library/dom": "^9.0.1",
