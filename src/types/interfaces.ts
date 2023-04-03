@@ -8,7 +8,7 @@ export type EmptyProps = {
 export interface SearchWordInterface {
   searchWord: string;
 }
-export interface UserHairProp {
+export interface UsersecondProp {
   color: string;
   type: string;
 }
@@ -25,9 +25,9 @@ export interface UserInterface {
   firstName: string;
   lastName: string;
   gender: 'male' | 'female';
-  eyeColor: string;
+  firstColor: string;
   image: string;
-  hairColor: string;
+  secondColor: string;
   animal: string;
   birthDate: string;
   city: string;
@@ -37,8 +37,8 @@ export type UserCustomInterface = {
   firstName: string;
   lastName: string;
   gender: 'male' | 'female';
-  eyeColor: string;
-  hairColor: string;
+  firstColor: string;
+  secondColor: string;
   animal: string;
   birthDate: string;
   city: string;

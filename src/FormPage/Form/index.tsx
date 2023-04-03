@@ -56,16 +56,16 @@ const Form: FC<FormProps> = ({ cardNumber, callback }) => {
         max="2010-12-31"
       />
       <SelectComponent
-        selectName={'eyeColor'}
+        selectName={'firstColor'}
         register={register}
         selectOptions={['-', 'green', 'brown', 'grey', 'black', 'amber', 'blue']}
-        selectError={errors.eyeColor}
+        selectError={errors.firstColor}
       />
       <SelectComponent
-        selectName={'hairColor'}
+        selectName={'secondColor'}
         register={register}
         selectOptions={['-', 'blond', 'brown', 'chestnut', 'black', 'auburn']}
-        selectError={errors.hairColor}
+        selectError={errors.secondColor}
       />
       <SelectComponent
         selectName={'animal'}

@@ -8,14 +8,25 @@ export type ModalCardType = {
 };
 
 const ModalCard: FC<ModalCardType> = (props) => {
-  const { firstName, lastName, gender, birthday, age, animal, city, eyeColor, hairColor, image } =
-    props.user;
+  const {
+    firstName,
+    lastName,
+    gender,
+    birthday,
+    age,
+    animal,
+    city,
+    firstColor,
+    secondColor,
+    image,
+  } = props.user;
+  console.log('firstColor', firstColor);
 
-  const eyeStyle = {
-    backgroundColor: eyeColor,
+  const firstStyle = {
+    backgroundColor: firstColor,
   };
-  const hairStyle = {
-    backgroundColor: hairColor,
+  const secondStyle = {
+    backgroundColor: secondColor,
   };
   let src = '';
   if (typeof image === 'string') src = image;
@@ -52,17 +63,17 @@ const ModalCard: FC<ModalCardType> = (props) => {
           </p>
         </div>
         <div className="appearance__wrapper">
-          <div className="eyes-property__wrapper">
-            <span className="eyes__property-name">First color:</span>
-            <div className="appearance__eyes" style={eyeStyle} />
+          <div className="first-property__wrapper">
+            <span className="first__property-name">First color:</span>
+            <div className="appearance__first" style={firstStyle} />
 
-            <span className="eyes__property">{eyeColor}</span>
+            <span className="first__property">{firstColor}</span>
           </div>
-          <div className="hair-property__wrapper">
-            <span className="hair__property-name">Second color:</span>
-            <div className="appearance__hair" style={hairStyle} />
+          <div className="second-property__wrapper">
+            <span className="second__property-name">Second color:</span>
+            <div className="appearance__second" style={secondStyle} />
 
-            <span className="hair__property">{hairColor}</span>
+            <span className="second__property">{secondColor}</span>
           </div>
         </div>
       </div>

@@ -3,13 +3,13 @@ import { SelectProps } from '../../types/interfaces';
 
 const SelectComponent: FC<SelectProps> = (props) => {
   const { selectName, register, selectOptions, selectError } = props;
-  /*   let labelName = `${selectName.match('eye') || selectName.match('hair')} ${
+  /*   let labelName = `${selectName.match('first') || selectName.match('second')} ${
     selectName.match(/type/i) || selectName.match(/color/i)
   }`;
-  if (labelName.includes('eye')) labelName = 'eyes color'; */
+  if (labelName.includes('first')) labelName = 'first color'; */
   const labelName = `${
-    (selectName.match('eye') && selectName.replace('eye', 'First ')) ||
-    (selectName.match('hair') && selectName.replace('hair', 'Second ')) ||
+    (selectName.match('first') && selectName.replace('first', 'First ')) ||
+    (selectName.match('second') && selectName.replace('second', 'Second ')) ||
     selectName
   }`;
   return (

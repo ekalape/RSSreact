@@ -18,9 +18,9 @@ const fakeUsers: UserInterface[] = [
     lastName: 'Medhurst',
     age: 50,
     gender: 'male',
-    eyeColor: 'Green',
+    firstColor: 'Green',
     image: 'https://robohash.org/hicveldicta.png',
-    hair: { color: 'Black', type: 'Strands' },
+    second: { color: 'Black', type: 'Strands' },
     birthDate: '2000-12-25',
     address: {
       address: '1745 T Street Southeast',
@@ -36,9 +36,9 @@ const fakeUsers: UserInterface[] = [
     lastName: 'Quigley',
     age: 28,
     gender: 'male',
-    eyeColor: 'Brown',
+    firstColor: 'Brown',
     image: 'https://robohash.org/doloremquesintcorrupti.png',
-    hair: { color: 'Blond', type: 'Curly' },
+    second: { color: 'Blond', type: 'Curly' },
     birthDate: '2003-08-02',
     address: {
       address: '6007 Applegate Lane',

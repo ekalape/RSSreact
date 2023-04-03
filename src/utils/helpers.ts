@@ -4,9 +4,9 @@ import { API_ADDRESS } from './index';
 
 
 export function transformSearchWords(words: string[]) {
-    const filterKeys = ["firstName", "lastName", "age", "gender", "eyeColor", "eye", "eyes", "hair", "address", "birthDate"]
-    if (filterKeys.includes(words[0])) return words[0] === "eye" || words[0] === "eyes" ? `/filter?key=eyeColor&value=${words[1]}` :
-        words[0] === "hair" ? `/filter?key=hair.color&value=${words[1]}/filter?key=hair.type&value=${words[1]}` :
+    const filterKeys = ["firstName", "lastName", "age", "gender", "firstColor", "first", "first", "second", "address", "birthDate"]
+    if (filterKeys.includes(words[0])) return words[0] === "first" || words[0] === "first" ? `/filter?key=firstColor&value=${words[1]}` :
+        words[0] === "second" ? `/filter?key=second.color&value=${words[1]}/filter?key=second.type&value=${words[1]}` :
             `/filter?key=${words[0]}&value=${words[1]}`
     else return "";
 }

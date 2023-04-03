@@ -5,9 +5,9 @@ export default class UserData {
   firstName: string;
   lastName: string;
   gender: string;
-  eyeColor: string;
+  firstColor: string;
   birthday: string;
-  hairColor: string;
+  secondColor: string;
   animal: string;
   city: string;
   image: string | File | undefined;
@@ -18,13 +18,19 @@ export default class UserData {
     this.firstName = rawData.firstName;
     this.lastName = rawData.lastName;
     this.gender = rawData.gender;
-    this.eyeColor = rawData.eyeColor;
 
+    if (rawData.firstColor.includes(' ')) {
+      const ind = rawData.firstColor.lastIndexOf(' ');
+      this.firstColor = rawData.firstColor.slice(ind + 1);
+    } else this.firstColor = rawData.firstColor;
+    if (rawData.secondColor.includes(' ')) {
+      const ind = rawData.secondColor.lastIndexOf(' ');
+      this.secondColor = rawData.secondColor.slice(ind + 1);
+    } else this.secondColor = rawData.secondColor;
     const bd = rawData.birthDate.slice(0, 10).split('-');
     this.birthday = bd[2] + '/' + bd[1];
     this.age = new Date().getFullYear() - +bd[0];
 
-    this.hairColor = rawData.hairColor;
     this.animal = rawData.animal;
     this.city = rawData.city;
     if ('image' in rawData) this.image = rawData.image;
