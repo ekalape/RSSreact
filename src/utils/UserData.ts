@@ -19,7 +19,6 @@ export default class UserData {
     this.lastName = rawData.lastName;
     this.gender = rawData.gender;
     this.eyeColor = rawData.eyeColor;
-    console.log(typeof rawData.birthDate);
 
     const bd = rawData.birthDate.slice(0, 10).split('-');
     this.birthday = bd[2] + '/' + bd[1];

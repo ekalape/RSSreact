@@ -10,7 +10,6 @@ export type ModalCardType = {
 const ModalCard: FC<ModalCardType> = (props) => {
   const { firstName, lastName, gender, birthday, age, animal, city, eyeColor, hairColor, image } =
     props.user;
-  console.log(hairColor);
 
   const eyeStyle = {
     backgroundColor: eyeColor,

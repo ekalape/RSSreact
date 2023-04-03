@@ -5,9 +5,7 @@
   height: 200px;
   margin: 10% auto;
   position: relative;
-  border: 5px solid white;
   overflow-x: hidden;
-  box-shadow: inset 2px 2px 5px var(--color-shadow);
 }
 .loader__wrapper h4 {
   margin: 20px auto;
