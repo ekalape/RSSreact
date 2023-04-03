@@ -1,5 +1,5 @@
 import Search from '../Search';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { Suspense, useEffect, useRef, useState } from 'react';
 import './style.css';
 
 import CardsContainer from '../CardsContainer';
@@ -17,39 +17,30 @@ const Main = () => {
   const handleSearchWord = (word: string) => {
     if (word) {
       setSearchWord(word);
-      setIsLoading(true);
+      // setIsLoading(true);
     }
   };
   useEffect(() => {
     async function loadUsers() {
       const rawUsers = await getAllUsers();
-      usersData.current = rawUsers.users.map((u: UserInterface) => new UserData(u));
+      usersData.current = rawUsers.map((u: UserInterface) => new UserData(u));
       setUsers(usersData.current);
     }
 
     loadUsers();
   }, []);
+
   useEffect(() => {
-    const words = searchWord.split(' ');
-    const newUsers = usersData.current.filter((u: UserData) => {
-      const userSearchFields = Object.entries(u)
-        .filter((key) => key[0] !== 'image')
-        /*  .map((key) => String(key[1])); */
-        .flat()
-        .map(String);
-
-      return words.every((s) =>
-        userSearchFields.some((key) => key.toLowerCase().includes(s.toLowerCase()))
-      );
-    });
-
-    setUsers(newUsers);
-    setIsLoading(false);
+    const users = filterUsers(searchWord).then((usersArray) =>
+      setUsers(usersArray.map((u) => new UserData(u)))
+    );
   }, [searchWord]);
   return (
     <div className="main__wrapper" role={'main-page'}>
       <Search callback={handleSearchWord} />
-      {isLoading ? <Loader /> : <CardsContainer users={users} />}
+      <Suspense fallback={<Loader />}>
+        <CardsContainer users={users} /> {/*  {isLoading ? <Loader /> : } */}
+      </Suspense>
     </div>
   );
 };

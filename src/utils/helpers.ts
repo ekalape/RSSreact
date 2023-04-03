@@ -1,9 +1,7 @@
 import { API_ADDRESS } from './index';
 
 /* eslint-disable prettier/prettier */
-const eye = {
-    color: ['amber', 'brown', 'blue', 'green', 'gray'],
-};
+
 
 export function transformSearchWords(words: string[]) {
     const filterKeys = ["firstName", "lastName", "age", "gender", "eyeColor", "eye", "eyes", "hair", "address", "birthDate"]
@@ -11,4 +9,8 @@ export function transformSearchWords(words: string[]) {
         words[0] === "hair" ? `/filter?key=hair.color&value=${words[1]}/filter?key=hair.type&value=${words[1]}` :
             `/filter?key=${words[0]}&value=${words[1]}`
     else return "";
+}
+
+export function filterWords() {
+
 }

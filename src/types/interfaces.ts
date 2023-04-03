@@ -1,4 +1,4 @@
-import { FieldError, FieldErrors, UseFormRegister } from 'react-hook-form';
+import { FieldError, UseFormRegister } from 'react-hook-form';
 import UserData from '../utils/UserData';
 
 export type EmptyProps = {
@@ -24,13 +24,13 @@ export interface UserInterface {
   id: number;
   firstName: string;
   lastName: string;
-  age: number;
   gender: 'male' | 'female';
   eyeColor: string;
   image: string;
-  hair: UserHairProp;
+  hairColor: string;
+  animal: string;
   birthDate: string;
-  address: UserAddressProp;
+  city: string;
 }
 export type UserCustomInterface = {
   id: number;
