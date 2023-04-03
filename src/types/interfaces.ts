@@ -36,11 +36,10 @@ export type UserCustomInterface = {
   id: number;
   firstName: string;
   lastName: string;
-  age: number;
   gender: 'male' | 'female';
   eyeColor: string;
   hairColor: string;
-  hairType: string;
+  animal: string;
   birthDate: string;
   city: string;
   imageFile: File | undefined;

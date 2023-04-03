@@ -40,8 +40,10 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  font-size: 0.8rem;
 }
 .card-data__property {
   font-weight: normal;
   color: var(--color-f-secondary);
+  text-transform: none;
 }

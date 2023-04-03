@@ -19,13 +19,14 @@ const Form: FC<FormProps> = ({ cardNumber, callback }) => {
 
   const onSubmit: SubmitHandler<UserCustomFormInterface> = (data) => {
     const file = data.imageFile?.[0];
-    const age = new Date().getFullYear() - +data.birthDate.slice(0, 4);
+    console.log('data', data);
     const user: UserData = new UserData({
       ...data,
       id: cardNumber,
-      age: age,
       imageFile: file,
     });
+    console.log('user', user);
+
     callback(user);
     reset();
   };
@@ -67,10 +68,23 @@ const Form: FC<FormProps> = ({ cardNumber, callback }) => {
         selectError={errors.hairColor}
       />
       <SelectComponent
-        selectName={'hairType'}
+        selectName={'animal'}
         register={register}
-        selectOptions={['-', 'weavy', 'straight', 'curly', 'very curly', 'strands']}
-        selectError={errors.hairType}
+        selectOptions={[
+          '-',
+          'Dog',
+          'Rabbit',
+          'Horse',
+          'Cat',
+          'Beaver',
+          'Giraffe',
+          'Chameleon',
+          'Hamster',
+          'Antelope',
+          'Orangutan',
+          'Tiger',
+        ]}
+        selectError={errors.animal}
       />
       <InputFile type="file" inputName="imageFile" register={register} errors={errors.imageFile} />
       <label

@@ -31,9 +31,7 @@ const Main = () => {
   }, []);
 
   useEffect(() => {
-    const users = filterUsers(searchWord).then((usersArray) =>
-      setUsers(usersArray.map((u) => new UserData(u)))
-    );
+    filterUsers(searchWord).then((usersArray) => setUsers(usersArray.map((u) => new UserData(u))));
   }, [searchWord]);
   return (
     <div className="main__wrapper" role={'main-page'}>

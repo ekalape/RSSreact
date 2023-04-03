@@ -26,8 +26,7 @@ export default class UserData {
     this.age = new Date().getFullYear() - +bd[0];
 
     this.hairColor = rawData.hairColor;
-    if ('hairType' in rawData) this.animal = rawData.hairType;
-    else this.animal = rawData.animal;
+    this.animal = rawData.animal;
     this.city = rawData.city;
     if ('image' in rawData) this.image = rawData.image;
     else this.image = rawData.imageFile;

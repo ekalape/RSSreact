@@ -82,10 +82,16 @@
   flex-direction: column;
   gap: 10px;
 }
+.card-data__wrapper p {
+  text-transform: uppercase;
+}
 .modalcard-data__property {
   font-weight: normal;
   color: var(--color-bg);
+  font-size: 1rem;
+  text-transform: none;
 }
+
 .appearance__wrapper {
   width: 100%;
   display: grid;
