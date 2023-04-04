@@ -55,7 +55,7 @@ describe('Compiling Form Test', () => {
 
     fireEvent.change(screen.getByLabelText(/first color/i), { target: { value: 'green' } });
     fireEvent.change(screen.getByLabelText(/second color/i), { target: { value: 'brown' } });
-    fireEvent.change(screen.getByLabelText(/second type/i), { target: { value: 'weavy' } });
+    fireEvent.change(screen.getByLabelText(/animal/i), { target: { value: 'Dog' } });
     user.click(screen.getByLabelText(/female/i));
     user.click(screen.getByLabelText(/permission/i));
     user.upload(fileInput, file);
