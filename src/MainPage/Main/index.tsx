@@ -9,28 +9,27 @@ import { getAllUsers, filterUsers } from '../../utils';
 import Loader from '../../UnrelatedComponents/Loader';
 
 const Main = () => {
-  const [searchWord, setSearchWord] = useState('');
+  const [searchWord, setSearchWord] = useState(localStorage.getItem('eklp-storagedInput') || '');
   const [users, setUsers] = useState<UserData[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const usersData = useRef<UserData[]>([]);
 
   const handleSearchWord = (word: string) => {
     setSearchWord(word);
+    console.log('word inside handle fn >> ', word);
   };
-  useEffect(() => {
-    async function loadUsers() {
-      const rawUsers = await getAllUsers();
-      usersData.current = rawUsers.map((u: UserInterface) => new UserData(u));
-      setUsers(usersData.current);
-    }
-    loadUsers();
-  }, []);
 
   useEffect(() => {
+    console.log('searchWord inside useEffect', searchWord);
     setIsLoading(true);
-    filterUsers(searchWord)
-      .then((usersArray) => setUsers(usersArray.map((u) => new UserData(u))))
-      .finally(() => setIsLoading(false));
+    if (searchWord.trim()) {
+      filterUsers(searchWord)
+        .then((usersArray) => setUsers(usersArray.map((u) => new UserData(u))))
+        .finally(() => setIsLoading(false));
+    } else {
+      getAllUsers()
+        .then((users) => setUsers(users.map((u: UserInterface) => new UserData(u))))
+        .finally(() => setIsLoading(false));
+    }
   }, [searchWord]);
   return (
     <div className="main__wrapper" role={'main-page'}>
