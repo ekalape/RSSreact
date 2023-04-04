@@ -16,3 +16,10 @@ export async function filterUsers(searchWord: string) {
     return users;
   } else return await getAllUsers();
 }
+
+export async function getUser(id: number) {
+  const reqAddress = `https://642a6aa000dfa3b547453ae9.mockapi.io/api/users/${id}`;
+  const res = await fetch(reqAddress);
+  const user: UserInterface = await res.json();
+  return user;
+}

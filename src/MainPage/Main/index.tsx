@@ -35,9 +35,8 @@ const Main = () => {
   return (
     <div className="main__wrapper" role={'main-page'}>
       <Search callback={handleSearchWord} />
-      <Suspense fallback={<Loader />}>
-        {isLoading ? <Loader /> : <CardsContainer users={users} />}
-      </Suspense>
+
+      {isLoading ? <Loader /> : <CardsContainer users={users} />}
     </div>
   );
 };

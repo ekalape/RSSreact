@@ -20,8 +20,6 @@ const ModalCard: FC<ModalCardType> = (props) => {
     secondColor,
     image,
   } = props.user;
-  console.log('firstColor', firstColor);
-
   const firstStyle = {
     backgroundColor: firstColor,
   };

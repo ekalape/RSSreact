@@ -19,14 +19,11 @@ const Form: FC<FormProps> = ({ cardNumber, callback }) => {
 
   const onSubmit: SubmitHandler<UserCustomFormInterface> = (data) => {
     const file = data.imageFile?.[0];
-    console.log('data', data);
     const user: UserData = new UserData({
       ...data,
       id: cardNumber,
       imageFile: file,
     });
-    console.log('user', user);
-
     callback(user);
     reset();
   };
@@ -58,13 +55,23 @@ const Form: FC<FormProps> = ({ cardNumber, callback }) => {
       <SelectComponent
         selectName={'firstColor'}
         register={register}
-        selectOptions={['-', 'green', 'brown', 'grey', 'black', 'amber', 'blue']}
+        selectOptions={[
+          '-',
+          'lightsalmon',
+          'mediumpurple',
+          'midnightblue',
+          'mediumvioletred',
+          'royalblue',
+          'saddlebrown',
+          'springgreen',
+          'yellowgreen',
+        ]}
         selectError={errors.firstColor}
       />
       <SelectComponent
         selectName={'secondColor'}
         register={register}
-        selectOptions={['-', 'blond', 'brown', 'chestnut', 'black', 'auburn']}
+        selectOptions={['-', 'blue', 'brown', 'green', 'black', 'yellow', 'purple', 'teal', 'gray']}
         selectError={errors.secondColor}
       />
       <SelectComponent

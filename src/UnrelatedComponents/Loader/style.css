@@ -6,6 +6,8 @@
   margin: 10% auto;
   position: relative;
   overflow-x: hidden;
+  background: rgba(255, 255, 255, 0.6);
+  z-index: 13;
 }
 .loader__wrapper h4 {
   margin: 20px auto;
