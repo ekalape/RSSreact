@@ -50,7 +50,7 @@ describe('Compiling Form Test', () => {
 
     fireEvent.change(firstnameInput, { target: { value: 'Terry' } });
     fireEvent.change(screen.getByLabelText(/lastname/i), { target: { value: 'Breown' } });
-    fireEvent.change(screen.getByLabelText(/country/i), { target: { value: 'country' } });
+    fireEvent.change(screen.getByLabelText(/country/i), { target: { value: 'Japan' } });
     fireEvent.change(screen.getByLabelText(/date/i), { target: { value: '2000-02-02' } });
 
     fireEvent.change(screen.getByLabelText(/first color/i), { target: { value: 'green' } });

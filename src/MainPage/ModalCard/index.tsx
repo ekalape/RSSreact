@@ -32,9 +32,10 @@ const ModalCard: FC<ModalCardType> = (props) => {
   function closeModal() {
     props.onCloseFn();
   }
+
   return (
     <div className="modalCard__bg">
-      <div className="modalCard__frame">
+      <div className="modalCard__frame" role="modal-window">
         <button className="modal-closeBtn" onClick={closeModal}>
           x
         </button>

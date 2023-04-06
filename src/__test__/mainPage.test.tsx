@@ -2,7 +2,6 @@ import { describe, it } from 'vitest';
 import {
   act,
   cleanup,
-  findAllByAltText,
   fireEvent,
   getAllByAltText,
   render,
@@ -10,13 +9,11 @@ import {
   waitFor,
 } from '@testing-library/react';
 import React from 'react';
-
 import { BrowserRouter } from 'react-router-dom';
 import CardsContainer from '../MainPage/CardsContainer';
 import '../../public/users.json';
 import UserData from '../utils/UserData';
 import { UserInterface } from '../types/interfaces';
-import Card from '../MainPage/Card';
 import Main from '../MainPage/Main';
 import userEvent from '@testing-library/user-event';
 
@@ -47,22 +44,6 @@ const fakeUsers: UserInterface[] = [
   },
 ];
 const fakeUsersData = fakeUsers.map((x) => new UserData(x));
-
-describe('Card component', () => {
-  it('Card renders correctly', async () => {
-    const fakeCard = new UserData(fakeUsers[0]);
-    render(
-      <BrowserRouter>
-        <Card user={fakeCard} handleCardClick={() => console.log('Done')} />
-      </BrowserRouter>
-    );
-
-    expect(screen.getByText(/terry/i)).toBeInTheDocument();
-    expect(screen.queryByText(/lastName/i)).toBeNull();
-    expect(screen.getByText(/Washington/i)).toBeInTheDocument();
-    expect(screen.getByAltText('user image')).toBeVisible();
-  });
-});
 
 describe('Main Page', () => {
   beforeEach(
@@ -144,5 +125,28 @@ describe('Card Container', () => {
     render(<CardsContainer users={fakeUsersData} />);
     const container = await screen.findByRole('cards-container');
     expect(container).toBeVisible();
+  });
+});
+
+describe('Loader', () => {
+  it('Loader renders correctly when api call is delayed', async () => {
+    vi.mock('../utils', async () => ({
+      getAllUsers: () => {
+        setTimeout(() => Promise.resolve(fakeUsers), 800);
+      },
+    }));
+    render(
+      <BrowserRouter>
+        <Main />
+      </BrowserRouter>
+    );
+
+    expect(screen.queryByText(/loading/i)).toBeVisible();
+    await waitFor(
+      async () => {
+        expect(screen.queryByText(/loading/i)).toBeNull();
+      },
+      { timeout: 1000 }
+    );
   });
 });

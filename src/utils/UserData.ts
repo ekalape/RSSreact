@@ -35,6 +35,5 @@ export default class UserData {
     this.country = rawData.country;
     if ('image' in rawData) this.image = rawData.image + '?lock=' + this.id;
     else this.image = rawData.imageFile;
-    console.log(this.image);
   }
 }

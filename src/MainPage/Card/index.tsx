@@ -52,7 +52,7 @@ const Card: FC<CardType> = (props: CardType) => {
           </Suspense>,
           document.body
         )}
-      <div className="card__wrapper" onClick={onCardClick}>
+      <div className="card__wrapper" onClick={onCardClick} role="single-card">
         <img src={src} alt="user image" />
         <div className="card__names">
           <p>{firstName}</p>
