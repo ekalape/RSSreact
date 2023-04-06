@@ -20,7 +20,7 @@ describe('Form Page', () => {
     expect(screen.getByText(/compile/i));
     expect(screen.getByPlaceholderText(/firstname/i));
     expect(screen.getByPlaceholderText(/lastname/i));
-    expect(screen.getByPlaceholderText(/city/i));
+    expect(screen.getByPlaceholderText(/country/i));
   });
   it('Correctly shows error messages when all the inputs remain empty', async () => {
     const submitBtn = screen.getByText(/submit/i);
@@ -50,7 +50,7 @@ describe('Compiling Form Test', () => {
 
     fireEvent.change(firstnameInput, { target: { value: 'Terry' } });
     fireEvent.change(screen.getByLabelText(/lastname/i), { target: { value: 'Breown' } });
-    fireEvent.change(screen.getByLabelText(/city/i), { target: { value: 'City' } });
+    fireEvent.change(screen.getByLabelText(/country/i), { target: { value: 'country' } });
     fireEvent.change(screen.getByLabelText(/date/i), { target: { value: '2000-02-02' } });
 
     fireEvent.change(screen.getByLabelText(/first color/i), { target: { value: 'green' } });

@@ -9,7 +9,7 @@ export default class UserData {
   birthday: string;
   secondColor: string;
   animal: string;
-  city: string;
+  country: string;
   image: string | File | undefined;
   age: number;
 
@@ -32,8 +32,9 @@ export default class UserData {
     this.age = new Date().getFullYear() - +bd[0];
 
     this.animal = rawData.animal;
-    this.city = rawData.city;
-    if ('image' in rawData) this.image = rawData.image;
+    this.country = rawData.country;
+    if ('image' in rawData) this.image = rawData.image + '?lock=' + this.id;
     else this.image = rawData.imageFile;
+    console.log(this.image);
   }
 }

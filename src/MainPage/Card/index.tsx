@@ -12,7 +12,7 @@ export type CardType = {
 };
 
 const Card: FC<CardType> = (props: CardType) => {
-  const { id, firstName, lastName, city, image } = props.user;
+  const { id, firstName, lastName, country, image } = props.user;
   const [userId, setUserId] = useState<number | null>(null);
   const [currentUser, setCurrentUser] = useState<UserData | null>(null);
   const [openModal, setOpenModal] = useState(false);
@@ -42,7 +42,13 @@ const Card: FC<CardType> = (props: CardType) => {
         currentUser &&
         createPortal(
           <Suspense fallback={<Loader />}>
-            <ModalCard user={currentUser} onCloseFn={() => setOpenModal(false)} />
+            <ModalCard
+              user={currentUser}
+              onCloseFn={() => {
+                setOpenModal(false);
+                setUserId(null);
+              }}
+            />
           </Suspense>,
           document.body
         )}
@@ -54,7 +60,7 @@ const Card: FC<CardType> = (props: CardType) => {
         </div>
         <div className="card-data__wrapper">
           <p>
-            <span className="card-data__property">City:</span> {city}
+            <span className="card-data__property">Country:</span> {country}
           </p>
         </div>
       </div>{' '}

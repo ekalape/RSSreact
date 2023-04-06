@@ -31,7 +31,7 @@ const fakeUsers: UserInterface[] = [
     secondColor: 'Red',
     birthDate: '2000-12-25',
     animal: 'Dog',
-    city: 'Washington',
+    country: 'Washington',
   },
   {
     id: 2,
@@ -43,7 +43,7 @@ const fakeUsers: UserInterface[] = [
     secondColor: 'Blue',
     birthDate: '2003-08-02',
     animal: 'Lion',
-    city: 'Louisville',
+    country: 'Louisville',
   },
 ];
 const fakeUsersData = fakeUsers.map((x) => new UserData(x));

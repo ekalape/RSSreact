@@ -15,11 +15,9 @@ const Main = () => {
 
   const handleSearchWord = (word: string) => {
     setSearchWord(word);
-    console.log('word inside handle fn >> ', word);
   };
 
   useEffect(() => {
-    console.log('searchWord inside useEffect', searchWord);
     setIsLoading(true);
     if (searchWord.trim()) {
       filterUsers(searchWord)

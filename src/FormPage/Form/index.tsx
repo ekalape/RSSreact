@@ -44,7 +44,12 @@ const Form: FC<FormProps> = ({ cardNumber, callback }) => {
         errors={errors.lastName}
       />
       <RadioComponent inputName={'gender'} errors={errors.gender} register={register} />
-      <InputStringComponent type="text" inputName="city" register={register} errors={errors.city} />
+      <InputStringComponent
+        type="text"
+        inputName="country"
+        register={register}
+        errors={errors.country}
+      />
       <InputDate
         type="date"
         inputName="birthDate"

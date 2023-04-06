@@ -15,7 +15,7 @@ const ModalCard: FC<ModalCardType> = (props) => {
     birthday,
     age,
     animal,
-    city,
+    country,
     firstColor,
     secondColor,
     image,
@@ -43,7 +43,7 @@ const ModalCard: FC<ModalCardType> = (props) => {
           <p>{lastName}</p>
         </div>
         <img src={src} alt="user image" />
-        <div className="card-data__wrapper">
+        <div className="card-data__wrapper modal-data__wrapper">
           <p>
             <span className="modalcard-data__property">Gender:</span> {gender}
           </p>
@@ -57,7 +57,7 @@ const ModalCard: FC<ModalCardType> = (props) => {
             <span className="modalcard-data__property">Animal:</span> {animal}
           </p>
           <p>
-            <span className="modalcard-data__property">City:</span> {city}
+            <span className="modalcard-data__property">Country:</span> {country}
           </p>
         </div>
         <div className="appearance__wrapper">

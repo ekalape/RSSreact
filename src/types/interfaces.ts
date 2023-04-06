@@ -14,7 +14,7 @@ export interface UsersecondProp {
 }
 export interface UserAddressProp {
   address: string;
-  city: string;
+  country: string;
   coordinates: { lat: number; lng: number };
   postalCode: string;
   state: string;
@@ -30,7 +30,7 @@ export interface UserInterface {
   secondColor: string;
   animal: string;
   birthDate: string;
-  city: string;
+  country: string;
 }
 export type UserCustomInterface = {
   id: number;
@@ -41,7 +41,7 @@ export type UserCustomInterface = {
   secondColor: string;
   animal: string;
   birthDate: string;
-  city: string;
+  country: string;
   imageFile: File | undefined;
 };
 export type UserCustomFormInterface = Omit<UserCustomInterface, 'imageFile'> & {
