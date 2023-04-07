@@ -1,23 +1,13 @@
 import { describe, it } from 'vitest';
-import {
-  act,
-  cleanup,
-  findAllByAltText,
-  fireEvent,
-  getAllByAltText,
-  render,
-  screen,
-  waitFor,
-} from '@testing-library/react';
+import { act, cleanup, render, screen } from '@testing-library/react';
 import React from 'react';
 
 import { BrowserRouter } from 'react-router-dom';
 import CardsContainer from '../MainPage/CardsContainer';
-import '../../public/users.json';
 import UserData from '../utils/UserData';
 import { UserInterface } from '../types/interfaces';
 import Card from '../MainPage/Card';
-import Main from '../MainPage/Main';
+
 import userEvent from '@testing-library/user-event';
 
 const fakeUsers: UserInterface[] = [
@@ -46,7 +36,7 @@ const fakeUsers: UserInterface[] = [
     country: 'Louisville',
   },
 ];
-const fakeUsersData = fakeUsers.map((x) => new UserData(x));
+
 const user = userEvent.setup();
 
 describe('Card component', () => {
@@ -58,7 +48,7 @@ describe('Card component', () => {
     vi.mock('../utils', async () => ({
       getAllUsers: () => Promise.resolve(fakeUsers),
       filterUsers: (word: string) => Promise.resolve(fakeUsers.filter((x) => x.firstName === word)),
-      getUser: (id: number) => Promise.resolve(fakeUsers[0]),
+      getUser: () => Promise.resolve(fakeUsers[0]),
     }));
   });
 

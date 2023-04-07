@@ -11,7 +11,6 @@ import {
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import CardsContainer from '../MainPage/CardsContainer';
-import '../../public/users.json';
 import UserData from '../utils/UserData';
 import { UserInterface } from '../types/interfaces';
 import Main from '../MainPage/Main';

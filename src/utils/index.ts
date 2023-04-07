@@ -19,7 +19,14 @@ export async function filterUsers(searchWord: string) {
 
 export async function getUser(id: number) {
   const reqAddress = `https://642a6aa000dfa3b547453ae9.mockapi.io/api/users/${id}`;
-  const res = await fetch(reqAddress);
-  const user: UserInterface = await res.json();
-  return user;
+  const res = await fetch(reqAddress).catch(() => {
+    throw Error('No such user');
+  });
+
+  if (res.ok) {
+    const user: UserInterface = await res.json();
+    return user;
+  } else {
+    return 'No such user';
+  }
 }

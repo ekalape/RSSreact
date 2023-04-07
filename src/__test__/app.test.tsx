@@ -3,8 +3,6 @@ import { act, cleanup, fireEvent, render, screen } from '@testing-library/react'
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 
-import '../../public/users.json';
-
 import App from '../App';
 
 describe('App', () => {

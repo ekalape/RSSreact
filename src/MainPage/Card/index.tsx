@@ -30,8 +30,10 @@ const Card: FC<CardType> = (props: CardType) => {
     (async () => {
       if (userId) {
         const user = await getUser(userId);
-        setCurrentUser(new UserData(user));
-        setOpenModal(true);
+        if (typeof user !== 'string') {
+          setCurrentUser(new UserData(user));
+          setOpenModal(true);
+        } else alert(user);
       }
     })();
   }, [userId]);
