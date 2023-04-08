@@ -1,4 +1,4 @@
-import { describe, it, Mock } from 'vitest';
+import { describe, it } from 'vitest';
 import {
   act,
   cleanup,
