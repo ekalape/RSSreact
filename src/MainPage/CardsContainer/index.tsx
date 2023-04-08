@@ -11,7 +11,7 @@ const CardsContainer: FC<{ users: UserData[] }> = ({ users }) => {
         {users.length > 0 ? (
           [...users].map((u) => <Card user={u} key={u.id} />)
         ) : (
-          <p>No items found</p>
+          <p className="fail-message">Sorry, no items found</p>
         )}
       </div>
     </>

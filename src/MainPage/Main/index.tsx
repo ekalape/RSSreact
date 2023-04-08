@@ -12,6 +12,7 @@ const Main = () => {
   const [searchWord, setSearchWord] = useState(localStorage.getItem('eklp-storagedInput') || '');
   const [users, setUsers] = useState<UserData[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [isFailed, setIsFailed] = useState(false);
 
   const handleSearchWord = (word: string) => {
     setSearchWord(word);
@@ -22,18 +23,31 @@ const Main = () => {
     if (searchWord.trim()) {
       filterUsers(searchWord)
         .then((usersArray) => setUsers(usersArray.map((u) => new UserData(u))))
+        .catch(() => {
+          setIsFailed(true);
+        })
         .finally(() => setIsLoading(false));
     } else {
       getAllUsers()
         .then((users) => setUsers(users.map((u: UserInterface) => new UserData(u))))
+        .catch(() => {
+          setIsFailed(true);
+        })
         .finally(() => setIsLoading(false));
     }
   }, [searchWord]);
+
   return (
     <div className="main__wrapper" role={'main-page'}>
       <Search callback={handleSearchWord} />
 
-      {isLoading ? <Loader /> : <CardsContainer users={users} />}
+      {isLoading ? (
+        <Loader />
+      ) : !isFailed ? (
+        <CardsContainer users={users} />
+      ) : (
+        <p className="fail-message">Something went wrong here...</p>
+      )}
     </div>
   );
 };

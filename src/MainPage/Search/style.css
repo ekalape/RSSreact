@@ -45,7 +45,18 @@
 }
 
 .reset-btn {
-  padding: 5px;
-  height: 30px;
+  padding: 5px 10px;
+  height: 40px;
+  border: 2px solid var(--color-bg);
+  border-radius: 5px;
+  color: var(--color-shadow);
+  transition: 0.3s;
   cursor: pointer;
+}
+.reset-btn:hover {
+  background-color: var(--color-f-secondary-light);
+}
+.reset-btn:active,
+.search-btn:active {
+  transform: scale(0.95);
 }

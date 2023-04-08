@@ -37,9 +37,11 @@ describe('Fetch test', () => {
     vi.restoreAllMocks();
   });
   it('getAllUsers returns correct data', async () => {
-    global.fetch = vi.fn(() => ({
-      json: () => Promise.resolve(fakeUsers),
-    })) as Mock;
+    global.fetch = vi.fn(() =>
+      Promise.resolve({
+        json: () => Promise.resolve(fakeUsers),
+      })
+    ) as Mock;
     const users = await getAllUsers();
     expect(fetch).toBeCalledTimes(1);
     expect(users).toHaveLength(2);

@@ -1,4 +1,4 @@
-import { describe, it } from 'vitest';
+import { describe, it, Mock } from 'vitest';
 import {
   act,
   cleanup,
@@ -43,8 +43,12 @@ const fakeUsers: UserInterface[] = [
   },
 ];
 const fakeUsersData = fakeUsers.map((x) => new UserData(x));
+afterEach(() => {
+  cleanup();
+  vi.restoreAllMocks();
+});
 
-describe('Main Page', () => {
+describe('Main Page render', () => {
   beforeEach(
     async () =>
       await act(async () => {
@@ -73,7 +77,7 @@ describe('Main Page', () => {
   });
 });
 
-describe('Main Page', () => {
+describe('Main Page functionality', () => {
   const user = userEvent.setup();
   afterEach(() => {
     cleanup();
@@ -93,8 +97,8 @@ describe('Main Page', () => {
     });
     await waitFor(
       async () => {
-        const cc = await screen.findByRole('cards-container');
-        expect(cc).toContainHTML('<p>No items found</p>');
+        const cc = await screen.findByText(/No items found/i);
+        expect(cc).toBeInTheDocument();
       },
       { timeout: 500 }
     );
@@ -102,7 +106,14 @@ describe('Main Page', () => {
   it('Card Container filters correctly', async () => {
     vi.mock('../utils', async () => ({
       getAllUsers: () => Promise.resolve(fakeUsers),
-      filterUsers: (word: string) => Promise.resolve(fakeUsers.filter((x) => x.firstName === word)),
+      filterUsers: (word: string) =>
+        Promise.resolve(
+          fakeUsers.filter((x) => {
+            console.log('x >> ', x);
+
+            return x.firstName === word;
+          })
+        ),
     }));
     await act(async () => render(<Main />));
     const searchBar = screen.getByRole('searchbox');
