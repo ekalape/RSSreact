@@ -1,4 +1,3 @@
-import React from 'react';
 import { describe, it, Mock } from 'vitest';
 import { cleanup } from '@testing-library/react';
 

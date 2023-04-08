@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, MouseEvent } from 'react';
 import UserData from 'utils/UserData';
 import './style.css';
 
@@ -29,12 +29,14 @@ const ModalCard: FC<ModalCardType> = (props) => {
   let src = '';
   if (typeof image === 'string') src = image;
   else if (image instanceof File) src = URL.createObjectURL(image);
-  function closeModal() {
-    props.onCloseFn();
+  function closeModal(e: MouseEvent<HTMLElement>) {
+    e.stopPropagation();
+    const target = e.target as HTMLElement;
+    if (['modalCard__bg', 'modal-closeBtn'].includes(target.className)) props.onCloseFn();
   }
 
   return (
-    <div className="modalCard__bg">
+    <div className="modalCard__bg" onClick={closeModal}>
       <div className="modalCard__frame" role="modal-window">
         <button className="modal-closeBtn" onClick={closeModal}>
           x
@@ -44,7 +46,7 @@ const ModalCard: FC<ModalCardType> = (props) => {
           <p>{lastName}</p>
         </div>
         <img src={src} alt="user image" />
-        <div className="card-data__wrapper modal-data__wrapper">
+        <div className="modal-data__wrapper">
           <p>
             <span className="modalcard-data__property">Gender:</span> {gender}
           </p>
@@ -55,7 +57,8 @@ const ModalCard: FC<ModalCardType> = (props) => {
             <span className="modalcard-data__property">Birthday:</span> {birthday}
           </p>
           <p>
-            <span className="modalcard-data__property">Animal:</span> {animal}
+            <span className="modalcard-data__property">Animal:</span>{' '}
+            {animal.at(0)?.toUpperCase() + animal.slice(1)}
           </p>
           <p>
             <span className="modalcard-data__property">Country:</span> {country}

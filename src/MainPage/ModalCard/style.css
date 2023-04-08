@@ -85,6 +85,16 @@
 .card-data__wrapper p {
   text-transform: uppercase;
 }
+.modal-data__wrapper {
+  padding: 10px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.modal-data__wrapper p {
+  font-size: 1.2rem;
+}
 .modalcard-data__property {
   font-weight: normal;
   color: var(--color-bg);
@@ -94,16 +104,6 @@
 .modal-data__wrapper {
   font-size: 1rem;
 }
-/* .modalCard__frame::before {
-  content: '';
-  display: block;
-  background-color: var(--color-f-secondary);
-  width: 2px;
-  height: 60%;
-  position: absolute;
-  left: 50%;
-  top: 25%;
-} */
 
 .appearance__wrapper {
   width: 100%;
@@ -201,13 +201,14 @@
   .modalCard__frame img {
     grid-area: 2/4/2/1;
   }
-  .modalCard__frame .card-data__wrapper {
+  .modalCard__frame .modal-data__wrapper {
     grid-area: 3 / 1 / 4 / 2;
+    align-items: center;
     margin-top: 20px;
   }
 }
 @media (max-width: 500px) {
-  .modalCard__frame .card-data__wrapper {
+  .modalCard__frame .modal-data__wrapper {
     grid-area: 3 / 1 / 4 / 4;
     margin-top: 20px;
   }

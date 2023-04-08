@@ -1,4 +1,4 @@
-import React, { FC, Suspense, useEffect, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { getUser } from '../../utils';
 import UserData from '../../utils/UserData';
 import './style.css';
@@ -16,6 +16,7 @@ const Card: FC<CardType> = (props: CardType) => {
   const [userId, setUserId] = useState<number | null>(null);
   const [currentUser, setCurrentUser] = useState<UserData | null>(null);
   const [openModal, setOpenModal] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   let src = '';
   if (typeof image === 'string') src = image;
@@ -29,10 +30,12 @@ const Card: FC<CardType> = (props: CardType) => {
   useEffect(() => {
     (async () => {
       if (userId) {
+        setIsLoading(true);
         const user = await getUser(userId);
         if (typeof user !== 'string') {
           setCurrentUser(new UserData(user));
           setOpenModal(true);
+          setIsLoading(false);
         } else alert(user);
       }
     })();
@@ -40,18 +43,23 @@ const Card: FC<CardType> = (props: CardType) => {
 
   return (
     <>
+      {isLoading &&
+        createPortal(
+          <div className="loader__background">
+            <Loader />
+          </div>,
+          document.body
+        )}
       {openModal &&
         currentUser &&
         createPortal(
-          <Suspense fallback={<Loader />}>
-            <ModalCard
-              user={currentUser}
-              onCloseFn={() => {
-                setOpenModal(false);
-                setUserId(null);
-              }}
-            />
-          </Suspense>,
+          <ModalCard
+            user={currentUser}
+            onCloseFn={() => {
+              setOpenModal(false);
+              setUserId(null);
+            }}
+          />,
           document.body
         )}
       <div className="card__wrapper" onClick={onCardClick} role="single-card">
@@ -65,7 +73,7 @@ const Card: FC<CardType> = (props: CardType) => {
             <span className="card-data__property">Country:</span> {country}
           </p>
         </div>
-      </div>{' '}
+      </div>
     </>
   );
 };
