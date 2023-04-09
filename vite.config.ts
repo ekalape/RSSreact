@@ -22,8 +22,8 @@ export default defineConfig({
       enabled: true,
       provider: 'c8',
       all: true,
-      include: ['**/*.tsx'],
-      exclude: ['**/main.tsx'],
+      include: ['**/*.tsx', '**/*.ts'],
+      exclude: ['**/main.tsx', '**/vite*.ts', '**/interfaces.ts'],
     },
   },
 });

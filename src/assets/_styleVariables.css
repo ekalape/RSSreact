@@ -2,6 +2,7 @@ html {
   --color-bg: rgb(87, 87, 87);
   --color-bg-darker: rgb(77, 77, 77);
   --color-top: rgb(194, 194, 194);
+  --color-top_alt: rgb(230, 230, 230);
   --color-bottom: rgb(63, 63, 63);
   --color-shadow: rgb(37, 37, 37);
 
@@ -9,4 +10,5 @@ html {
   --color-f-primary-dark: rgb(41, 41, 41);
   --color-f-primary-light: rgb(145, 145, 145);
   --color-f-secondary: rgb(202, 202, 202);
+  --color-f-secondary-light: rgb(219, 218, 218);
 }

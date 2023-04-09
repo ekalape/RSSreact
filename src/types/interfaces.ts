@@ -1,4 +1,4 @@
-import { FieldError, FieldErrors, UseFormRegister } from 'react-hook-form';
+import { FieldError, UseFormRegister } from 'react-hook-form';
 import UserData from '../utils/UserData';
 
 export type EmptyProps = {
@@ -8,13 +8,13 @@ export type EmptyProps = {
 export interface SearchWordInterface {
   searchWord: string;
 }
-export interface UserHairProp {
+export interface UsersecondProp {
   color: string;
   type: string;
 }
 export interface UserAddressProp {
   address: string;
-  city: string;
+  country: string;
   coordinates: { lat: number; lng: number };
   postalCode: string;
   state: string;
@@ -24,25 +24,24 @@ export interface UserInterface {
   id: number;
   firstName: string;
   lastName: string;
-  age: number;
   gender: 'male' | 'female';
-  eyeColor: string;
+  firstColor: string;
   image: string;
-  hair: UserHairProp;
+  secondColor: string;
+  animal: string;
   birthDate: string;
-  address: UserAddressProp;
+  country: string;
 }
 export type UserCustomInterface = {
   id: number;
   firstName: string;
   lastName: string;
-  age: number;
   gender: 'male' | 'female';
-  eyeColor: string;
-  hairColor: string;
-  hairType: string;
+  firstColor: string;
+  secondColor: string;
+  animal: string;
   birthDate: string;
-  city: string;
+  country: string;
   imageFile: File | undefined;
 };
 export type UserCustomFormInterface = Omit<UserCustomInterface, 'imageFile'> & {

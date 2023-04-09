@@ -1,5 +1,9 @@
 @import '../../assets/_styleVariables.css';
 .card__wrapper {
+  width: 250px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   border-top: 2px solid var(--color-top);
   border-left: 2px solid var(--color-top);
   border-bottom: 2px solid var(--color-bottom);
@@ -10,7 +14,10 @@
   border-radius: 5px;
   padding: 10px;
   font-weight: bold;
-  cursor: default;
+  cursor: pointer;
+}
+.card__wrapper * {
+  user-select: none;
 }
 .card__wrapper:hover {
   background-color: var(--color-bg-darker);
@@ -35,40 +42,21 @@
   padding-top: 5px;
   padding-bottom: 10px;
 }
+.card-data__wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 0.8rem;
+}
+.card-data__wrapper p {
+  width: 200px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
+}
 .card-data__property {
   font-weight: normal;
   color: var(--color-f-secondary);
-}
-.appearance__wrapper {
-  width: 100%;
-  display: flex;
-  gap: 10px;
-  margin-top: 10px;
-}
-.appearance__eyes,
-.appearance__hair {
-  width: 50%;
-  height: 35px;
-  position: relative;
-  border-radius: 5px;
-  color: #e2cba8;
-  box-shadow: 1px 1px 2px rgb(26, 26, 26), -1px -1px 0.5px white;
-}
-.eyes__property,
-.hair__property {
-  position: absolute;
-  top: 15px;
-  right: 5px;
-}
-.appearance__eyes::before {
-  content: 'Eyes:';
-  font-weight: normal;
-  position: absolute;
-  left: 5px;
-}
-.appearance__hair::before {
-  content: 'Hair:';
-  font-weight: normal;
-  position: absolute;
-  left: 5px;
+  text-transform: none;
 }

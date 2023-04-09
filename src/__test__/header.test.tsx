@@ -16,7 +16,6 @@ describe('Header Component', () => {
   it('Header component renders correctly', () => {
     const headerName = screen.getByRole('header');
     expect(headerName).toBeVisible();
-    // screen.getByRole('');
   });
 
   it('Main page clicked become active', () => {

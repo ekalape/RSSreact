@@ -3,3 +3,8 @@
   flex-direction: column;
   align-items: center;
 }
+.fail-message {
+  margin-top: 20px;
+  padding: 10px;
+  font-size: 1.3rem;
+}

@@ -19,11 +19,9 @@ const Form: FC<FormProps> = ({ cardNumber, callback }) => {
 
   const onSubmit: SubmitHandler<UserCustomFormInterface> = (data) => {
     const file = data.imageFile?.[0];
-    const age = new Date().getFullYear() - +data.birthDate.slice(0, 4);
     const user: UserData = new UserData({
       ...data,
       id: cardNumber,
-      age: age,
       imageFile: file,
     });
     callback(user);
@@ -46,7 +44,12 @@ const Form: FC<FormProps> = ({ cardNumber, callback }) => {
         errors={errors.lastName}
       />
       <RadioComponent inputName={'gender'} errors={errors.gender} register={register} />
-      <InputStringComponent type="text" inputName="city" register={register} errors={errors.city} />
+      <InputStringComponent
+        type="text"
+        inputName="country"
+        register={register}
+        errors={errors.country}
+      />
       <InputDate
         type="date"
         inputName="birthDate"
@@ -55,22 +58,45 @@ const Form: FC<FormProps> = ({ cardNumber, callback }) => {
         max="2010-12-31"
       />
       <SelectComponent
-        selectName={'eyeColor'}
+        selectName={'firstColor'}
         register={register}
-        selectOptions={['-', 'green', 'brown', 'grey', 'black', 'amber', 'blue']}
-        selectError={errors.eyeColor}
+        selectOptions={[
+          '-',
+          'lightsalmon',
+          'mediumpurple',
+          'midnightblue',
+          'mediumvioletred',
+          'royalblue',
+          'saddlebrown',
+          'springgreen',
+          'yellowgreen',
+        ]}
+        selectError={errors.firstColor}
       />
       <SelectComponent
-        selectName={'hairColor'}
+        selectName={'secondColor'}
         register={register}
-        selectOptions={['-', 'blond', 'brown', 'chestnut', 'black', 'auburn']}
-        selectError={errors.hairColor}
+        selectOptions={['-', 'blue', 'brown', 'green', 'black', 'yellow', 'purple', 'teal', 'gray']}
+        selectError={errors.secondColor}
       />
       <SelectComponent
-        selectName={'hairType'}
+        selectName={'animal'}
         register={register}
-        selectOptions={['-', 'weavy', 'straight', 'curly', 'very curly', 'strands']}
-        selectError={errors.hairType}
+        selectOptions={[
+          '-',
+          'Dog',
+          'Rabbit',
+          'Horse',
+          'Cat',
+          'Beaver',
+          'Giraffe',
+          'Chameleon',
+          'Hamster',
+          'Antelope',
+          'Orangutan',
+          'Tiger',
+        ]}
+        selectError={errors.animal}
       />
       <InputFile type="file" inputName="imageFile" register={register} errors={errors.imageFile} />
       <label

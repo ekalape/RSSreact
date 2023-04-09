@@ -10,16 +10,17 @@ const Search: FC<SearchProps> = ({ callback }: SearchProps) => {
     wordRef.current = event.target.value;
   };
   const handleSearch = () => {
-    callback(searchWord);
+    callback(wordRef.current);
+    localStorage.setItem('eklp-storagedInput', wordRef.current);
   };
   const resetSearch = () => {
     setSearchWord('');
     callback('');
+    wordRef.current = '';
+    localStorage.setItem('eklp-storagedInput', '');
   };
 
-  useEffect(() => {
-    return () => localStorage.setItem('eklp-storagedInput', wordRef.current);
-  }, []);
+  useEffect(() => {}, []);
   return (
     <div className="search__wrapper">
       <label htmlFor="search__input">
