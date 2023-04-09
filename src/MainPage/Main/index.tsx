@@ -22,14 +22,18 @@ const Main = () => {
     setIsLoading(true);
     if (searchWord.trim()) {
       filterUsers(searchWord)
-        .then((usersArray) => setUsers(usersArray.map((u) => new UserData(u))))
+        .then((usersArray) => {
+          setUsers(usersArray.map((u) => new UserData(u)));
+        })
         .catch(() => {
           setIsFailed(true);
         })
         .finally(() => setIsLoading(false));
     } else {
       getAllUsers()
-        .then((users) => setUsers(users.map((u: UserInterface) => new UserData(u))))
+        .then((users) => {
+          setUsers(users.map((u: UserInterface) => new UserData(u)));
+        })
         .catch(() => {
           setIsFailed(true);
         })

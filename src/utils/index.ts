@@ -17,8 +17,6 @@ export async function filterUsers(searchWord: string) {
       throw err;
     });
     const users: UserInterface[] = await res.json();
-    console.log('real fn');
-
     return users;
   } else return await getAllUsers();
 }
