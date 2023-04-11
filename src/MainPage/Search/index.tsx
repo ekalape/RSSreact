@@ -1,26 +1,26 @@
 import React, { ChangeEvent, FC, useEffect, useRef, useState } from 'react';
-import { SearchProps } from 'types/interfaces';
+import { useDispatch, useSelector } from 'react-redux';
+import { addSearchWordRdc } from '../../store/dataSlice';
+import { RootStateType } from '../../store';
+import { SearchProps } from '../../types/interfaces';
 import './style.css';
 
-const Search: FC<SearchProps> = ({ callback }: SearchProps) => {
-  const [searchWord, setSearchWord] = useState(localStorage.getItem('eklp-storagedInput') || '');
-  const wordRef = useRef<string>(searchWord || '');
+const Search = () => {
+  const word = useSelector((state: RootStateType) => state.searchWord);
+  const dispatch = useDispatch();
+  const [searchWord, setSearchWord] = useState(word);
+
   const onChangeHandle = (event: ChangeEvent<HTMLInputElement>) => {
     setSearchWord(event.target.value);
-    wordRef.current = event.target.value;
   };
   const handleSearch = () => {
-    callback(wordRef.current);
-    localStorage.setItem('eklp-storagedInput', wordRef.current);
+    dispatch(addSearchWordRdc({ word: searchWord }));
   };
   const resetSearch = () => {
     setSearchWord('');
-    callback('');
-    wordRef.current = '';
-    localStorage.setItem('eklp-storagedInput', '');
+    dispatch(addSearchWordRdc({ word: '' }));
   };
 
-  useEffect(() => {}, []);
   return (
     <div className="search__wrapper">
       <label htmlFor="search__input">

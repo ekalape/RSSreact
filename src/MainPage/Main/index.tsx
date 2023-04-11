@@ -32,9 +32,14 @@ const Main = () => {
       );
     }
   }, [data]);
+  const word = useSelector((state: RootStateType) => state.searchWord);
+
   useEffect(() => {
     setUsers(rawUsers.map((u: UserInterface) => new UserData(u)));
   }, [rawUsers]);
+  useEffect(() => {
+    console.log('word', word);
+  }, [word]);
   /*   useEffect(() => {
     setIsLoading(true);
     if (searchWord.trim()) {
@@ -62,8 +67,7 @@ const Main = () => {
 
   return (
     <div className="main__wrapper" role={'main-page'}>
-      <Search callback={handleSearchWord} />
-
+      <Search />
       {isLoading ? (
         <Loader />
       ) : !isFailed ? (
