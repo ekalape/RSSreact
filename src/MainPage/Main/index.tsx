@@ -1,41 +1,64 @@
 import Search from '../Search';
 import React, { useEffect, useState } from 'react';
 import './style.css';
-
 import CardsContainer from '../CardsContainer';
 import UserData from '../../utils/UserData';
 import { UserInterface } from '../../types/interfaces';
-import { getAllUsers, filterUsers } from '../../utils';
 import Loader from '../../UnrelatedComponents/Loader';
+import { useDispatch, useSelector, useStore } from 'react-redux';
+import { loadDataRdc } from '../../store/dataSlice';
+import { RootStateType } from '../../store';
+import useFetchUsers from '../../utils/useFetchUsers';
 
 const Main = () => {
-  const [searchWord, setSearchWord] = useState(localStorage.getItem('eklp-storagedInput') || '');
-  const [users, setUsers] = useState<UserData[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [isFailed, setIsFailed] = useState(false);
+  const store: RootStateType = useStore().getState() as RootStateType;
+  console.log('store >', store);
+  const dispatch = useDispatch();
+  const { data, isLoading, isFailed } = useFetchUsers();
+
+  const [searchWord, setSearchWord] = useState(store.searchWord);
+  const rawUsers = useSelector((state: RootStateType) => state.users);
+  const [users, setUsers] = useState<UserData[]>(data.map((u: UserInterface) => new UserData(u)));
 
   const handleSearchWord = (word: string) => {
     setSearchWord(word);
   };
-
   useEffect(() => {
+    if (!isFailed) {
+      dispatch(
+        loadDataRdc({
+          users: data,
+        })
+      );
+    }
+  }, [data]);
+  useEffect(() => {
+    setUsers(rawUsers.map((u: UserInterface) => new UserData(u)));
+  }, [rawUsers]);
+  /*   useEffect(() => {
     setIsLoading(true);
     if (searchWord.trim()) {
       filterUsers(searchWord)
-        .then((usersArray) => setUsers(usersArray.map((u) => new UserData(u))))
+        .then((usersArray) => {
+          setUsers(usersArray.map((u) => new UserData(u)));
+        })
         .catch(() => {
           setIsFailed(true);
         })
         .finally(() => setIsLoading(false));
     } else {
       getAllUsers()
-        .then((users) => setUsers(users.map((u: UserInterface) => new UserData(u))))
+        .then((users) => {
+          const arr = users.map((u) => new UserData(u));
+          const d = dispatch(loadDataRdc({ users: arr }));
+          setUsers(users.map((u: UserInterface) => new UserData(u)));
+        })
         .catch(() => {
           setIsFailed(true);
         })
         .finally(() => setIsLoading(false));
     }
-  }, [searchWord]);
+  }, [searchWord]); */
 
   return (
     <div className="main__wrapper" role={'main-page'}>
