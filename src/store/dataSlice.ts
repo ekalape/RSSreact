@@ -1,13 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { UserCustomInterface, UserInterface } from '../types/interfaces';
-import UserData from '../utils/UserData';
+import { UserInterface } from '../types/interfaces';
 
 
 export type StateUsersType = {
     searchWord: string,
     users: UserInterface[],
     filteredUsers: UserInterface[],
-    customUsers: UserCustomInterface[]
+    customUsers: UserInterface[]
 }
 
 const initialState: StateUsersType = {

@@ -32,20 +32,8 @@ export interface UserInterface {
   birthDate: string;
   country: string;
 }
-export type UserCustomInterface = {
-  id: number;
-  firstName: string;
-  lastName: string;
-  gender: 'male' | 'female';
-  firstColor: string;
-  secondColor: string;
-  animal: string;
-  birthDate: string;
-  country: string;
-  imageFile: File | string | undefined;
-};
-export type UserCustomFormInterface = Omit<UserCustomInterface, 'imageFile'> & {
-  imageFile: FileList | undefined;
+export type UserCustomFormInterface = Omit<UserInterface, 'image'> & {
+  image: FileList | undefined;
   agreeCheck?: boolean;
 };
 export interface SearchProps {

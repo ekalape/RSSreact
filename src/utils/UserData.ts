@@ -1,4 +1,4 @@
-import { UserCustomInterface, UserInterface } from '../types/interfaces';
+import { UserInterface } from '../types/interfaces';
 
 export default class UserData {
   id: number;
@@ -10,10 +10,10 @@ export default class UserData {
   secondColor: string;
   animal: string;
   country: string;
-  image: string | File | undefined;
+  image: string;
   age: number;
 
-  constructor(rawData: UserCustomInterface | UserInterface) {
+  constructor(rawData: UserInterface) {
     this.id = rawData.id;
     this.firstName = rawData.firstName;
     this.lastName = rawData.lastName;
@@ -33,7 +33,6 @@ export default class UserData {
 
     this.animal = rawData.animal;
     this.country = rawData.country;
-    if ('image' in rawData) this.image = rawData.image + '?lock=' + this.id;
-    else this.image = rawData.imageFile;
+    this.image = rawData.image;
   }
 }

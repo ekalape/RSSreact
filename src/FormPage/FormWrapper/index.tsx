@@ -3,14 +3,12 @@ import React from 'react';
 import './style.css';
 import UserData from '../../utils/UserData';
 import Card from '../../MainPage/Card';
-import { UserCustomInterface } from '../../types/interfaces';
+import { UserInterface } from '../../types/interfaces';
 import { useSelector } from 'react-redux';
 import { RootStateType } from '../../store';
 
 const FormPage = () => {
-  const customUsers: UserCustomInterface[] = useSelector(
-    (state: RootStateType) => state.customUsers
-  );
+  const customUsers: UserInterface[] = useSelector((state: RootStateType) => state.customUsers);
 
   return (
     <div className="formsPage__wrapper" role={'forms-page'}>

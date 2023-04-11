@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './style.css';
-import { UserCustomFormInterface, UserCustomInterface } from '../../types/interfaces';
+import { UserCustomFormInterface, UserInterface } from '../../types/interfaces';
 import SelectComponent from '../SelectComponent';
 import InputStringComponent from '../InputComponent';
 import RadioComponent from '../RadioComponent';
@@ -22,9 +22,7 @@ const Form = () => {
   } = useForm<UserCustomFormInterface>({ reValidateMode: 'onSubmit' });
   const [showMessage, setShowMessage] = useState(false);
   const dispatch = useDispatch();
-  const customUsers: UserCustomInterface[] = useSelector(
-    (state: RootStateType) => state.customUsers
-  );
+  const customUsers: UserInterface[] = useSelector((state: RootStateType) => state.customUsers);
   let cardNumber =
     customUsers.reduce((acc, u) => {
       if (u.id > acc) return u.id;
@@ -33,13 +31,16 @@ const Form = () => {
 
   const onSubmit: SubmitHandler<UserCustomFormInterface> = (data) => {
     setShowMessage(true);
-    const file = data.imageFile?.[0];
-    const user: UserCustomInterface = {
+    const file = data.image?.[0];
+    const imageUrl = file ? URL.createObjectURL(file) : '';
+
+    const user: UserInterface = {
       ...data,
       id: ++cardNumber,
-      imageFile: file,
+      image: imageUrl,
     };
     dispatch(addCustomUserRdc({ customUser: user }));
+
     setShowMessage(true);
     setTimeout(() => {
       setShowMessage(false);
@@ -119,7 +120,7 @@ const Form = () => {
         ]}
         selectError={errors.animal}
       />
-      <InputFile type="file" inputName="imageFile" register={register} errors={errors.imageFile} />
+      <InputFile type="file" inputName="image" register={register} errors={errors.image} />
       <label
         style={{
           backgroundColor: errors.agreeCheck ? 'mistyrose' : undefined,

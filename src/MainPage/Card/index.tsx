@@ -8,7 +8,6 @@ import Loader from '../../UnrelatedComponents/Loader';
 
 export type CardType = {
   user: UserData;
-  handleCardClick?: (u: UserData) => void;
 };
 
 const Card: FC<CardType> = (props: CardType) => {
@@ -17,10 +16,6 @@ const Card: FC<CardType> = (props: CardType) => {
   const [currentUser, setCurrentUser] = useState<UserData | null>(null);
   const [openModal, setOpenModal] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-
-  let src = '';
-  if (typeof image === 'string') src = image;
-  else if (image instanceof File) src = URL.createObjectURL(image);
   const onCardClick = () => {
     setUserId(id);
   };
@@ -66,7 +61,7 @@ const Card: FC<CardType> = (props: CardType) => {
           document.body
         )}
       <div className="card__wrapper" onClick={onCardClick} role="single-card">
-        <img src={src} alt="user image" />
+        <img src={image} alt="user image" />
         <div className="card__names">
           <p>{firstName}</p>
           <p>{lastName}</p>

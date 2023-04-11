@@ -4,13 +4,17 @@ import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 
 import App from '../App';
+import { Provider } from 'react-redux';
+import store from '../store';
 
 describe('App', () => {
   beforeEach(async () => {
     await act(async () => {
       render(
         <BrowserRouter>
-          <App />
+          <Provider store={store}>
+            <App />
+          </Provider>
         </BrowserRouter>
       );
     });

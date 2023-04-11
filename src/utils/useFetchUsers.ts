@@ -15,7 +15,7 @@ const useFetchUsers = () => {
         setIsLoading(true);
         if (apiAddress)
             fetch(apiAddress).then((usersArray) => usersArray.json()).catch(() => setIsFailed(true)).then((usersIntefaces) => {
-                setData(usersIntefaces/* .map((u: UserInterface) => new UserData(u)) */);
+                setData(usersIntefaces.map((us: UserInterface) => { us.image += '?lock=' + us.id; return us }));
                 setIsLoading(false)
             })
 

@@ -3,7 +3,7 @@ import dataReducer from './dataSlice';
 
 const store = configureStore({
     reducer: dataReducer,
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware({ serializableCheck: false })
+
 });
 
 export type RootStateType = ReturnType<typeof store.getState>;
