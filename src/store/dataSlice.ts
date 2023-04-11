@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { UserInterface } from '../types/interfaces';
+import { UserCustomInterface, UserInterface } from '../types/interfaces';
 import UserData from '../utils/UserData';
 
 
@@ -7,14 +7,14 @@ export type StateUsersType = {
     searchWord: string,
     users: UserInterface[],
     filteredUsers: UserInterface[],
-    customCards: UserInterface[]
+    customUsers: UserCustomInterface[]
 }
 
 const initialState: StateUsersType = {
     searchWord: "",
     users: [],
     filteredUsers: [],
-    customCards: []
+    customUsers: []
 };
 
 const dataSlice = createSlice({
@@ -31,10 +31,10 @@ const dataSlice = createSlice({
             //toDo
         },
         addCustomUserRdc: (state, action) => {
-            state.users.push(action.payload.user)
+            state.customUsers.push(action.payload.customUser)
         },
         loadCustomCardsRdc: (state, action) => {
-            state.customCards = action.payload.customCards
+            state.customUsers = action.payload.customUsers
         },
     }
 

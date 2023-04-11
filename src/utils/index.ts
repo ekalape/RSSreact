@@ -32,7 +32,5 @@ export async function getUser(id: number) {
   if (res.ok) {
     const user: UserInterface = await res.json();
     return user;
-  } else {
-    return 'No such user';
   }
 }

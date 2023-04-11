@@ -1,36 +1,57 @@
-import React, { FC } from 'react';
+import React, { useState } from 'react';
 import './style.css';
-import { FormProps, UserCustomFormInterface } from '../../types/interfaces';
+import { UserCustomFormInterface, UserCustomInterface } from '../../types/interfaces';
 import SelectComponent from '../SelectComponent';
-import UserData from '../../utils/UserData';
 import InputStringComponent from '../InputComponent';
 import RadioComponent from '../RadioComponent';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import InputDate from '../InputComponent/InputDate';
 import InputFile from '../InputComponent/InputFile';
+import { useDispatch, useSelector } from 'react-redux';
+import { addCustomUserRdc } from '../../store/dataSlice';
+import { RootStateType } from '../../store';
+import { createPortal } from 'react-dom';
+import ModalInfoComponent from '../../UnrelatedComponents/ModalInfoComponent';
 
-const Form: FC<FormProps> = ({ cardNumber, callback }) => {
+const Form = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
   } = useForm<UserCustomFormInterface>({ reValidateMode: 'onSubmit' });
+  const [showMessage, setShowMessage] = useState(false);
+  const dispatch = useDispatch();
+  const customUsers: UserCustomInterface[] = useSelector(
+    (state: RootStateType) => state.customUsers
+  );
+  let cardNumber =
+    customUsers.reduce((acc, u) => {
+      if (u.id > acc) return u.id;
+      else return acc;
+    }, 1000) || 1000;
 
   const onSubmit: SubmitHandler<UserCustomFormInterface> = (data) => {
+    setShowMessage(true);
     const file = data.imageFile?.[0];
-    const user: UserData = new UserData({
+    const user: UserCustomInterface = {
       ...data,
-      id: cardNumber,
+      id: ++cardNumber,
       imageFile: file,
-    });
-    callback(user);
-    reset();
+    };
+    dispatch(addCustomUserRdc({ customUser: user }));
+    setShowMessage(true);
+    setTimeout(() => {
+      setShowMessage(false);
+      reset();
+    }, 800);
   };
 
   return (
     <form className="form__wrapper" role="form" onSubmit={handleSubmit(onSubmit)}>
+      {showMessage && createPortal(<ModalInfoComponent />, document.body)}
       <h3>Compile the form:</h3>
+
       <InputStringComponent
         type="text"
         inputName="firstName"

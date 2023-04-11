@@ -22,21 +22,24 @@ const Card: FC<CardType> = (props: CardType) => {
   if (typeof image === 'string') src = image;
   else if (image instanceof File) src = URL.createObjectURL(image);
   const onCardClick = () => {
-    if (props.handleCardClick) {
-      props.handleCardClick(props.user);
-    }
     setUserId(id);
   };
   useEffect(() => {
     (async () => {
       if (userId) {
         setIsLoading(true);
-        const user = await getUser(userId);
-        if (typeof user !== 'string') {
-          setCurrentUser(new UserData(user));
-          setOpenModal(true);
-          setIsLoading(false);
-        } else alert(user);
+        const user = props.user;
+        if (userId < 1000) {
+          getUser(userId)
+            .then((u) => {
+              if (u) setCurrentUser(new UserData(u));
+            })
+            .catch(() => alert('no such user'));
+        } else {
+          setCurrentUser(user);
+        }
+        setOpenModal(true);
+        setIsLoading(false);
       }
     })();
   }, [userId]);

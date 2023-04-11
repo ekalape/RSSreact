@@ -42,7 +42,7 @@ export type UserCustomInterface = {
   animal: string;
   birthDate: string;
   country: string;
-  imageFile: File | undefined;
+  imageFile: File | string | undefined;
 };
 export type UserCustomFormInterface = Omit<UserCustomInterface, 'imageFile'> & {
   imageFile: FileList | undefined;
@@ -54,7 +54,6 @@ export interface SearchProps {
 
 export interface FormProps {
   cardNumber: number;
-  callback: (user: UserData) => void;
 }
 
 export interface FormWrapperState {
