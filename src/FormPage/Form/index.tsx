@@ -22,7 +22,9 @@ const Form = () => {
   } = useForm<UserCustomFormInterface>({ reValidateMode: 'onSubmit' });
   const [showMessage, setShowMessage] = useState(false);
   const dispatch = useDispatch();
-  const customUsers: UserInterface[] = useSelector((state: RootStateType) => state.customUsers);
+  const customUsers: UserInterface[] = useSelector(
+    (state: RootStateType) => state.customDataReducer.customUsers
+  );
   let cardNumber =
     customUsers.reduce((acc, u) => {
       if (u.id > acc) return u.id;

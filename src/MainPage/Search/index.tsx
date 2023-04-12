@@ -6,7 +6,7 @@ import { SearchProps } from '../../types/interfaces';
 import './style.css';
 
 const Search = () => {
-  const word = useSelector((state: RootStateType) => state.searchWord);
+  const word = useSelector((state: RootStateType) => state.customDataReducer.searchWord);
   const dispatch = useDispatch();
   const [searchWord, setSearchWord] = useState(word);
 

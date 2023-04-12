@@ -1,8 +1,15 @@
-import { configureStore } from '@reduxjs/toolkit';
-import dataReducer from './dataSlice';
+import { configureStore, combineReducers } from '@reduxjs/toolkit';
+import customDataReducer from './dataSlice';
+import { usersGeneralQuery } from '../utils/QueryServices'
+
+const rootReducer = combineReducers({
+    customDataReducer,
+    [usersGeneralQuery.reducerPath]: usersGeneralQuery.reducer,
+})
 
 const store = configureStore({
-    reducer: dataReducer,
+    reducer: rootReducer,
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(usersGeneralQuery.middleware)
 
 });
 

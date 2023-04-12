@@ -5,38 +5,30 @@ import CardsContainer from '../CardsContainer';
 import UserData from '../../utils/UserData';
 import { UserInterface } from '../../types/interfaces';
 import Loader from '../../UnrelatedComponents/Loader';
-import { useDispatch, useSelector, useStore } from 'react-redux';
-import { loadDataRdc } from '../../store/dataSlice';
+import { useSelector, useStore } from 'react-redux';
+
 import { RootStateType } from '../../store';
-import useFetchUsers from '../../utils/useFetchUsers';
+
+import { useGetAllUsersQuery } from '../../utils/QueryServices';
 
 const Main = () => {
   const store: RootStateType = useStore().getState() as RootStateType;
   console.log('store >', store);
-  const dispatch = useDispatch();
-  const { data, isLoading, isFailed } = useFetchUsers();
 
-  const [searchWord, setSearchWord] = useState(store.searchWord);
-  const rawUsers = useSelector((state: RootStateType) => state.users);
-  const [users, setUsers] = useState<UserData[]>(data.map((u: UserInterface) => new UserData(u)));
+  const word = useSelector((state: RootStateType) => state.customDataReducer.searchWord);
+  const { data, error, isLoading } = useGetAllUsersQuery({ limit: 50, page: 1 });
 
-  const handleSearchWord = (word: string) => {
-    setSearchWord(word);
-  };
+  const [users, setUsers] = useState<UserData[]>([]);
+
   useEffect(() => {
-    if (!isFailed) {
-      dispatch(
-        loadDataRdc({
-          users: data,
+    data &&
+      setUsers(
+        data.map((u: UserInterface) => {
+          const us = { ...u, image: `${u.image}?lock=${u.id}` };
+          return new UserData(us);
         })
       );
-    }
   }, [data]);
-  const word = useSelector((state: RootStateType) => state.searchWord);
-
-  useEffect(() => {
-    setUsers(rawUsers.map((u: UserInterface) => new UserData(u)));
-  }, [rawUsers]);
   useEffect(() => {
     console.log('word', word);
   }, [word]);
@@ -70,10 +62,14 @@ const Main = () => {
       <Search />
       {isLoading ? (
         <Loader />
-      ) : !isFailed ? (
+      ) : !error ? (
         <CardsContainer users={users} />
       ) : (
-        <p className="fail-message">Something went wrong here...</p>
+        <p className="fail-message">
+          Something went wrong here...
+          <br />
+          Please, retry
+        </p>
       )}
     </div>
   );

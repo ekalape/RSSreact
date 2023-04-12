@@ -5,6 +5,10 @@ import './style.css';
 import ModalCard from '../../MainPage/ModalCard';
 import { createPortal } from 'react-dom';
 import Loader from '../../UnrelatedComponents/Loader';
+import { useGetSingleUserQuery } from '../../utils/QueryServices';
+import { UserInterface } from 'types/interfaces';
+import { SerializedError } from '@reduxjs/toolkit';
+import { FetchBaseQueryError } from '@reduxjs/toolkit/dist/query';
 
 export type CardType = {
   user: UserData;
@@ -12,32 +16,30 @@ export type CardType = {
 
 const Card: FC<CardType> = (props: CardType) => {
   const { id, firstName, lastName, country, image } = props.user;
-  const [userId, setUserId] = useState<number | null>(null);
   const [currentUser, setCurrentUser] = useState<UserData | null>(null);
   const [openModal, setOpenModal] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  let singleUserData: UserInterface | undefined;
+
+  if (id < 1000) {
+    const { data } = useGetSingleUserQuery(id);
+    singleUserData = data;
+  }
   const onCardClick = () => {
-    setUserId(id);
+    setIsLoading(true);
+
+    if (id < 1000) {
+      const us = {
+        ...singleUserData,
+        image: `${singleUserData?.image}?lock=${singleUserData?.id}`,
+      } as UserInterface;
+      setCurrentUser(new UserData(us));
+    } else {
+      setCurrentUser(props.user);
+    }
+    setOpenModal(true);
+    setIsLoading(false);
   };
-  useEffect(() => {
-    (async () => {
-      if (userId) {
-        setIsLoading(true);
-        const user = props.user;
-        if (userId < 1000) {
-          getUser(userId)
-            .then((u) => {
-              if (u) setCurrentUser(new UserData(u));
-            })
-            .catch(() => alert('no such user'));
-        } else {
-          setCurrentUser(user);
-        }
-        setOpenModal(true);
-        setIsLoading(false);
-      }
-    })();
-  }, [userId]);
 
   return (
     <>
@@ -55,7 +57,6 @@ const Card: FC<CardType> = (props: CardType) => {
             user={currentUser}
             onCloseFn={() => {
               setOpenModal(false);
-              setUserId(null);
             }}
           />,
           document.body

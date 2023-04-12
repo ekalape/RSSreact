@@ -8,7 +8,9 @@ import { useSelector } from 'react-redux';
 import { RootStateType } from '../../store';
 
 const FormPage = () => {
-  const customUsers: UserInterface[] = useSelector((state: RootStateType) => state.customUsers);
+  const customUsers: UserInterface[] = useSelector(
+    (state: RootStateType) => state.customDataReducer.customUsers
+  );
 
   return (
     <div className="formsPage__wrapper" role={'forms-page'}>
