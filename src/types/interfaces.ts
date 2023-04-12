@@ -66,3 +66,6 @@ export interface SelectProps {
   selectOptions: string[];
   selectError: FieldError | undefined;
 }
+export type CardType = {
+  user: UserData;
+};

@@ -2,10 +2,10 @@ import Form from '../Form/';
 import React from 'react';
 import './style.css';
 import UserData from '../../utils/UserData';
-import Card from '../../MainPage/Card';
 import { UserInterface } from '../../types/interfaces';
 import { useSelector } from 'react-redux';
 import { RootStateType } from '../../store';
+import FormCard from '../../FormPage/FormCard';
 
 const FormPage = () => {
   const customUsers: UserInterface[] = useSelector(
@@ -17,7 +17,7 @@ const FormPage = () => {
       <Form />
       <div className="main__cards-container" role="form-cards-container">
         {customUsers.map((card) => (
-          <Card user={new UserData(card)} key={card.id} />
+          <FormCard user={new UserData(card)} key={card.id} />
         ))}
       </div>
     </div>

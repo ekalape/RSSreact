@@ -19,12 +19,13 @@ export const usersGeneralQuery = createApi({
         getSingleUser: build.query<UserInterface, number>({
             query: (id) => ({
                 url: `/${id}`,
-                params: {
-
-                }
-
             })
-        })
+        }),
+        /*  filterUsers: build.query<UserInterface[], string>({
+             query: (searchWord) => ({
+                 url: `?search=${searchWord.trim()}`,            
+             })
+         }) */
     })
 })
-export const { useGetAllUsersQuery, useGetSingleUserQuery } = usersGeneralQuery
+export const { useGetAllUsersQuery, useLazyGetSingleUserQuery } = usersGeneralQuery
