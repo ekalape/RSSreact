@@ -1,7 +1,7 @@
 import React, { FC, useState } from 'react';
 
 import UserData from '../../utils/UserData';
-import './style.css';
+//import './style.css';
 import ModalCard from '../../MainPage/ModalCard';
 import { createPortal } from 'react-dom';
 import Loader from '../../UnrelatedComponents/Loader';

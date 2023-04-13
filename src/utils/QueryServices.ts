@@ -6,14 +6,14 @@ export const usersGeneralQuery = createApi({
     reducerPath: "usersApi",
     baseQuery: fetchBaseQuery({ baseUrl: 'https://642a6aa000dfa3b547453ae9.mockapi.io/api/users' }),
     endpoints: (build) => ({
-        getAllUsers: build.query<UserInterface[], { limit: number, page: number }>({
+        getAllUsers: build.query<UserInterface[], { word: string, limit: number, page: number }>({
             query: (args) => ({
                 url: '/',
                 params: {
+                    search: args.word,
                     limit: args.limit,
                     page: args.page
                 }
-
             })
         }),
         getSingleUser: build.query<UserInterface, number>({
@@ -21,11 +21,7 @@ export const usersGeneralQuery = createApi({
                 url: `/${id}`,
             })
         }),
-        /*  filterUsers: build.query<UserInterface[], string>({
-             query: (searchWord) => ({
-                 url: `?search=${searchWord.trim()}`,            
-             })
-         }) */
+
     })
 })
 export const { useGetAllUsersQuery, useLazyGetSingleUserQuery } = usersGeneralQuery
