@@ -6,22 +6,18 @@ import { createPortal } from 'react-dom';
 import Loader from '../../UnrelatedComponents/Loader';
 import { useLazyGetSingleUserQuery } from '../../utils/QueryServices';
 import { CardType, UserInterface } from '../../types/interfaces';
+import ModalInfoComponent from '../../UnrelatedComponents/ModalInfoComponent';
 
 const Card: FC<CardType> = (props: CardType) => {
   const { id, firstName, lastName, country, image } = props.user;
   const [currentUser, setCurrentUser] = useState<UserData | null>(null);
   const [openModal, setOpenModal] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
 
-  const [getSingleCard, { isLoading: singleLoading, isError, data }, lastPromiseInfo] =
-    useLazyGetSingleUserQuery({});
+  const [getSingleCard, { isFetching: singleLoading, isError, data }] = useLazyGetSingleUserQuery();
 
   const onCardClick = () => {
-    setIsLoading(true);
     getSingleCard(id);
-
     setOpenModal(true);
-    setIsLoading(false);
   };
   useEffect(() => {
     if (data) {
@@ -35,7 +31,9 @@ const Card: FC<CardType> = (props: CardType) => {
 
   return (
     <>
-      {isLoading &&
+      {isError &&
+        createPortal(<ModalInfoComponent text={'Seems there is a problem...'} />, document.body)}
+      {singleLoading &&
         createPortal(
           <div className="loader__background">
             <Loader />

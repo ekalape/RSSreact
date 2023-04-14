@@ -1,64 +1,54 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { describe, it } from 'vitest';
-import { act, cleanup, render, screen } from '@testing-library/react';
+import { act, cleanup, screen } from '@testing-library/react';
 import React from 'react';
-
-import { BrowserRouter } from 'react-router-dom';
-import CardsContainer from '../MainPage/CardsContainer';
 import UserData from '../utils/UserData';
-import { UserInterface } from '../types/interfaces';
 import Card from '../MainPage/Card';
-
 import userEvent from '@testing-library/user-event';
+import fakeUsers from './mocks/fakeUsers';
+import { handlers } from './mocks/mockHandlers';
+import renderWithProviders from './mocks/renderWithProps';
+import nodeFetch, { Request, Response } from 'node-fetch';
+import { setupServer } from 'msw/node';
+import { store } from '../store';
+import { usersGeneralQuery } from '../utils/QueryServices';
+import { rest } from 'msw';
+//@ts-ignore
+global.fetch = nodeFetch;
+//@ts-ignore
+global.Request = Request;
+//@ts-ignore
+global.Response = Response;
 
-const fakeUsers: UserInterface[] = [
-  {
-    id: 1,
-    firstName: 'Terry',
-    lastName: 'Medhurst',
-    gender: 'male',
-    firstColor: 'Green',
-    image: 'https://robohash.org/hicveldicta.png',
-    secondColor: 'Red',
-    birthDate: '2000-12-25',
-    animal: 'Dog',
-    country: 'Washington',
-  },
-  {
-    id: 2,
-    firstName: 'Sheldon',
-    lastName: 'Quigley',
-    gender: 'male',
-    firstColor: 'Brown',
-    image: 'https://robohash.org/doloremquesintcorrupti.png',
-    secondColor: 'Blue',
-    birthDate: '2003-08-02',
-    animal: 'Lion',
-    country: 'Louisville',
-  },
-];
+export const server = setupServer(...handlers);
+beforeAll(() => {
+  server.listen();
+});
+afterEach(() => {
+  server.resetHandlers();
+  store.dispatch(usersGeneralQuery.util.resetApiState());
+  server.use(
+    rest.get(`https://642a6aa000dfa3b547453ae9.mockapi.io/api/users/*`, (req, res, ctx) => {
+      return res(ctx.json(fakeUsers[0]));
+    })
+  );
+});
+afterEach(() => {
+  cleanup();
+  store.dispatch(usersGeneralQuery.util.resetApiState());
+});
+afterAll(() => {
+  server.close();
+});
 
 const user = userEvent.setup();
 
 describe('Card component', () => {
-  afterEach(() => {
-    cleanup();
-    vi.restoreAllMocks();
-  });
-  beforeAll(() => {
-    vi.mock('../utils', async () => ({
-      getAllUsers: () => Promise.resolve(fakeUsers),
-      filterUsers: (word: string) => Promise.resolve(fakeUsers.filter((x) => x.firstName === word)),
-      getUser: () => Promise.resolve(fakeUsers[0]),
-    }));
-  });
-
   it('Card renders correctly', async () => {
     const fakeCard = new UserData(fakeUsers[0]);
-    render(
-      <BrowserRouter>
-        <Card user={fakeCard} handleCardClick={() => console.log('Done')} />
-      </BrowserRouter>
-    );
+    await act(async () => {
+      renderWithProviders(<Card user={fakeCard} />);
+    });
 
     expect(screen.getByText(/terry/i)).toBeInTheDocument();
     expect(screen.queryByText(/lastName/i)).toBeNull();
@@ -68,22 +58,24 @@ describe('Card component', () => {
 
   it('Modal Card renders after clicking on a card', async () => {
     const fakeCard = new UserData(fakeUsers[0]);
+
     await act(async () => {
-      render(<CardsContainer users={[fakeCard]} />);
+      renderWithProviders(<Card user={fakeCard} />);
     });
 
     const card = await screen.findByRole('single-card');
     await act(async () => {
       await user.click(card);
     });
+
     expect(await screen.findByRole('modal-window')).toBeVisible();
   });
   it('Modal data is the same as in the card', async () => {
     const fakeCard = new UserData(fakeUsers[0]);
-    await act(async () => {
-      render(<CardsContainer users={[fakeCard]} />);
-    });
 
+    await act(async () => {
+      renderWithProviders(<Card user={fakeCard} />);
+    });
     const card = await screen.findByRole('single-card');
 
     await act(async () => {
@@ -102,8 +94,9 @@ describe('Card component', () => {
   });
   it('Modal window is closed after click on close btn', async () => {
     const fakeCard = new UserData(fakeUsers[0]);
+
     await act(async () => {
-      render(<CardsContainer users={[fakeCard]} />);
+      renderWithProviders(<Card user={fakeCard} />);
     });
 
     const card = await screen.findByRole('single-card');

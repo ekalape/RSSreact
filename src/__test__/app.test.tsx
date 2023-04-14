@@ -1,21 +1,48 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { describe, it } from 'vitest';
-import { act, cleanup, fireEvent, render, screen } from '@testing-library/react';
+import { act, cleanup, fireEvent, screen } from '@testing-library/react';
 import React from 'react';
-import { BrowserRouter } from 'react-router-dom';
-
+import { MemoryRouter } from 'react-router-dom';
 import App from '../App';
-import { Provider } from 'react-redux';
-import store from '../store';
+import { store } from '../store';
+import renderWithProviders from './mocks/renderWithProps';
+import nodeFetch, { Request, Response } from 'node-fetch';
+import { usersGeneralQuery } from '../utils/QueryServices';
+import { setupServer } from 'msw/node';
+import { handlers } from './mocks/mockHandlers';
+
+//@ts-ignore
+global.fetch = nodeFetch;
+//@ts-ignore
+global.Request = Request;
+//@ts-ignore
+global.Response = Response;
+
+export const server = setupServer(...handlers);
+
+beforeAll(() => {
+  server.listen();
+});
+afterEach(() => {
+  server.resetHandlers();
+  store.dispatch(usersGeneralQuery.util.resetApiState());
+});
+afterAll(() => {
+  server.close();
+});
+afterEach(() => {
+  cleanup();
+  vi.restoreAllMocks();
+  store.dispatch(usersGeneralQuery.util.resetApiState());
+});
 
 describe('App', () => {
   beforeEach(async () => {
     await act(async () => {
-      render(
-        <BrowserRouter>
-          <Provider store={store}>
-            <App />
-          </Provider>
-        </BrowserRouter>
+      renderWithProviders(
+        <MemoryRouter>
+          <App />
+        </MemoryRouter>
       );
     });
   });

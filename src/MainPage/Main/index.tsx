@@ -5,13 +5,14 @@ import CardsContainer from '../CardsContainer';
 import UserData from '../../utils/UserData';
 import { UserInterface } from '../../types/interfaces';
 import Loader from '../../UnrelatedComponents/Loader';
-import { useSelector, useStore } from 'react-redux';
-import { RootStateType } from '../../store';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store';
 import { useGetAllUsersQuery } from '../../utils/QueryServices';
 
 const Main = () => {
-  const word = useSelector((state: RootStateType) => state.customDataReducer.searchWord);
-  const { data, error, isLoading } = useGetAllUsersQuery({ word: word, limit: 50, page: 1 });
+  const word = useSelector((state: RootState) => state.customDataReducer.searchWord);
+
+  const { data, error, isFetching } = useGetAllUsersQuery({ word: word });
 
   const [users, setUsers] = useState<UserData[]>([]);
 
@@ -28,7 +29,7 @@ const Main = () => {
   return (
     <div className="main__wrapper" role={'main-page'}>
       <Search />
-      {isLoading ? (
+      {isFetching ? (
         <Loader />
       ) : !error ? (
         <CardsContainer users={users} />

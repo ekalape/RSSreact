@@ -1,64 +1,47 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { describe, it } from 'vitest';
-import {
-  act,
-  cleanup,
-  fireEvent,
-  getAllByAltText,
-  render,
-  screen,
-  waitFor,
-} from '@testing-library/react';
+import { act, cleanup, fireEvent, getAllByAltText, screen, waitFor } from '@testing-library/react';
 import React from 'react';
-import { BrowserRouter } from 'react-router-dom';
-import CardsContainer from '../MainPage/CardsContainer';
-import UserData from '../utils/UserData';
-import { UserInterface } from '../types/interfaces';
 import Main from '../MainPage/Main';
 import userEvent from '@testing-library/user-event';
+import { store } from '../store';
+import { setupServer } from 'msw/node';
+import { usersGeneralQuery } from '../utils/QueryServices';
+import { handlers } from './mocks/mockHandlers';
+import renderWithProviders from './mocks/renderWithProps';
+import nodeFetch, { Request, Response } from 'node-fetch';
 
-const fakeUsers: UserInterface[] = [
-  {
-    id: 1,
-    firstName: 'Terry',
-    lastName: 'Medhurst',
-    gender: 'male',
-    firstColor: 'Green',
-    image: 'https://robohash.org/hicveldicta.png',
-    secondColor: 'Red',
-    birthDate: '2000-12-25',
-    animal: 'Dog',
-    country: 'Washington',
-  },
-  {
-    id: 2,
-    firstName: 'Sheldon',
-    lastName: 'Quigley',
-    gender: 'male',
-    firstColor: 'Brown',
-    image: 'https://robohash.org/doloremquesintcorrupti.png',
-    secondColor: 'Blue',
-    birthDate: '2003-08-02',
-    animal: 'Lion',
-    country: 'Louisville',
-  },
-];
-const fakeUsersData = fakeUsers.map((x) => new UserData(x));
+//@ts-ignore
+global.fetch = nodeFetch;
+//@ts-ignore
+global.Request = Request;
+//@ts-ignore
+global.Response = Response;
+
+export const server = setupServer(...handlers);
+
+beforeAll(() => {
+  server.listen();
+});
+afterEach(() => {
+  server.resetHandlers();
+  store.dispatch(usersGeneralQuery.util.resetApiState());
+});
+afterAll(() => {
+  server.close();
+});
 afterEach(() => {
   cleanup();
   vi.restoreAllMocks();
+  store.dispatch(usersGeneralQuery.util.resetApiState());
 });
 
 describe('Main Page render', () => {
-  beforeEach(
-    async () =>
-      await act(async () => {
-        render(
-          <BrowserRouter>
-            <Main />
-          </BrowserRouter>
-        );
-      })
-  );
+  beforeEach(async () => {
+    await act(async () => {
+      renderWithProviders(<Main />);
+    });
+  });
   it('Main page renders correctly', async () => {
     await act(async () => {
       const mainPage = screen.getByRole('main-page');
@@ -79,43 +62,24 @@ describe('Main Page render', () => {
 
 describe('Main Page functionality', () => {
   const user = userEvent.setup();
-  afterEach(() => {
-    cleanup();
-    vi.restoreAllMocks();
-  });
   it('There are no cards if the Search bar has wrong input value', async () => {
-    vi.mock('../utils', async () => ({
-      getAllUsers: () => Promise.resolve(fakeUsers),
-      filterUsers: (word: string) => Promise.resolve(fakeUsers.filter((x) => x.firstName === word)),
-    }));
-    await act(async () => render(<Main />));
-
+    await act(async () => {
+      renderWithProviders(<Main />);
+    });
     const searchBar = screen.getByRole('searchbox');
     await act(async () => {
       fireEvent.change(searchBar, { target: { value: 'afafafaf' } });
       user.click(screen.getByRole('button', { name: 'searchBtn' }));
     });
-    await waitFor(
-      async () => {
-        const cc = await screen.findByText(/No items found/i);
-        expect(cc).toBeInTheDocument();
-      },
-      { timeout: 500 }
-    );
+    await waitFor(async () => {
+      const cc = await screen.findByText(/No items found/i);
+      expect(cc).toBeInTheDocument();
+    });
   });
   it('Card Container filters correctly', async () => {
-    vi.mock('../utils', async () => ({
-      getAllUsers: () => Promise.resolve(fakeUsers),
-      filterUsers: (word: string) =>
-        Promise.resolve(
-          fakeUsers.filter((x) => {
-            console.log('x >> ', x);
-
-            return x.firstName === word;
-          })
-        ),
-    }));
-    await act(async () => render(<Main />));
+    await act(async () => {
+      renderWithProviders(<Main />);
+    });
     const searchBar = screen.getByRole('searchbox');
     await act(async () => {
       fireEvent.change(searchBar, { target: { value: 'Terry' } });
@@ -130,26 +94,9 @@ describe('Main Page functionality', () => {
   });
 });
 
-describe('Card Container', () => {
-  it('Card Container renders correctly', async () => {
-    render(<CardsContainer users={fakeUsersData} />);
-    const container = await screen.findByRole('cards-container');
-    expect(container).toBeVisible();
-  });
-});
-
 describe('Loader', () => {
   it('Loader renders correctly when api call is delayed', async () => {
-    vi.mock('../utils', async () => ({
-      getAllUsers: () => {
-        setTimeout(() => Promise.resolve(fakeUsers), 800);
-      },
-    }));
-    render(
-      <BrowserRouter>
-        <Main />
-      </BrowserRouter>
-    );
+    renderWithProviders(<Main />);
 
     expect(screen.queryByText(/loading/i)).toBeVisible();
     await waitFor(

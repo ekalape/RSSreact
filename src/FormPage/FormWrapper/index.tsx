@@ -4,12 +4,12 @@ import './style.css';
 import UserData from '../../utils/UserData';
 import { UserInterface } from '../../types/interfaces';
 import { useSelector } from 'react-redux';
-import { RootStateType } from '../../store';
+import { RootState } from '../../store';
 import FormCard from '../../FormPage/FormCard';
 
 const FormPage = () => {
   const customUsers: UserInterface[] = useSelector(
-    (state: RootStateType) => state.customDataReducer.customUsers
+    (state: RootState) => state.customDataReducer.customUsers
   );
 
   return (

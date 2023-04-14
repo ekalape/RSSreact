@@ -9,7 +9,7 @@ import InputDate from '../InputComponent/InputDate';
 import InputFile from '../InputComponent/InputFile';
 import { useDispatch, useSelector } from 'react-redux';
 import { addCustomUserRdc } from '../../store/dataSlice';
-import { RootStateType } from '../../store';
+import { RootState } from '../../store';
 import { createPortal } from 'react-dom';
 import ModalInfoComponent from '../../UnrelatedComponents/ModalInfoComponent';
 
@@ -23,7 +23,7 @@ const Form = () => {
   const [showMessage, setShowMessage] = useState(false);
   const dispatch = useDispatch();
   const customUsers: UserInterface[] = useSelector(
-    (state: RootStateType) => state.customDataReducer.customUsers
+    (state: RootState) => state.customDataReducer.customUsers
   );
   let cardNumber =
     customUsers.reduce((acc, u) => {
@@ -52,7 +52,11 @@ const Form = () => {
 
   return (
     <form className="form__wrapper" role="form" onSubmit={handleSubmit(onSubmit)}>
-      {showMessage && createPortal(<ModalInfoComponent />, document.body)}
+      {showMessage &&
+        createPortal(
+          <ModalInfoComponent text="Thank you! Your data is saving now..." />,
+          document.body
+        )}
       <h3>Compile the form:</h3>
 
       <InputStringComponent

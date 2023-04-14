@@ -1,12 +1,12 @@
-import React, { ChangeEvent, FC, useEffect, useRef, useState } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { addSearchWordRdc } from '../../store/dataSlice';
-import { RootStateType } from '../../store';
-import { SearchProps } from '../../types/interfaces';
+import { RootState } from '../../store';
+
 import './style.css';
 
 const Search = () => {
-  const word = useSelector((state: RootStateType) => state.customDataReducer.searchWord);
+  const word = useSelector((state: RootState) => state.customDataReducer.searchWord);
   const dispatch = useDispatch();
   const [searchWord, setSearchWord] = useState(word);
 

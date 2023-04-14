@@ -1,20 +1,20 @@
-import { configureStore, combineReducers } from '@reduxjs/toolkit';
+import { configureStore, combineReducers, PreloadedState } from '@reduxjs/toolkit';
 import customDataReducer from './dataSlice';
-import { usersGeneralQuery } from '../utils/QueryServices'
+import { usersGeneralQuery } from '../utils/QueryServices';
 
 const rootReducer = combineReducers({
-    customDataReducer,
-    [usersGeneralQuery.reducerPath]: usersGeneralQuery.reducer,
-})
-
-const store = configureStore({
-    reducer: rootReducer,
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(usersGeneralQuery.middleware)
-
+  customDataReducer,
+  [usersGeneralQuery.reducerPath]: usersGeneralQuery.reducer,
 });
 
-export type RootStateType = ReturnType<typeof store.getState>;
-export type AppDispatchType = typeof store.dispatch;
-export default store
-
-//TypedUseSelectorHook<RootStateType>
+export const setupStore = (preloadedState?: PreloadedState<RootState>) => {
+  return configureStore({
+    reducer: rootReducer,
+    middleware: (getDefaultMiddleware) =>
+      getDefaultMiddleware().concat(usersGeneralQuery.middleware),
+    preloadedState,
+  });
+};
+export type RootStateType = ReturnType<typeof setupStore>;
+export type RootState = ReturnType<typeof rootReducer>;
+export const store = setupStore();

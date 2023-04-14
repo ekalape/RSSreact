@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { FC } from 'react';
 import './style.css';
 
-const ModalInfoComponent = () => {
+const ModalInfoComponent: FC<{ text: string }> = ({ text }) => {
   return (
     <div className="modalInfo__bg">
       <div className="modalInfo__frame">
-        <span>Thank you! Your data is saving now...</span>
+        <span>{text}</span>
       </div>
     </div>
   );

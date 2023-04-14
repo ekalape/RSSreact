@@ -26,9 +26,6 @@ const ModalCard: FC<ModalCardType> = (props) => {
   const secondStyle = {
     backgroundColor: secondColor,
   };
-  let src = '';
-  if (typeof image === 'string') src = image;
-  else if (image instanceof File) src = URL.createObjectURL(image);
   function closeModal(e: MouseEvent<HTMLElement>) {
     e.stopPropagation();
     const target = e.target as HTMLElement;
@@ -45,7 +42,7 @@ const ModalCard: FC<ModalCardType> = (props) => {
           <p>{firstName}</p>
           <p>{lastName}</p>
         </div>
-        {image ? <img src={src} alt="user image" /> : <p>Sorry, image is lost</p>}
+        {image ? <img src={image} alt="user image" /> : <p>Sorry, image is lost</p>}
         <div className="modal-data__wrapper">
           <p>
             <span className="modalcard-data__property">Gender:</span> {gender}
