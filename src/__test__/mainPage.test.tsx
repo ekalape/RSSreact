@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { describe, it } from 'vitest';
-import { act, cleanup, fireEvent, getAllByAltText, screen, waitFor } from '@testing-library/react';
+import { act, cleanup, fireEvent, screen, waitFor } from '@testing-library/react';
 import React from 'react';
 import Main from '../MainPage/Main';
 import userEvent from '@testing-library/user-event';
@@ -81,15 +81,15 @@ describe('Main Page functionality', () => {
       renderWithProviders(<Main />);
     });
     const searchBar = screen.getByRole('searchbox');
+    const searchBtn = screen.getByRole('button', { name: 'searchBtn' });
     await act(async () => {
-      fireEvent.change(searchBar, { target: { value: 'Terry' } });
-      user.click(screen.getByRole('button', { name: 'searchBtn' }));
+      fireEvent.change(searchBar, { target: { value: 'terry' } });
+      user.click(searchBtn);
     });
-    await waitFor(() => {
-      const cc = screen.getByRole('cards-container');
-
-      const cardItems = getAllByAltText(cc, /image/i);
-      expect(cardItems.length).toBe(1);
+    await waitFor(async () => {
+      const cc = await screen.findAllByRole('single-card');
+      expect(cc).toHaveLength(1);
+      expect(screen.getByText(/medhurst/i)).toBeInTheDocument();
     });
   });
 });
