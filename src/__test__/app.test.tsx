@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { describe, it } from 'vitest';
 import { act, cleanup, fireEvent, screen } from '@testing-library/react';
 import React from 'react';
@@ -6,16 +5,13 @@ import { MemoryRouter } from 'react-router-dom';
 import App from '../App';
 import { store } from '../store';
 import renderWithProviders from './mocks/renderWithProps';
-import nodeFetch, { Request, Response } from 'node-fetch';
+import fetch, { Request, Response } from 'cross-fetch';
 import { usersGeneralQuery } from '../utils/QueryServices';
 import { setupServer } from 'msw/node';
 import { handlers } from './mocks/mockHandlers';
 
-//@ts-ignore
-global.fetch = nodeFetch;
-//@ts-ignore
+global.fetch = fetch;
 global.Request = Request;
-//@ts-ignore
 global.Response = Response;
 
 export const server = setupServer(...handlers);
