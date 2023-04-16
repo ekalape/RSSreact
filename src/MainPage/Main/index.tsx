@@ -1,5 +1,5 @@
 import Search from '../Search';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import './style.css';
 import CardsContainer from '../CardsContainer';
 import UserData from '../../utils/UserData';
@@ -11,20 +11,7 @@ import { useGetAllUsersQuery } from '../../utils/QueryServices';
 
 const Main = () => {
   const word = useSelector((state: RootState) => state.customDataReducer.searchWord);
-
   const { data, error, isFetching } = useGetAllUsersQuery({ word: word });
-
-  const [users, setUsers] = useState<UserData[]>([]);
-
-  useEffect(() => {
-    data &&
-      setUsers(
-        data.map((u: UserInterface) => {
-          const us = { ...u, image: `${u.image}?lock=${u.id}` };
-          return new UserData(us);
-        })
-      );
-  }, [data]);
 
   return (
     <div className="main__wrapper" role={'main-page'}>
@@ -32,7 +19,16 @@ const Main = () => {
       {isFetching ? (
         <Loader />
       ) : !error ? (
-        <CardsContainer users={users} />
+        <CardsContainer
+          users={
+            data
+              ? data.map((u: UserInterface) => {
+                  const us = { ...u, image: `${u.image}?lock=${u.id}` };
+                  return new UserData(us);
+                })
+              : []
+          }
+        />
       ) : (
         <p className="fail-message">
           Something went wrong here...

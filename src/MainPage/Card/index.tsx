@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useState } from 'react';
 import UserData from '../../utils/UserData';
 import './style.css';
 import ModalCard from '../../MainPage/ModalCard';
@@ -10,7 +10,6 @@ import ModalInfoComponent from '../../UnrelatedComponents/ModalInfoComponent';
 
 const Card: FC<CardType> = (props: CardType) => {
   const { id, firstName, lastName, country, image } = props.user;
-  const [currentUser, setCurrentUser] = useState<UserData | null>(null);
   const [openModal, setOpenModal] = useState(false);
 
   const [getSingleCard, { isFetching: singleLoading, isError, data }] = useLazyGetSingleUserQuery();
@@ -19,15 +18,14 @@ const Card: FC<CardType> = (props: CardType) => {
     getSingleCard(id);
     setOpenModal(true);
   };
-  useEffect(() => {
-    if (data) {
-      const single = {
-        ...data,
-        image: `${data?.image}?lock=${data?.id}`,
-      } as UserInterface;
-      setCurrentUser(new UserData(single));
-    }
-  }, [data]);
+
+  function createUserDataFrame() {
+    const single = {
+      ...data,
+      image: `${data?.image}?lock=${data?.id}`,
+    } as UserInterface;
+    return new UserData(single);
+  }
 
   return (
     <>
@@ -35,10 +33,10 @@ const Card: FC<CardType> = (props: CardType) => {
         createPortal(<ModalInfoComponent text={'Seems there is a problem...'} />, document.body)}
       {singleLoading && createPortal(<Loader />, document.body)}
       {openModal &&
-        currentUser &&
+        data &&
         createPortal(
           <ModalCard
-            user={currentUser}
+            user={createUserDataFrame()}
             onCloseFn={() => {
               setOpenModal(false);
             }}
