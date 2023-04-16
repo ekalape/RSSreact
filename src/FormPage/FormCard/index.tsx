@@ -22,13 +22,7 @@ const FormCard: FC<CardType> = (props: CardType) => {
 
   return (
     <>
-      {isLoading &&
-        createPortal(
-          <div className="loader__background">
-            <Loader />
-          </div>,
-          document.body
-        )}
+      {isLoading && createPortal(<Loader />, document.body)}
       {openModal &&
         currentUser &&
         createPortal(

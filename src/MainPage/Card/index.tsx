@@ -33,13 +33,7 @@ const Card: FC<CardType> = (props: CardType) => {
     <>
       {isError &&
         createPortal(<ModalInfoComponent text={'Seems there is a problem...'} />, document.body)}
-      {singleLoading &&
-        createPortal(
-          <div className="loader__background">
-            <Loader />
-          </div>,
-          document.body
-        )}
+      {singleLoading && createPortal(<Loader />, document.body)}
       {openModal &&
         currentUser &&
         createPortal(

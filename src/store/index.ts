@@ -4,7 +4,7 @@ import { usersGeneralQuery } from '../utils/QueryServices';
 
 const rootReducer = combineReducers({
   customDataReducer,
-  [usersGeneralQuery.reducerPath]: usersGeneralQuery.reducer,
+  usersApi: usersGeneralQuery.reducer,
 });
 
 export const setupStore = (preloadedState?: PreloadedState<RootState>) => {
