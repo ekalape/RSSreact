@@ -1,42 +1,33 @@
 import React, { FC, useState } from 'react';
+
 import UserData from '../../utils/UserData';
-import './style.css';
+//import './style.css';
 import ModalCard from '../../MainPage/ModalCard';
 import { createPortal } from 'react-dom';
 import Loader from '../../UnrelatedComponents/Loader';
-import { useLazyGetSingleUserQuery } from '../../utils/QueryServices';
-import { CardType, UserInterface } from '../../types/interfaces';
-import ModalInfoComponent from '../../UnrelatedComponents/ModalInfoComponent';
+import { CardType } from '../../types/interfaces';
 
-const Card: FC<CardType> = (props: CardType) => {
-  const { id, firstName, lastName, country, image } = props.user;
+const FormCard: FC<CardType> = (props: CardType) => {
+  const { firstName, lastName, country, image } = props.user;
+  const [currentUser, setCurrentUser] = useState<UserData | null>(null);
   const [openModal, setOpenModal] = useState(false);
-
-  const [getSingleCard, { isFetching: singleLoading, isError, data }] = useLazyGetSingleUserQuery();
+  const [isLoading, setIsLoading] = useState(false);
 
   const onCardClick = () => {
-    getSingleCard(id);
+    setIsLoading(true);
+    setCurrentUser(props.user);
     setOpenModal(true);
+    setIsLoading(false);
   };
-
-  function createUserDataFrame() {
-    const single = {
-      ...data,
-      image: `${data?.image}?lock=${data?.id}`,
-    } as UserInterface;
-    return new UserData(single);
-  }
 
   return (
     <>
-      {isError &&
-        createPortal(<ModalInfoComponent text={'Seems there is a problem...'} />, document.body)}
-      {singleLoading && createPortal(<Loader />, document.body)}
+      {isLoading && createPortal(<Loader />, document.body)}
       {openModal &&
-        data &&
+        currentUser &&
         createPortal(
           <ModalCard
-            user={createUserDataFrame()}
+            user={currentUser}
             onCloseFn={() => {
               setOpenModal(false);
             }}
@@ -59,4 +50,4 @@ const Card: FC<CardType> = (props: CardType) => {
   );
 };
 
-export default Card;
+export default FormCard;

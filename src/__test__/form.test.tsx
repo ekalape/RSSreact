@@ -1,15 +1,20 @@
 import { describe, it } from 'vitest';
 import { act, cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import React from 'react';
-
 import FormPage from '../FormPage/FormWrapper';
 import userEvent from '@testing-library/user-event';
 import ModalInfoComponent from '../UnrelatedComponents/ModalInfoComponent';
+import { Provider } from 'react-redux';
+import { store } from '../store';
 
 describe('Form Page', () => {
   window.URL.createObjectURL = vi.fn();
   beforeEach(() => {
-    render(<FormPage />);
+    render(
+      <Provider store={store}>
+        <FormPage />
+      </Provider>
+    );
   });
   afterEach(() => {
     cleanup();
@@ -40,7 +45,11 @@ describe('Compiling Form Test', () => {
   window.URL.createObjectURL = vi.fn();
   const user = userEvent.setup();
   beforeEach(() => {
-    render(<FormPage />);
+    render(
+      <Provider store={store}>
+        <FormPage />
+      </Provider>
+    );
   });
 
   it('No error messages are shown when all mandatory fields are compiled', async () => {
@@ -76,7 +85,7 @@ describe('Compiling Form Test', () => {
     );
   });
   it('Modal renders correctly', () => {
-    render(<ModalInfoComponent />);
+    render(<ModalInfoComponent text="Thank you!" />);
     expect(screen.getByText(/thank you/i)).toBeVisible();
   });
 });

@@ -32,20 +32,8 @@ export interface UserInterface {
   birthDate: string;
   country: string;
 }
-export type UserCustomInterface = {
-  id: number;
-  firstName: string;
-  lastName: string;
-  gender: 'male' | 'female';
-  firstColor: string;
-  secondColor: string;
-  animal: string;
-  birthDate: string;
-  country: string;
-  imageFile: File | undefined;
-};
-export type UserCustomFormInterface = Omit<UserCustomInterface, 'imageFile'> & {
-  imageFile: FileList | undefined;
+export type UserCustomFormInterface = Omit<UserInterface, 'image'> & {
+  image: FileList | undefined;
   agreeCheck?: boolean;
 };
 export interface SearchProps {
@@ -54,7 +42,6 @@ export interface SearchProps {
 
 export interface FormProps {
   cardNumber: number;
-  callback: (user: UserData) => void;
 }
 
 export interface FormWrapperState {
@@ -79,3 +66,6 @@ export interface SelectProps {
   selectOptions: string[];
   selectError: FieldError | undefined;
 }
+export type CardType = {
+  user: UserData;
+};

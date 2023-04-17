@@ -2,13 +2,15 @@
 
 .loader__background {
   width: 100vw;
-  height: 100vh;
+  height: 100%;
   display: flex;
   align-items: center;
   background: rgba(255, 255, 255, 0.75);
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
+  bottom: 0;
+  right: 0;
   overflow-x: hidden;
   z-index: 15;
 }

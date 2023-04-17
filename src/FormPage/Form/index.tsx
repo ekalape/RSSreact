@@ -1,36 +1,64 @@
-import React, { FC } from 'react';
+import React, { useState } from 'react';
 import './style.css';
-import { FormProps, UserCustomFormInterface } from '../../types/interfaces';
+import { UserCustomFormInterface, UserInterface } from '../../types/interfaces';
 import SelectComponent from '../SelectComponent';
-import UserData from '../../utils/UserData';
 import InputStringComponent from '../InputComponent';
 import RadioComponent from '../RadioComponent';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import InputDate from '../InputComponent/InputDate';
 import InputFile from '../InputComponent/InputFile';
+import { useDispatch, useSelector } from 'react-redux';
+import { addCustomUserRdc } from '../../store/dataSlice';
+import { RootState } from '../../store';
+import { createPortal } from 'react-dom';
+import ModalInfoComponent from '../../UnrelatedComponents/ModalInfoComponent';
 
-const Form: FC<FormProps> = ({ cardNumber, callback }) => {
+const Form = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
   } = useForm<UserCustomFormInterface>({ reValidateMode: 'onSubmit' });
+  const [showMessage, setShowMessage] = useState(false);
+  const dispatch = useDispatch();
+  const customUsers: UserInterface[] = useSelector(
+    (state: RootState) => state.customDataReducer.customUsers
+  );
+  let cardNumber =
+    customUsers.reduce((acc, u) => {
+      if (u.id > acc) return u.id;
+      else return acc;
+    }, 1000) || 1000;
 
   const onSubmit: SubmitHandler<UserCustomFormInterface> = (data) => {
-    const file = data.imageFile?.[0];
-    const user: UserData = new UserData({
+    setShowMessage(true);
+    const file = data.image?.[0];
+    const imageUrl = file ? URL.createObjectURL(file) : '';
+
+    const user: UserInterface = {
       ...data,
-      id: cardNumber,
-      imageFile: file,
-    });
-    callback(user);
-    reset();
+      id: ++cardNumber,
+      image: imageUrl,
+    };
+    dispatch(addCustomUserRdc({ customUser: user }));
+
+    setShowMessage(true);
+    setTimeout(() => {
+      setShowMessage(false);
+      reset();
+    }, 800);
   };
 
   return (
     <form className="form__wrapper" role="form" onSubmit={handleSubmit(onSubmit)}>
+      {showMessage &&
+        createPortal(
+          <ModalInfoComponent text="Thank you! Your data is saving now..." />,
+          document.body
+        )}
       <h3>Compile the form:</h3>
+
       <InputStringComponent
         type="text"
         inputName="firstName"
@@ -98,7 +126,7 @@ const Form: FC<FormProps> = ({ cardNumber, callback }) => {
         ]}
         selectError={errors.animal}
       />
-      <InputFile type="file" inputName="imageFile" register={register} errors={errors.imageFile} />
+      <InputFile type="file" inputName="image" register={register} errors={errors.image} />
       <label
         style={{
           backgroundColor: errors.agreeCheck ? 'mistyrose' : undefined,

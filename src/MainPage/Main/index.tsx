@@ -1,56 +1,40 @@
 import Search from '../Search';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import './style.css';
-
 import CardsContainer from '../CardsContainer';
 import UserData from '../../utils/UserData';
 import { UserInterface } from '../../types/interfaces';
-import { getAllUsers, filterUsers } from '../../utils';
 import Loader from '../../UnrelatedComponents/Loader';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store';
+import { useGetAllUsersQuery } from '../../utils/QueryServices';
 
 const Main = () => {
-  const [searchWord, setSearchWord] = useState(localStorage.getItem('eklp-storagedInput') || '');
-  const [users, setUsers] = useState<UserData[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [isFailed, setIsFailed] = useState(false);
-
-  const handleSearchWord = (word: string) => {
-    setSearchWord(word);
-  };
-
-  useEffect(() => {
-    setIsLoading(true);
-    if (searchWord.trim()) {
-      filterUsers(searchWord)
-        .then((usersArray) => {
-          setUsers(usersArray.map((u) => new UserData(u)));
-        })
-        .catch(() => {
-          setIsFailed(true);
-        })
-        .finally(() => setIsLoading(false));
-    } else {
-      getAllUsers()
-        .then((users) => {
-          setUsers(users.map((u: UserInterface) => new UserData(u)));
-        })
-        .catch(() => {
-          setIsFailed(true);
-        })
-        .finally(() => setIsLoading(false));
-    }
-  }, [searchWord]);
+  const word = useSelector((state: RootState) => state.customDataReducer.searchWord);
+  const { data, error, isFetching } = useGetAllUsersQuery({ word: word });
 
   return (
     <div className="main__wrapper" role={'main-page'}>
-      <Search callback={handleSearchWord} />
-
-      {isLoading ? (
+      <Search />
+      {isFetching ? (
         <Loader />
-      ) : !isFailed ? (
-        <CardsContainer users={users} />
+      ) : !error ? (
+        <CardsContainer
+          users={
+            data
+              ? data.map((u: UserInterface) => {
+                  const us = { ...u, image: `${u.image}?lock=${u.id}` };
+                  return new UserData(us);
+                })
+              : []
+          }
+        />
       ) : (
-        <p className="fail-message">Something went wrong here...</p>
+        <p className="fail-message">
+          Something went wrong here...
+          <br />
+          Please, retry
+        </p>
       )}
     </div>
   );

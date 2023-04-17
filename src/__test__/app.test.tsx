@@ -1,17 +1,44 @@
 import { describe, it } from 'vitest';
-import { act, cleanup, fireEvent, render, screen } from '@testing-library/react';
+import { act, cleanup, fireEvent, screen } from '@testing-library/react';
 import React from 'react';
-import { BrowserRouter } from 'react-router-dom';
-
+import { MemoryRouter } from 'react-router-dom';
 import App from '../App';
+import { store } from '../store';
+import renderWithProviders from './mocks/renderWithProps';
+import fetch, { Request, Response } from 'cross-fetch';
+import { usersGeneralQuery } from '../utils/QueryServices';
+import { setupServer } from 'msw/node';
+import { handlers } from './mocks/mockHandlers';
+
+global.fetch = fetch;
+global.Request = Request;
+global.Response = Response;
+
+export const server = setupServer(...handlers);
+
+beforeAll(() => {
+  server.listen();
+});
+afterEach(() => {
+  server.resetHandlers();
+  store.dispatch(usersGeneralQuery.util.resetApiState());
+});
+afterAll(() => {
+  server.close();
+});
+afterEach(() => {
+  cleanup();
+  vi.restoreAllMocks();
+  store.dispatch(usersGeneralQuery.util.resetApiState());
+});
 
 describe('App', () => {
   beforeEach(async () => {
     await act(async () => {
-      render(
-        <BrowserRouter>
+      renderWithProviders(
+        <MemoryRouter>
           <App />
-        </BrowserRouter>
+        </MemoryRouter>
       );
     });
   });
