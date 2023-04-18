@@ -4,7 +4,8 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "node server",
+    "dev": "vite",
+    "start": "node server",
     "build:client": "vite build --outDir dist/client",
     "build:server": "vite build --outDir dist/server --ssr src/entry-server.jsx",
     "build": "tsc --noEmit && vite build",
@@ -49,6 +50,7 @@
     "jsdom": "^21.1.1",
     "lint-staged": "^12.4.1",
     "msw": "^1.2.1",
+    "nodemon": "^2.0.22",
     "prettier": "^2.8.4",
     "vitest": "^0.29.2"
   }

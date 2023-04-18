@@ -1,11 +1,15 @@
-import { hydrateRoot } from 'react-dom/client';
+import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
-import App from './App';
+import App from './App.tsx';
+import { store } from './store';
+import { Provider } from 'react-redux';
 
-hydrateRoot(
+ReactDOM.hydrateRoot(
   document.getElementById('root'),
-  <BrowserRouter>
-    <App />
-  </BrowserRouter>
+  <Provider store={store}>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </Provider>
 );
 console.log('hydrated');

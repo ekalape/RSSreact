@@ -8,22 +8,18 @@ import About from './AboutPage/About';
 import Header from './UnrelatedComponents/Header';
 import NotFound from './UnrelatedComponents/NotFound';
 import FormPage from './FormPage/FormWrapper';
-import { store } from './store';
-import { Provider } from 'react-redux';
 
 function App() {
   return (
     <div className="App">
-      <Provider store={store}>
-        <Header />
-        <Routes>
-          <Route path={'/'} element={<Main />} />
-          <Route path={'/main'} element={<Main />} />
-          <Route path={'/form'} element={<FormPage />} />
-          <Route path={'/about'} element={<About />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </Provider>
+      <Header />
+      <Routes>
+        <Route path={'/'} element={<Main />} />
+        <Route path={'/main'} element={<Main />} />
+        <Route path={'/form'} element={<FormPage />} />
+        <Route path={'/about'} element={<About />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
     </div>
   );
 }
