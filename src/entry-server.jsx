@@ -1,16 +1,15 @@
-import ReactDOMServer from 'react-dom/server';
 import { StaticRouter } from 'react-router-dom/server';
+import { renderToPipeableStream } from 'react-dom/server';
+import { Suspend } from 'React';
 
-import { Provider } from 'react-redux';
-import { store } from './store';
 import App from './App';
 
-export function render(url, context) {
-  return ReactDOMServer.renderToString(
-    <StaticRouter location={url} context={context}>
-      <Provider store={store}>
-        <App />
-      </Provider>
-    </StaticRouter>
+export function render(url, options) {
+  const stream = renderToPipeableStream(
+    <StaticRouter location={url}>
+      <App />
+    </StaticRouter>,
+    options
   );
+  return stream;
 }

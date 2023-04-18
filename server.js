@@ -13,13 +13,12 @@ async function createServer() {
     server: { middlewareMode: true },
     appType: 'custom',
   });
-
   app.use(vite.middlewares);
+
+  app.use('/assets', express.static(path.resolve(__dirname, './dist/client/assets')));
 
   app.use('*', async (req, res, next) => {
     const url = req.originalUrl;
-
-    console.log(url);
 
     try {
       let template = fs.readFileSync(path.resolve(__dirname, 'index.html'), 'utf-8');
@@ -40,6 +39,7 @@ async function createServer() {
   });
 
   app.listen(6010);
+  console.log(`listening on http://localhost:6010`);
 }
 
 createServer();
