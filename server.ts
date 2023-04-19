@@ -1,4 +1,5 @@
 import fs from 'fs';
+
 import path from 'path';
 import { fileURLToPath } from 'url';
 import express from 'express';
@@ -20,9 +21,9 @@ async function createServer() {
     template = await vite.transformIndexHtml(url, template);
     const parts = template.split('<!--ssr-->');
     res.write(parts[0]);
-    const { render } = await vite.ssrLoadModule('./src/entry-server.jsx');
+    const { render } = await vite.ssrLoadModule('./src/entry-server.tsx');
     const appHtml = await render(url, {
-      bootstrapScripts: ['/src/entry-client.jsx'],
+      bootstrapModules: ['./src/entry-client.tsx'],
       onShellReady() {
         appHtml.pipe(res);
       },
@@ -33,8 +34,10 @@ async function createServer() {
     });
   });
 
+
+
   app.listen(6010);
-  console.log(`listening on http://localhost:6010`);
+  console.log(`listening on 6010`);
 }
 
 createServer();

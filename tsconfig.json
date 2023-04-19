@@ -1,4 +1,9 @@
-{
+{"ts-node":{
+  "esm":true,
+  "transpileOnly": true,
+  "experimentalSpecifierResolution": "node",
+ 
+},
   "compilerOptions": {
     "target": "esnext",
     "lib": ["dom", "esnext", "dom.iterable"],
@@ -15,7 +20,14 @@
     "baseUrl": "./src",
     "resolveJsonModule": true,
     "paths":{
-      "tests":["src/__test__"]
+      "tests":["src/__test__"],
+      "~/*": [
+        "src/*"
+      ],
+      "*": [
+        "*",
+        "src/*"
+      ]
     },
     "outDir":"dist",
     "types":["vitest/globals"]
