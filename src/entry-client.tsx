@@ -4,6 +4,7 @@ import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 import { store } from './store';
 import { Provider } from 'react-redux';
+import { usersGeneralQuery } from './utils/QueryServices';
 
 hydrateRoot(
   document.getElementById('root') as HTMLDivElement,

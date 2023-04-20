@@ -30,7 +30,7 @@
       ]
     },
     "outDir":"dist",
-    "types":["vitest/globals"]
+    "types":["vitest/globals","cypress", "node"]
   },
-  "include": ["./src/**/*"]
+  "include": ["./src/**/*", "**/*.ts"]
 }
