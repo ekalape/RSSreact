@@ -5,6 +5,7 @@ import { fileURLToPath } from 'url';
 import express from 'express';
 import { createServer as createViteServer } from 'vite';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
+import { PipeableStream } from 'react-dom/server';
 
 async function createServer() {
   const app = express();
@@ -14,6 +15,7 @@ async function createServer() {
     appType: 'custom',
   });
   app.use(vite.middlewares);
+
   app.use('*', async (req, res) => {
     const url = req.originalUrl;
     let template = fs.readFileSync(path.resolve(__dirname, 'index.html'), 'utf-8');
@@ -22,13 +24,10 @@ async function createServer() {
     res.write(parts[0]);
     const { render } = await vite.ssrLoadModule('./src/entry-server.tsx');
 
-    const appHtml = await render(url, {
+    const appHtml: PipeableStream = await render(url, {
       bootstrapModules: ['./src/entry-client.tsx'],
       onShellReady() {
-
         appHtml.pipe(res);
-
-
       },
       onAllReady() {
         res.write(parts[1]);
