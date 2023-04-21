@@ -8,7 +8,13 @@ import istanbul from "vite-plugin-istanbul";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react(),
+  plugins: [react(
+    {
+      babel: {
+        plugins: [['istanbul']],
+      }
+    }
+  ),
   istanbul({
     cypress: true,
     requireEnv: false,
@@ -27,8 +33,10 @@ export default defineConfig({
       enabled: true,
       provider: 'c8',
       all: true,
+      reporter: ['text', 'json', 'html'],
       include: ['**/*.tsx', '**/*.ts'],
-      exclude: ['**/main.tsx', '**/vite*.ts', '**/interfaces.ts'],
+      exclude: ['**/main.tsx', '**/vite*.ts', '**/interfaces.ts', "**/cypress/*"],
+
     },
   },
 });

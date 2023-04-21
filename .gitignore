@@ -13,6 +13,8 @@ dist-ssr
 *.local
 coverage
 coverage/*
+instrumented
+.nyc_output
 
 # Editor directories and files
 .vscode/*
