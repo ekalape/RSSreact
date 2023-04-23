@@ -1,12 +1,12 @@
-import { describe, it } from 'vitest';
+import { describe, it, expect } from 'vitest';
 import { act, cleanup, fireEvent, screen } from '@testing-library/react';
 import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
-import App from '../App';
-import { store } from '../store';
+import App from '../src/App';
+import { store } from '../src/store';
 import renderWithProviders from './mocks/renderWithProps';
 import fetch, { Request, Response } from 'cross-fetch';
-import { usersGeneralQuery } from '../utils/QueryServices';
+import { usersGeneralQuery } from '../src/utils/QueryServices';
 import { setupServer } from 'msw/node';
 import { handlers } from './mocks/mockHandlers';
 

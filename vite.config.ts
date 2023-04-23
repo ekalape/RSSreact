@@ -15,10 +15,10 @@ export default defineConfig({
       }
     }
   ),
-  istanbul({
+/*   istanbul({
     cypress: true,
     requireEnv: false,
-  })],
+  }) */],
   resolve: {
     alias: {
       '~': path.resolve(__dirname, './src'),
@@ -27,15 +27,15 @@ export default defineConfig({
   test: {
     globals: true,
     environment: 'jsdom',
-    setupFiles: './src/__test__/setup.ts',
-    css: true,
+    setupFiles: './__test__/setup.ts',
+    /*     css: true, */
     coverage: {
       enabled: true,
       provider: 'c8',
       all: true,
       reporter: ['text', 'json', 'html'],
-      include: ['**/*.tsx', '**/*.ts'],
-      exclude: ['**/main.tsx', '**/vite*.ts', '**/interfaces.ts', "**/cypress/*"],
+      include: ['**/src/*/*.tsx', '**/src/*/*.ts'],
+      exclude: ['**/main.tsx', '**/vite*.ts', '**/interfaces.ts', "**/cypress/**", "**/coverage/**", "**/_test_/**"],
 
     },
   },

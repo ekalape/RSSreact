@@ -20,7 +20,7 @@
     "baseUrl": "./src",
     "resolveJsonModule": true,
     "paths":{
-      "tests":["src/__test__"],
+      "tests":["__test__"],
       "~/*": [
         "src/*"
       ],
@@ -32,5 +32,5 @@
     "outDir":"dist",
     "types":["vitest/globals","cypress", "node"]
   },
-  "include": ["./src/**/*", "**/*.ts"]
+  "include": ["./src/**/*", "**/*.ts", "__test__"]
 }

@@ -13,6 +13,13 @@ describe('Main page spec', () => {
   it('Search input empty on first load', () => {
     cy.get("#search__input").should("be.empty");
   })
+  it('Reset btn cleans the input field', () => {
+    cy.get("#search__input").type("bagdtdu").and("have.value", "bagdtdu");
+    cy.get(".search-btn").click();
+    cy.get(".card__wrapper").and("have.length", 0);
+    cy.get(".reset-btn").click();
+    cy.get("#search__input").should("have.value", "")
+  })
 
   it('Cards container renders cards', () => {
     cy.get(".cards__container").should("be.visible");
@@ -40,8 +47,6 @@ describe('Main page spec', () => {
       cy.get(".modal-closeBtn").click();
       cy.get(".modalCard__frame").and("not.exist");
     })
-
-
   })
 
   /*   it('Just a test to remove page load on coverage saving', () => {

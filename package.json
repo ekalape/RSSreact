@@ -9,15 +9,14 @@
     "server": "npx ts-node --esm server.ts",
     "nodemon": "nodemon ./server.ts localhost 6010",
     "build:client": "vite build --outDir dist/client",
-    "build:server": "vite build --outDir dist/server --ssr src/entry-server.jsx",
+    "build:server": "vite build --outDir dist/server --ssr src/entry-server.tsx",
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
     "lint": "eslint --fix --ext .ts,.tsx .",
     "test": "vitest run",
-    "coverage": "vitest run --coverage.cleanOnRerun",
+    "vi:coverage": "vitest run --coverage.cleanOnRerun",
     "cy:open": "cypress open --e2e --browser chrome",
-    "cy:run": "cypress run --env coverage=true",
-    "cy:report": "npx nyc report && npx nyc report --reporter=text-summary",
+    "cy:run": "cypress run",
     "cy:coverage": "npx nyc report --reporter=text-summary",
     "cy:e2e": "start-server-and-test start http-get://localhost:6010 cy:run"
   },
@@ -83,7 +82,12 @@
   },
   "nyc": {
     "reporter": [
-      "html"
+      "text"
+    ],
+    "exclude": [
+      "cypress/**/*.*",
+      "**/__test__/**",
+      "**/interfaces.ts"
     ],
     "lines": 80
   },

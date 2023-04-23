@@ -1,16 +1,16 @@
-import { describe, it } from 'vitest';
+import { describe, it, expect } from 'vitest';
 import { act, cleanup, screen } from '@testing-library/react';
 import React from 'react';
-import UserData from '../utils/UserData';
-import Card from '../MainPage/Card';
+import UserData from '../src/utils/UserData';
+import Card from '../src/MainPage/Card';
 import userEvent from '@testing-library/user-event';
 import fakeUsers from './mocks/fakeUsers';
 import { handlers } from './mocks/mockHandlers';
 import renderWithProviders from './mocks/renderWithProps';
 import fetch, { Request, Response } from 'cross-fetch';
 import { setupServer } from 'msw/node';
-import { store } from '../store';
-import { usersGeneralQuery } from '../utils/QueryServices';
+import { store } from '../src/store';
+import { usersGeneralQuery } from '../src/utils/QueryServices';
 import { rest } from 'msw';
 
 global.fetch = fetch;
