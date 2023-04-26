@@ -51,7 +51,8 @@ const Card: FC<CardType> = (props: CardType) => {
         </div>
         <div className="card-data__wrapper">
           <p>
-            <span className="card-data__property">Country:</span> {country}
+            <span className="card-data__property">Country:</span>
+            {country}
           </p>
         </div>
       </div>

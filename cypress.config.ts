@@ -3,7 +3,6 @@ import codeCoverage from "@cypress/code-coverage/task";
 export default defineConfig({
   env: {
     codeCoverage: {
-      include: [],
       exclude: ["cypress/**/*.*", "**/_test_/**", "**/interfaces.ts"],
     },
   },
@@ -16,14 +15,6 @@ export default defineConfig({
     baseUrl: "http://localhost:6010/",
 
   },
-
   video: false,
-  /* 
-    component: {
-      devServer: {
-        framework: "react",
-        bundler: "vite",
-      },
-  
-    }, */
+
 });

@@ -49,7 +49,4 @@ describe('Main page spec', () => {
     })
   })
 
-  /*   it('Just a test to remove page load on coverage saving', () => {
-      expect(true).to.equal(true);
-    }); */
 })
