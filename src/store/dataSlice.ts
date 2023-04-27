@@ -1,14 +1,19 @@
-import { createSlice } from '@reduxjs/toolkit';
+
 import { UserInterface } from '../types/interfaces';
+import * as toolkitRaw from '@reduxjs/toolkit';
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const { createSlice } = ((toolkitRaw as any).default ?? toolkitRaw) as typeof toolkitRaw;
 
 export type StateUsersType = {
   searchWord: string;
   customUsers: UserInterface[];
+
 };
 
 const initialState: StateUsersType = {
   searchWord: '',
-  customUsers: [],
+  customUsers: []
+
 };
 
 const dataSlice = createSlice({
@@ -16,12 +21,13 @@ const dataSlice = createSlice({
   initialState,
 
   reducers: {
-    addSearchWordRdc: (state, action) => {
+    addSearchWordRdc: (state: StateUsersType, action: { payload: { word: string } }) => {
       state.searchWord = action.payload.word;
     },
-    addCustomUserRdc: (state, action) => {
+    addCustomUserRdc: (state: StateUsersType, action: { payload: { customUser: UserInterface } }) => {
       state.customUsers.push(action.payload.customUser);
     },
+
   },
 });
 

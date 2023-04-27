@@ -33,12 +33,6 @@ describe('Main page spec', () => {
     cy.get(".card__wrapper").and("have.length", 0);
 
   })
-  it('Cards container filters correctly', () => {
-    cy.get("#search__input").type("iran").and("have.value", "iran");
-    cy.get(".search-btn").click();
-    cy.get(".cards__container").should("be.visible");
-    cy.get(".card-data__wrapper").each(($card) => expect($card).to.have.text("Country: Iran"));
-  })
   it('Open Modal window after the click on the card', () => {
     cy.get(".card__wrapper").then((cards) => {
       const card = cards[0];

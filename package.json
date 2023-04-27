@@ -5,7 +5,6 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "start": "node --loader ts-node/esm ./server.ts",
     "server": "npx ts-node --esm server.ts",
     "nodemon": "nodemon ./server.ts localhost 6010",
     "build:client": "vite build --outDir dist/client",
@@ -18,7 +17,7 @@
     "cy:open": "cypress open --e2e --browser chrome",
     "cy:run": "cypress run",
     "cy:coverage": "npx nyc report --reporter=text-summary",
-    "cy:e2e": "start-server-and-test start http-get://localhost:6010 cy:run"
+    "cy:e2e": "start-server-and-test server http-get://localhost:6010 cy:run"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.3",

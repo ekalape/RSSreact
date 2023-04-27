@@ -1,7 +1,19 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import { UserInterface } from '../types/interfaces';
 
-export const usersGeneralQuery = createApi({
+import * as rtkQuery from '@reduxjs/toolkit/dist/query/index.js';
+const { buildCreateApi, coreModule, fetchBaseQuery } = ((rtkQuery as any).default ?? rtkQuery) as typeof rtkQuery;
+import * as rtkQueryReact from '@reduxjs/toolkit/dist/query/react/index.js';
+const { reactHooksModule } = ((rtkQueryReact as any).default ?? rtkQueryReact) as typeof rtkQueryReact;
+
+
+const createCustomApi = buildCreateApi(
+  coreModule(),
+  reactHooksModule({ unstable__sideEffectsInRender: true })
+)
+
+export const usersGeneralQuery = createCustomApi({
   reducerPath: 'usersApi',
   baseQuery: fetchBaseQuery({ baseUrl: 'https://642a6aa000dfa3b547453ae9.mockapi.io/api/users' }),
   endpoints: (build) => ({
