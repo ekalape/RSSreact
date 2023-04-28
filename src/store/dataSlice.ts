@@ -1,8 +1,9 @@
 
 import { UserInterface } from '../types/interfaces';
 import * as toolkitRaw from '@reduxjs/toolkit';
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const { createSlice } = ((toolkitRaw as any).default ?? toolkitRaw) as typeof toolkitRaw;
+
+type ToolkitRawType = typeof toolkitRaw & { default?: unknown }
+const { createSlice } = ((toolkitRaw as ToolkitRawType).default ?? toolkitRaw) as typeof toolkitRaw;
 
 export type StateUsersType = {
   searchWord: string;

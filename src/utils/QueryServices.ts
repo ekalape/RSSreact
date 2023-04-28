@@ -1,11 +1,15 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+
 
 import { UserInterface } from '../types/interfaces';
 
 import * as rtkQuery from '@reduxjs/toolkit/dist/query/index.js';
-const { buildCreateApi, coreModule, fetchBaseQuery } = ((rtkQuery as any).default ?? rtkQuery) as typeof rtkQuery;
 import * as rtkQueryReact from '@reduxjs/toolkit/dist/query/react/index.js';
-const { reactHooksModule } = ((rtkQueryReact as any).default ?? rtkQueryReact) as typeof rtkQueryReact;
+
+type RtkQueryType = typeof rtkQuery & { default?: unknown };
+type RtkQueryReactType = typeof rtkQueryReact & { default?: unknown };
+
+const { buildCreateApi, coreModule, fetchBaseQuery } = ((rtkQuery as RtkQueryType).default ?? rtkQuery) as typeof rtkQuery;
+const { reactHooksModule } = ((rtkQueryReact as RtkQueryReactType).default ?? rtkQueryReact) as typeof rtkQueryReact;
 
 
 const createCustomApi = buildCreateApi(
