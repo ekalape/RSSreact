@@ -1,4 +1,4 @@
-import { UserInterface } from '../../types/interfaces';
+import { UserInterface } from '../../src/types/interfaces';
 
 const fakeUsers: UserInterface[] = [
   {

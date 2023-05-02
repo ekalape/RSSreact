@@ -6,15 +6,13 @@ import UserData from '../../utils/UserData';
 
 const CardsContainer: FC<{ users: UserData[] }> = ({ users }) => {
   return (
-    <>
-      <div className="main__cards-container cards__container" role="cards-container">
-        {users.length > 0 ? (
-          [...users].map((u) => <Card user={u} key={u.id} />)
-        ) : (
-          <p className="fail-message">Sorry, no items found</p>
-        )}
-      </div>
-    </>
+    <div className="main__cards-container cards__container" role="cards-container">
+      {users.length > 0 ? (
+        [...users].map((u) => <Card user={u} key={u.id} />)
+      ) : (
+        <p className="fail-message">Sorry, no items found</p>
+      )}
+    </div>
   );
 };
 

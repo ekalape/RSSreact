@@ -1,22 +1,34 @@
 import Search from '../Search';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './style.css';
 import CardsContainer from '../CardsContainer';
 import UserData from '../../utils/UserData';
 import { UserInterface } from '../../types/interfaces';
 import Loader from '../../UnrelatedComponents/Loader';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../store';
 import { useGetAllUsersQuery } from '../../utils/QueryServices';
+import { addSearchWordRdc } from '../../store/dataSlice';
 
 const Main = () => {
-  const word = useSelector((state: RootState) => state.customDataReducer.searchWord);
-  const { data, error, isFetching } = useGetAllUsersQuery({ word: word });
+  const [word, setWord] = useState(
+    useSelector((state: RootState) => state.customDataReducer.searchWord)
+  );
+  const dispatch = useDispatch();
+  const { data, error, isLoading } = useGetAllUsersQuery({
+    word,
+  });
+  function handleSearchFn(word: string) {
+    setWord(word);
+  }
+  useEffect(() => {
+    dispatch(addSearchWordRdc({ word }));
+  }, [word, dispatch]);
 
   return (
     <div className="main__wrapper" role={'main-page'}>
-      <Search />
-      {isFetching ? (
+      <Search callback={handleSearchFn} />
+      {isLoading ? (
         <Loader />
       ) : !error ? (
         <CardsContainer

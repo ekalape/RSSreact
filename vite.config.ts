@@ -7,23 +7,32 @@ import react from '@vitejs/plugin-react';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react(
+    {
+      babel: {
+        plugins: [['istanbul']],
+      }
+    }
+  ),
+  ],
   resolve: {
     alias: {
       '~': path.resolve(__dirname, './src'),
     },
   },
+
   test: {
     globals: true,
     environment: 'jsdom',
-    setupFiles: './src/__test__/setup.ts',
-    css: true,
+    setupFiles: './__test__/setup.ts',
+
     coverage: {
       enabled: true,
       provider: 'c8',
       all: true,
-      include: ['**/*.tsx', '**/*.ts'],
-      exclude: ['**/main.tsx', '**/vite*.ts', '**/interfaces.ts'],
+      reporter: ['text', 'json', 'html'],
+      include: ['src/**'],
+      exclude: ['**/vite*.ts', '**/interfaces.ts', '**/*.d.ts', '**/entry-client.tsx', '**/entry-server.tsx'],
     },
   },
 });

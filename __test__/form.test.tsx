@@ -1,11 +1,11 @@
-import { describe, it } from 'vitest';
+import { describe, it, expect } from 'vitest';
 import { act, cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import React from 'react';
-import FormPage from '../FormPage/FormWrapper';
+import FormPage from '../src/FormPage/FormWrapper';
 import userEvent from '@testing-library/user-event';
-import ModalInfoComponent from '../UnrelatedComponents/ModalInfoComponent';
+import ModalInfoComponent from '../src/UnrelatedComponents/ModalInfoComponent';
 import { Provider } from 'react-redux';
-import { store } from '../store';
+import { store } from '../src/store';
 
 describe('Form Page', () => {
   window.URL.createObjectURL = vi.fn();
