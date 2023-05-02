@@ -31,10 +31,8 @@ export default defineConfig({
       provider: 'c8',
       all: true,
       reporter: ['text', 'json', 'html'],
-      include: ['**/src/*/*.tsx', '**/src/*/*.ts'],
-      exclude: ['**/vite*.ts', '**/interfaces.ts', "**/cypress/**", "**/coverage/**", "**/_test_/**"],
-
-
+      include: ['src/**'],
+      exclude: ['**/vite*.ts', '**/interfaces.ts', '**/*.d.ts', '**/entry-client.tsx', '**/entry-server.tsx'],
     },
   },
 });

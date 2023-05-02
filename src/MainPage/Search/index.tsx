@@ -1,6 +1,6 @@
-import React, { ChangeEvent, FC, useEffect, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { addSearchWordRdc } from '../../store/dataSlice';
+import React, { FC, useRef } from 'react';
+import { useSelector } from 'react-redux';
+
 import { RootState } from '../../store';
 
 import './style.css';
